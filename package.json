@@ -1,0 +1,28 @@
+{
+  "name": "pallium",
+  "version": "0.0.1",
+  "description": "Structured YAML and Markdown content management system",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "napa"
+  },
+  "keywords": [
+    "yaml",
+    "cms",
+    "markdown"
+  ],
+  "author": "Barrett Alexander",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.12.4",
+    "minimist": "^1.1.1"
+  },
+  "napa": {
+    "skeleton": "dhg/Skeleton"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "napa": "^1.2.0"
+  }
+}
