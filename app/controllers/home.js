@@ -1,10 +1,8 @@
 var util = require('util');
 var control = plugin('controllers/control');
 
-module.exports = util.inherits(Home, control.Controller);
 
-
-function Home(res, req, next) {}
+function Home() {}
 
 
 Home.prototype.list = function() {
@@ -20,3 +18,6 @@ Home.prototype.login = function() {
 Home.prototype.logout = function() {
 
 };
+
+
+module.exports = util.inherits(Home, control.Controller);

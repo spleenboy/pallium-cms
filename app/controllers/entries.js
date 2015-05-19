@@ -1,9 +1,6 @@
 var util = require('util');
 var control = plugin('controllers/control');
 
-module.exports = util.inherits(Entries, control.Controller);
-
-
 function Entries(res, req, next) {}
 
 
@@ -21,3 +18,6 @@ Entries.prototype.edit = function() {
 
 Entries.prototype.save = function() {
 };
+
+
+module.exports = util.inherits(Entries, control.Controller);

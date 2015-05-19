@@ -1,5 +1,5 @@
 // Registers all global functions
-module.exports = function(app) {
+module.exports = function(app, args) {
     var path = require('path');
 
     global.overrides = {};

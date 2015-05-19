@@ -10,6 +10,7 @@ function Field(settings) {
     this.defineProperties(Object.assign(properties, settings));
 }
 
+
 /**
  * Defines getters and setters for the specified property names.
  * These getters and setters are overridable in child classes by using
@@ -41,6 +42,7 @@ Field.prototype.defineProperties = function(props) {
     }
 };
 
+
 Field.prototype.prop = function(key, value) {
     if (value !== undefined) {
         this.properties[key] = value;
@@ -48,9 +50,10 @@ Field.prototype.prop = function(key, value) {
     return this.properties[key];
 };
 
+
 Field.create = function(settings) {
     var type  = settings.type;
-    var field = plugin('models/fields/' + type);
+    return new plugin('models/fields/' + type)(settings);
 };
 
 module.exports = Field;
