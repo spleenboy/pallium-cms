@@ -16,7 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.12.4",
-    "minimist": "^1.1.1"
+    "minimist": "^1.1.1",
+    "jade": "^1.9.2"
   },
   "napa": {
     "skeleton": "dhg/Skeleton"

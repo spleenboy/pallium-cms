@@ -10,6 +10,7 @@ local: function(name) {
     try {
         return require(localName);
     } catch (e) {
+        console.info('No local configuration file found', localName);
         return null;
     }
 },
@@ -40,7 +41,7 @@ get: function(namespacedKey) {
 
     // Now think globally
     if (value === undefined) {
-        var config = appRequire(path.join('config', file));
+        var config = plugin(path.join('config', file));
         value = this.find(config, keys);
     }
 
@@ -48,7 +49,7 @@ get: function(namespacedKey) {
 },
 
 /**
-  *¬Recursively hunt for a value in an object
+ *¬Recursively hunt for a value in an object
 **/
 find: function(obj, keys) {
     if (!obj) {
