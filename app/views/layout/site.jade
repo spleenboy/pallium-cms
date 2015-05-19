@@ -1,0 +1,23 @@
+extends ./base.jade
+
+block styles
+    link(rel='stylesheet', href='assets/css/normalize.css')
+    link(rel='stylesheet', href='assets/css/skeleton.css')
+
+block header
+    h1 H1 Title
+
+block nav
+    Nav Element
+
+block container
+    .row
+        .three.columns
+            block sidenav
+                Side nav
+        .nine.columns
+            block body
+                Body
+
+block footer
+    Footer

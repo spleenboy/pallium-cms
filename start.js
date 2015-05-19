@@ -7,6 +7,8 @@ var port = args.port || 4000;
 
 // Initialize the application
 var app = express();
+
+app.use(express.static('public'));
 require(path.join(__dirname, 'app/bootstrap'))(app, args);
 
 // Start the server

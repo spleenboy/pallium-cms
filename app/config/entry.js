@@ -9,6 +9,7 @@ module.exports = {
         return path.join(process.cwd(), 'content')
     },
     types: {
-        'page': relativeRequire('entries/page')
+        'page': relativeRequire('entries/page'),
+        'note': relativeRequire('entries/note')
     },
 }

@@ -1,0 +1,3 @@
+function Entry() {
+    this.fields = [];
+}

@@ -4,6 +4,7 @@
   "description": "Structured YAML and Markdown content management system",
   "main": "app.js",
   "scripts": {
+    "prestart": "grunt",
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "napa"
   },
@@ -24,6 +25,9 @@
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "napa": "^1.2.0"
+    "napa": "^1.2.0",
+    "load-grunt-tasks": "^3.1.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-clean": "^0.6.0"
   }
 }
