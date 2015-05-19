@@ -1,13 +1,4 @@
-function Field(settings) {
-    var properties = {
-        type         : 'field',
-        name         : null,
-        value        : null,
-        label        : null,
-        validators   : [],
-        defaultValue : null,
-    };
-    this.defineProperties(Object.assign(properties, settings));
+function Field() {
 }
 
 
@@ -52,8 +43,16 @@ Field.prototype.prop = function(key, value) {
 
 
 Field.create = function(settings) {
-    var type  = settings.type;
-    return new plugin('models/fields/' + type)(settings);
+   var props = Object.assign({
+        type         : 'field',
+        name         : null,
+        value        : null,
+        label        : null,
+        validators   : [],
+        defaultValue : null,
+    }, settings);
+    var field = new plugin('models/fields/' + settings.type);
+    field.defineProperties(props);
 };
 
 module.exports = Field;

@@ -1,9 +1,7 @@
 var util = require('util');
 var Field = plugin('models/field');
 
-function TextField() {
-
-}
+function TextField() {}
 
 util.inherit(TextField, Field);
 

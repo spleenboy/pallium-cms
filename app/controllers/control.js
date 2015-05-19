@@ -6,10 +6,10 @@ function control(action, withController, params) {
         controller.response = res;
         controller.next     = next;
 
-        if (action in instance) {
-            controller.action.call(controller, params);
+        if (typeof controller[action] === 'function') {
+            controller[action].apply(controller, params);
         } else {
-            controller.notfound.call(controller, params);
+            controller.notfound.apply(controller, params);
         }
     }
 }
