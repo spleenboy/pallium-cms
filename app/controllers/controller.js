@@ -1,7 +1,16 @@
-function control(action, withController, params) {
+function Controller() {};
+
+
+Controller.prototype.notfound = function() {
+    res.status(404);
+    res.type('txt').send('Not found');
+};
+
+
+Controller.handle = function(action, controllerClass, params) {
     params = params || [];
     return function(req, res, next) {
-        var controller = new withController();
+        var controller = new controllerClass();
         controller.request  = req;
         controller.response = res;
         controller.next     = next;
@@ -14,13 +23,5 @@ function control(action, withController, params) {
     }
 }
 
-control.Controller = function () {};
 
-
-control.Controller.prototype.notfound = function() {
-    res.status(404);
-    res.type('txt').send('Not found');
-};
-
-
-module.exports = control;
+module.exports = Controller;

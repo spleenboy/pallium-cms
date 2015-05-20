@@ -1,10 +1,14 @@
 var util = require('util');
-var control = plugin('controllers/control');
+var Controller = plugin('controllers/controller');
+var View = plugin('views/view');
 
-function Entries(res, req, next) {}
+function Entries() {}
 
+util.inherits(Entries, Controller);
 
 Entries.prototype.list = function() {
+    var content = View.render('entries/list');
+    this.response.send(content);
 };
 
 
@@ -20,4 +24,4 @@ Entries.prototype.save = function() {
 };
 
 
-module.exports = util.inherits(Entries, control.Controller);
+module.exports = Entries;

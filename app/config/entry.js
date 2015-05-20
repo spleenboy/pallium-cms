@@ -1,15 +1,9 @@
-var path = require('path');
-
-function relativeRequire(name) {
-    require(path.join(__dirname, name));
-}
-
 module.exports = {
-    content: function() {
+    output: function() {
         return path.join(process.cwd(), 'content')
     },
     types: {
-        'page': relativeRequire('entries/page'),
-        'note': relativeRequire('entries/note')
+        'page': plugin('config/entries/page'),
+        'note': plugin('config/entries/note')
     },
 }

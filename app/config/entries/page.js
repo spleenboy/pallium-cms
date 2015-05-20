@@ -1,5 +1,6 @@
 module.exports = {
     name: 'Page',
+    plural: 'Pages',
     description: 'A basic page',
     fields: [
         {

@@ -1,5 +1,6 @@
 module.exports = {
     name: 'Note',
+    plural: 'Notes',
     description: 'A note about something',
     fields: [
         {

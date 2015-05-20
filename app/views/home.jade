@@ -1,4 +1,11 @@
 extends ./layout/site.jade
 
-block body
-    Home Sweet Home
+block menu 
+    p List of Entry Types
+    ul
+        each type, key in entry.types
+            li
+                a(href="/entry/#{key}")= type.plural
+
+block main 
+    p Home Sweet Home

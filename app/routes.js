@@ -4,5 +4,5 @@ module.exports = function(app) {
     }
 
     app.use('/', route('home'));
-    app.use('/entries', route('entries'));
+    app.use('/entry', route('entries'));
 };

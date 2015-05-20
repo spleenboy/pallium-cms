@@ -10,7 +10,7 @@ local: function(name) {
     try {
         return require(localName);
     } catch (e) {
-        console.info('No local configuration file found', localName);
+        console.info('No local configuration file found for', name);
         return null;
     }
 },
@@ -30,7 +30,7 @@ local: function(name) {
 **/
 get: function(namespacedKey) {
     var keys = namespacedKey.split('.');
-    if (keys.length < 2) {
+    if (keys.length < 1) {
         throw new Error('Invalid configuration key');
     }
     var file = keys.shift();
@@ -57,8 +57,8 @@ find: function(obj, keys) {
     }
 
     keys = keys.slice(); // Prevent byref manipulation
-    var key = keys.shift();
-    var value = obj[key];
+    var value = obj;
+    var key;
 
     while (key = keys.shift()) {
         value = value && key in value ? value[key] : undefined;
