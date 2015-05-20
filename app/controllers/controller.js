@@ -8,18 +8,23 @@ function Controller() {};
  * Send the output of a template¬
 **/
 Controller.prototype.send = function(name, data) {
-    var view   = new View(name);
-
-    // Add global values
-    data         = data         || {};
-    data.site    = data.site    || config.get('site');
-    data.entries = data.entries || config.get('entry');
+    var view = new View(name);
+    data = this.populate(data);
 
     console.info('Rendering view', name, 'with', data);
 
     var content = View.render(name, data);
     this.response.send(content);
 };
+
+
+Controller.prototype.populate = function(data) {
+    data         = data         || {};
+    data.site    = data.site    || config.get('site');
+    data.entries = data.entries || config.get('entry');
+    data.params  = data.params  || this.request.params;
+    return data;
+}
 
 
 Controller.prototype.notfound = function() {

@@ -28,12 +28,14 @@ config.clean = {
 }
 
 config.sass = {
-    files: [{
-        expand: true,
-        src: 'app/views/assets/css/*.scss',
-        dest: 'public/assets/css/',
-        ext: '.css'
-    }]
+    dist: {
+        options: {
+            trace: true
+        },
+        files: {
+            'public/assets/css/main.css': 'app/views/assets/css/main.scss'
+        }
+    }
 };
 
 module.exports = function(grunt) {

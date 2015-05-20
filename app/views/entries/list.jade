@@ -1,5 +1,6 @@
 extends ../layout/site
 
 block main
+    - var definition = entries.types[params.type]
     h1= definition.plural
     h2= definition.description
