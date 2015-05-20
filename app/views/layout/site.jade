@@ -3,7 +3,7 @@ html(lang="en")
     head
         title= pageTitle
         block styles
-            link(rel='stylesheet', href='assets/css/pure-min.css')
+            link(rel='stylesheet', href='/assets/css/pure-min.css')
     body
         #layout
             header
@@ -11,7 +11,10 @@ html(lang="en")
                     h1= pageTitle
             nav.menu
                 block menu 
-                    p Menu Items
+                    ul
+                        each type, key in entries.types
+                            li
+                                a(href="/entry/#{key}")= type.plural
             section.main
                 block main
                     p Main
