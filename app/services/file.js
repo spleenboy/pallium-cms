@@ -31,8 +31,7 @@ module.exports.list = function(dir, flat) {
  * Ensures that all directories in the specified path exist
 **/
 module.exports.mkdirs = function(filepath) {
-    var parts = path.parse(filepath);
-    var dirs  = parts.dir.split(path.sep);
+    var dirs  = path.dirname(filepath).split(path.sep);
     var dir   = '';
     while (dirs.length) {
         dir = path.join(dir, dirs.shift());
@@ -52,10 +51,22 @@ module.exports.mkdirs = function(filepath) {
 **/
 module.exports.write = function(filepath, content) {
     try {
+        this.mkdirs(filepath);
         fs.writeFileSync(filepath, content);
         return filepath;
     } catch (e) {
         console.error("Error writing file", filepath, e);
+        return false;
+    }
+};
+
+
+module.exports.delete = function(filepath) {
+    try {
+        fs.unlinkSync(filepath);
+        return true;
+    } catch (e) {
+        console.error("Error deleting file", filepath, e);
         return false;
     }
 };

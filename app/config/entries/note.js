@@ -5,7 +5,7 @@ module.exports = {
     description: 'A note about something',
     directory: 'notes',
     subdirectory: function() {
-        var date = this.data('dateAdded') || new Date();
+        var date = new Date(this.data('dateAdded')) || new Date();
         return [date.getYear(), date.getMonth()].join('/');
     },
     filename: function() {

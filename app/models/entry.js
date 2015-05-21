@@ -1,3 +1,4 @@
+var path   = require('path');
 var config = plugin('config');
 var Field  = plugin('models/field');
 
@@ -5,6 +6,8 @@ function Entry(type) {
     this.configure(type);
     this.filepath = null;
 }
+
+Entry.extension = '.md';
 
 
 Entry.prototype.configure = function(type) {
@@ -22,6 +25,15 @@ Entry.prototype.configure = function(type) {
             this[key] = this.config[key];
         }
     }
+};
+
+
+// Gets this entry's filename based on its settings
+Entry.prototype.getFilename = function() {
+    var sub  = this.config['subdirectory'].call(this);
+    var name = this.config['filename'].call(this);
+    name = name.replace(/(![a-zA-Z0-9]+)/g, '-') + Entry.extension;
+    return path.join(sub, name);
 };
 
 
@@ -73,10 +85,10 @@ Entry.prototype.data = function(name, value) {
     }
 
     if (value !== undefined) {
-        this.fields[key].value = value;
+        this.fields[name].value = value;
     }
 
-    return this.fields[key].value;
+    return this.fields[name].value;
 };
 
 

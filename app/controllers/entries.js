@@ -34,15 +34,31 @@ Entries.prototype.create = function() {
 
 
 Entries.prototype.edit = function() {
-    var entry = new Entry(this.type);
+    var filepath = this.request.params.filepath;
+    var entry    = this.factory.get(filepath);
+    if (!entry) {
+        console.error("Invalid entry path", filepath);
+        this.response.redirect('back');
+    }
     entry.prerender();
     this.send('entries/edit', {entry: entry});
 };
 
 
 Entries.prototype.save = function() {
-    var posted = this.request.body[this.type];
-    this.response.redirect('back');
+    var posted  = this.request.body[this.type];
+    var oldpath = this.request.params.filepath;
+    var entry   = oldpath ? this.factory.get(oldpath) : new Entry(this.type);
+    entry.populate(posted);
+
+    // @todo: add validation
+    var newpath = this.factory.save(entry, oldpath);
+
+    if (newpath) {
+        this.response.redirect('../edit/' + newpath);
+    } else {
+        this.response.redirect('../list');
+    }
 };
 
 

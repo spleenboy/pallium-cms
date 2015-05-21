@@ -2,7 +2,7 @@ var path = require('path');
 
 module.exports = {
     output: function() {
-        return path.join(process.cwd(), 'content')
+        return path.join(process.cwd(), 'output')
     },
     types: {
         'page': plugin('config/entries/page'),

@@ -28,6 +28,11 @@ Factory.prototype.fullpath = function(relativepath) {
 };
 
 
+Factory.prototype.relativepath = function(fullpath) {
+    return path.relative(this.root, fullpath);
+};
+
+
 Factory.prototype.all = function() {
     var items = file.list(this.root);
     if (!items) {
@@ -42,7 +47,7 @@ Factory.prototype.all = function() {
 };
 
 
-Factory.prototype.open = function(relativepath) {
+Factory.prototype.get = function(relativepath) {
     var filepath = this.fullpath(relativepath);
     try {
         var data = front.loadFront(filepath);
@@ -51,6 +56,7 @@ Factory.prototype.open = function(relativepath) {
             return false;
         }
         var entry = new Entry(this.type);
+        entry.filepath = relativepath;
         entry.populate(data);
         return entry;
     } catch (e) {
@@ -60,39 +66,10 @@ Factory.prototype.open = function(relativepath) {
 };
 
 
-Factory.prototype.move = function(oldpath, newpath) {
-
-};
-
-
-/**
- * Joins front matter and a body together into a string.
-**/
-module.exports.merge = function(frontMatter, body) {
-    var front, content = '';
-
-    if (typeof frontMatter === 'object') {
-        var front = yaml.safeDump(frontMatter);
-        content = delimiter + front + delimiter;
-    } else if (frontMatter) {
-        throw new Error('Invalid front matter');
-    }
-
-    if (typeof body === 'string') {
-        content += body;
-    } else if (body) {
-        throw new Error('Invalid body');
-    }
-
-    return content;
-}
-
-
-Factory.prototype.save = function(entry) {
+Factory.prototype.save = function(entry, oldpath) {
     var filepath = path.join(
         this.root, 
-        this.config('subdirectory', entry),
-        this.config('filename', entry)
+        entry.getFilename()
     );
     console.info("Saving entry to path", filepath);
     var data = entry.data();
@@ -105,11 +82,21 @@ Factory.prototype.save = function(entry) {
         content = delimiter + frontMatter + delimiter + content;
     }
 
-    return file.write(filepath, content);
+    if (oldpath) {
+        oldpath = path.join(this.root, oldpath);
+        if (oldpath !== filepath) {
+            file.delete(oldpath);
+        }
+    }
+
+    if (file.write(filepath, content)) {
+        return this.relativepath(filepath);
+    }
+    return false;
 };
 
 
-Factory.prototype.delete = function(filepath) {
+Factory.prototype.delete = function(entry) {
 
 };
 
