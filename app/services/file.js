@@ -1,77 +1,61 @@
-var front = require('yaml-front-matter');
-var yaml  = require('js-yaml');
 var fs    = require('fs');
-
-var delimiter = module.exports.delimiter = '---\n';
+var path  = require('path');
 
 
 /**
  * Provides a flat array of the stats (including path)
  * for the files in the specified directory (and subdirectories)
 **/
-module.exports.list = function(dir, recurse) {
+module.exports.list = function(dir, flat) {
     var items = [];
-    var paths = fs.readdirSync(dir);
-    for (var i=0; i<paths.length; i++) {
-        var stats = fs.statSync(paths[i]);
-        if (recurse && stats.isDirectory()) {
-            items = items.concat(this.list(paths[i], recurse));
-            continue;
-        } else if (stats.isFile()) {
-            stats.path = paths[i];
-            items.push(stats);
+    try {
+        var paths = fs.readdirSync(dir);
+        for (var i=0; i<paths.length; i++) {
+            var stats = fs.statSync(paths[i]);
+            if (!flat && stats.isDirectory()) {
+                items = items.concat(this.list(paths[i], flat));
+                continue;
+            } else if (stats.isFile()) {
+                stats.filepath = paths[i];
+                items.push(stats);
+            }
         }
+    } catch (e) {
+        console.error("Error reading directory", dir, e);
     }
     return items;
-}
+};
+
 
 /**
- *¬Reads a file with front matter and returns the results
+ * Ensures that all directories in the specified path exist
 **/
-module.exports.read = function(filepath) {
-    try {
-        return front.loadFront(filepath);
-    } catch (e) {
-        console.error("Error loading file", filepath, e);
-        return false;
+module.exports.mkdirs = function(filepath) {
+    var parts = path.parse(filepath);
+    var dirs  = parts.dir.split(path.sep);
+    var dir   = '';
+    while (dirs.length) {
+        dir = path.join(dir, dirs.shift());
+        try {
+            var stats = fs.statSync(dir);
+        }
+        catch (e) {
+            console.info("Created directory", dir);
+            fs.mkdirSync(dir);
+        }
     }
 };
 
 
 /**
- *¬Joins front matter and a body together into a string.
+ * Writes out a file asynchronously
 **/
-module.exports.merge = function(frontMatter, body) {
-    var front, content = '';
-
-    if (typeof frontMatter === 'object') {
-        var front = yaml.safeDump(frontMatter);
-        content = delimiter + front + delimiter;
-    } else if (frontMatter) {
-        throw new Error('Invalid front matter');
+module.exports.write = function(filepath, content) {
+    try {
+        fs.writeFileSync(filepath, content);
+        return filepath;
+    } catch (e) {
+        console.error("Error writing file", filepath, e);
+        return false;
     }
-
-    if (typeof body === 'string') {
-        content += body;
-    } else if (body) {
-        throw new Error('Invalid body');
-    }
-
-    return content;
-}
-
-
-/**
- *¬Writes out front matter and content to a file.
-**/
-module.exports.write = function(filepath, frontMatter, body, callback) {
-    var content = this.merge(frontMatter, body);
-    fs.writeFile(filepath, content, function(err) {
-        if (err) {
-            console.error("Error saving file", filepath, err);
-        }
-        if (callback) {
-            callback(err, filepath, frontMatter, body);
-        }
-    });
 };

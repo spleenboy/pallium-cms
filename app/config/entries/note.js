@@ -3,9 +3,13 @@ module.exports = {
     name: 'Note',
     plural: 'Notes',
     description: 'A note about something',
+    directory: 'notes',
     subdirectory: function() {
-        var date = new Date();
+        var date = this.data('dateAdded') || new Date();
         return [date.getYear(), date.getMonth()].join('/');
+    },
+    filename: function() {
+        return this.data('title') || 'New Note';
     },
     fields: [
         {

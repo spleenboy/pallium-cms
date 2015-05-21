@@ -7,3 +7,7 @@ block main
 
     a.pure-button.pure-button-primary.hvr-skew-forward(href='../create/#{params.type}')
         | Add a New #{definition.name}
+
+    ul
+        each filepath in list
+            li filepath 

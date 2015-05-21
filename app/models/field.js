@@ -2,7 +2,11 @@ var util   = require('util');
 var object = plugin('services/object');
 var View   = plugin('views/view');
 
-function Field() {}
+function Field() {
+    this.id = null;
+    this.entryType = null;
+    this.fieldName = null;
+}
 
 
 Field.prototype.render = function() {

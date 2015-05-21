@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = {
     output: function() {
         return path.join(process.cwd(), 'content')

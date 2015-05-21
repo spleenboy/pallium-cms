@@ -1,6 +1,8 @@
 var util = require('util');
+var object = plugin('services/object');
 var Controller = plugin('controllers/controller');
 var Entry = plugin('models/entry');
+var Factory = plugin('models/entry-factory');
 var View = plugin('views/view');
 
 function Entries() {
@@ -9,13 +11,18 @@ function Entries() {
             return this.request.params.type;
         }
     });
+
+    object.lazyGet(this, 'factory', function() {
+        return new Factory(this.request.params.type);
+    });
 }
 
 util.inherits(Entries, Controller);
 
 
 Entries.prototype.list = function() {
-    this.send('entries/list');
+    var all = this.factory.all();
+    this.send('entries/list', {list: all});
 };
 
 
@@ -34,6 +41,7 @@ Entries.prototype.edit = function() {
 
 
 Entries.prototype.save = function() {
+    var posted = this.request.body[this.type];
     this.response.redirect('back');
 };
 

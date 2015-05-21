@@ -3,6 +3,10 @@ module.exports = {
     name: 'Page',
     plural: 'Pages',
     description: 'A basic page',
+    directory: 'pages',
+    filename: function() {
+        return this.data('title') || 'New Page';
+    },
     fields: [
         {
             type         : 'text',

@@ -3,6 +3,7 @@ var Field  = plugin('models/field');
 
 function Entry(type) {
     this.configure(type);
+    this.filepath = null;
 }
 
 
@@ -29,7 +30,11 @@ Entry.prototype.setFields = function(fieldConfigs) {
 
     for (var i=0; i<fieldConfigs.length; i++) {
         var field = Field.create(fieldConfigs[i]);
-        field.id  = [this.type, field.type].join('-');
+
+        field.id        = [this.type, field.type].join('-');
+        field.entryType = this.type;
+        field.fieldName = this.type + '[' + field.name + ']';
+
         this.fields[field.name] = field;
     }
 };
@@ -44,6 +49,34 @@ Entry.prototype.populate = function(data) {
             this.fields[key].value = data[key];
         }
     }
+};
+
+
+/**
+ * Works like jQuery.data 
+ *  - NO arguments  - get all key/value pairs
+ *  - ONE argument  - get the value for the specified key
+ *  - TWO arguments - set the value for the specified key
+**/
+Entry.prototype.data = function(name, value) {
+    if (name === undefined) {
+        var values = {};
+        for (var key in this.fields) {
+            values[key] = this.fields[key].value;
+        }
+        return values;
+    }
+
+    if (!this.fields[name]) {
+        console.info("Key doesn't exist in fields", name);
+        return undefined;
+    }
+
+    if (value !== undefined) {
+        this.fields[key].value = value;
+    }
+
+    return this.fields[key].value;
 };
 
 

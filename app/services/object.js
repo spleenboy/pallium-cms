@@ -29,14 +29,40 @@ module.exports.assign = function assign(target, firstSource) {
 }
 
 /**
+ * Creates a lazy-get property on the object
+**/
+module.exports.lazyGet = function lazyGet(obj, property, getter) {
+
+    var hidden = '_' + property;
+
+    Object.defineProperty(obj, hidden, {
+        enumerable   : false,
+        writable     : true
+    });
+
+    var def = {
+        enumerable   : true,
+        get : function() {
+            if (this[hidden] === undefined) {
+                var value = getter.call(obj);
+                this[hidden] = value;
+            }
+            return this[hidden];
+        }
+    };
+
+    Object.defineProperty(obj, property, def);
+};
+
+/**
  * Defines getters and setters for the specified property names.
  * These getters and setters are overridable in child classes by using
  * getX and setX methods on the class.
 **/
 module.exports.defineProperties = function defineProperties(obj, properties) {
     Object.defineProperty(obj, '_properties', {
-        configurable : true,
         enumerable   : false,
+        writable     : true,
         value        : {}
     });
 
