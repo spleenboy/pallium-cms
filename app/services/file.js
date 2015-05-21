@@ -4,6 +4,10 @@ var fs    = require('fs');
 
 var delimiter = module.exports.delimiter = '---\n';
 
+module.exports.list = function(dir, recurse) {
+
+}
+
 /**
  *¬Reads a file with front matter and returns the results
 **/

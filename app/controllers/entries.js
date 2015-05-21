@@ -32,10 +32,15 @@ Entries.prototype.create = function() {
 
 
 Entries.prototype.edit = function() {
+    var def   = this.definition();
+    var entry = new Entry(def);
+    entry.prerender();
+    this.send('entries/edit', {entry: entry});
 };
 
 
 Entries.prototype.save = function() {
+    this.response.redirect('back');
 };
 
 
