@@ -4,3 +4,6 @@ block main
     - var definition = entries.types[params.type]
     h1= definition.plural
     h2= definition.description
+
+    a.pure-button.pure-button-primary(href='../create/#{params.type}')
+        | Add a new #{definition.name}

@@ -1,6 +1,9 @@
 var jade = require('jade');
 var path = require('path');
 
+
+var Views = {};
+
 function View(name) {
     this.name      = name;
     this.extension = '.jade';
@@ -29,8 +32,10 @@ View.prototype.render = function(data) {
 
 
 View.render = function(name, data) {
-    var view = new View(name);
-    return view.render(data);
+    if (!(name in Views)) {
+        Views[name] = new View(name);
+    }
+    return Views[name].render(data);
 };
 
 
