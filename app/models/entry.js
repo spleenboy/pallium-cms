@@ -1,20 +1,24 @@
-var Field = plugin('models/field');
+var config = plugin('config');
+var Field  = plugin('models/field');
 
-function Entry(config) {
-    this.setProperties(config);
+function Entry(type) {
+    this.configure(type);
 }
 
 
-Entry.prototype.setProperties = function(config) {
-    if (!config) {
+Entry.prototype.configure = function(type) {
+    this.type   = type;
+    this.config = config.get('entry.types.' + type, this);
+
+    if (!this.config) {
         return;
     }
 
-    for (var key in config) {
+    for (var key in this.config) {
         if (key === 'fields') {
-            this.setFields(config.fields);
+            this.setFields(this.config.fields);
         } else {
-            this[key] = config[key];
+            this[key] = this.config[key];
         }
     }
 };
@@ -27,6 +31,18 @@ Entry.prototype.setFields = function(fieldConfigs) {
         var field = Field.create(fieldConfigs[i]);
         field.id  = [this.type, field.type].join('-');
         this.fields[field.name] = field;
+    }
+};
+
+
+/**
+ * Populates the values in the fields from a data dictionary
+**/
+Entry.prototype.populate = function(data) {
+    for (var key in this.fields) {
+        if (key in data) {
+            this.fields[key].value = data[key];
+        }
     }
 };
 

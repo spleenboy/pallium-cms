@@ -4,18 +4,35 @@ var fs    = require('fs');
 
 var delimiter = module.exports.delimiter = '---\n';
 
-module.exports.list = function(dir, recurse) {
 
+/**
+ * Provides a flat array of the stats (including path)
+ * for the files in the specified directory (and subdirectories)
+**/
+module.exports.list = function(dir, recurse) {
+    var items = [];
+    var paths = fs.readdirSync(dir);
+    for (var i=0; i<paths.length; i++) {
+        var stats = fs.statSync(paths[i]);
+        if (recurse && stats.isDirectory()) {
+            items = items.concat(this.list(paths[i], recurse));
+            continue;
+        } else if (stats.isFile()) {
+            stats.path = paths[i];
+            items.push(stats);
+        }
+    }
+    return items;
 }
 
 /**
  *¬Reads a file with front matter and returns the results
 **/
-module.exports.read = function(file) {
+module.exports.read = function(filepath) {
     try {
-        return front.loadFront(file);
+        return front.loadFront(filepath);
     } catch (e) {
-        console.error("Error loading file", file, e);
+        console.error("Error loading file", filepath, e);
         return false;
     }
 };
@@ -47,14 +64,14 @@ module.exports.merge = function(frontMatter, body) {
 /**
  *¬Writes out front matter and content to a file.
 **/
-module.exports.write = function(file, frontMatter, body, callback) {
+module.exports.write = function(filepath, frontMatter, body, callback) {
     var content = this.merge(frontMatter, body);
-    fs.writeFile(file, content, function(err) {
+    fs.writeFile(filepath, content, function(err) {
         if (err) {
-            console.error("Error saving file", file, err);
+            console.error("Error saving file", filepath, err);
         }
         if (callback) {
-            callback(err, file, frontMatter, body);
+            callback(err, filepath, frontMatter, body);
         }
     });
 };

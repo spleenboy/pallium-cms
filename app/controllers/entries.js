@@ -1,22 +1,18 @@
 var util = require('util');
-var config = plugin('config');
 var Controller = plugin('controllers/controller');
 var Entry = plugin('models/entry');
 var View = plugin('views/view');
 
 function Entries() {
-    this.config = config.get('entry');
+    Object.defineProperty(this, 'type', {
+        get: function() {
+            return this.request.params.type;
+        }
+    });
 }
 
 util.inherits(Entries, Controller);
 
-
-/**
- *¬ Gets the entry definition being used
-**/
-Entries.prototype.definition = function() {
-    return this.config.types[this.request.params.type];
-}
 
 Entries.prototype.list = function() {
     this.send('entries/list');
@@ -24,16 +20,14 @@ Entries.prototype.list = function() {
 
 
 Entries.prototype.create = function() {
-    var def   = this.definition();
-    var entry = new Entry(def);
+    var entry = new Entry(this.type);
     entry.prerender();
     this.send('entries/create', {entry: entry});
 };
 
 
 Entries.prototype.edit = function() {
-    var def   = this.definition();
-    var entry = new Entry(def);
+    var entry = new Entry(this.type);
     entry.prerender();
     this.send('entries/edit', {entry: entry});
 };

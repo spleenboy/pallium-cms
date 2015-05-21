@@ -28,7 +28,7 @@ local: function(name) {
  *
  * config.get('site.title');
 **/
-get: function(namespacedKey) {
+get: function(namespacedKey, context, args) {
     var keys = namespacedKey.split('.');
     if (keys.length < 1) {
         throw new Error('Invalid configuration key');
@@ -45,7 +45,7 @@ get: function(namespacedKey) {
         value = this.find(config, keys);
     }
 
-    return typeof value === 'function' ? value() : value;
+    return typeof value === 'function' ? value.apply(context, args) : value;
 },
 
 /**
