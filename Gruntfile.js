@@ -1,5 +1,13 @@
 var config = {};
 
+config.browserify = {
+    dist: {
+        files: {
+            'public/assets/js/bundle.js': ['app/views/assets/js/**/*.js']
+        }
+    }
+}
+
 config.copy = {
     images: {
         files: [{
@@ -15,6 +23,7 @@ config.copy = {
             flatten: true,
             src: [
                 'app/views/assets/css/*.css',
+                'node_modules/catdown/styles/dist/catdown.css',
                 'node_modules/purecss/build/pure-min.css'
             ],
             dest: 'public/assets/css/',
@@ -42,5 +51,5 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
     grunt.initConfig(config);
 
-    grunt.registerTask('default', ['clean', 'copy', 'sass']);
+    grunt.registerTask('default', ['clean', 'copy', 'browserify', 'sass']);
 };

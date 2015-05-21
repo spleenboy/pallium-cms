@@ -1,2 +1,8 @@
+- var previewId = 'md-preview-' + id
 label(for=id) #{label}
-textarea.markdown(id=id, name=name) #{value}
+
+.pure-g
+    .pure-u-1-2
+        textarea.md-editor(id=id, name=name, data-md-preview=previewId)= value
+    .pure-u-1-2
+        section.md-preview(id=previewId)= value

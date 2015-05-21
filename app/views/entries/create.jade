@@ -4,7 +4,7 @@ block main
     - var definition = entries.types[params.type]
     h1 Add a New #{definition.name}
 
-    a.pure-button(href='list')= definition.plural
+    a.pure-button.hvr-skew-backward(href='../list/' + params.type)= definition.plural
 
     form.pure-form.pure-form-stacked(method='post')
         fieldset
@@ -13,4 +13,6 @@ block main
             each field in entry.fields
                 | !{field.html}
 
-            button.pure-button.pure-button-primary(type='submit') Create
+            hr
+
+            button.pure-button.pure-button-primary.hvr-skew-forward(type='submit') Create #{definition.name}
