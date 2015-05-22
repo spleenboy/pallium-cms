@@ -40,7 +40,32 @@ Factory.prototype.relativepath = function(fullpath) {
 
 Factory.prototype.loadIndex = function() {
     var contents = file.read(this.indexPath);
-    this.index = contents ? yaml.safeLoad(contents) || {} : {};
+    if (contents) {
+        this.index = yaml.safeLoad(contents) || {};
+    } else {
+        this.createIndex();
+    }
+};
+
+
+// Scans the directory for files and creates entries for them
+Factory.prototype.createIndex = function() {
+    var items  = file.list(this.root);
+    this.index = {};
+    for (var i=0; i<items.length; i++) {
+        var stats = items[i];
+        var id = random.id();
+        var item = {
+            id       : id,
+            title    : stats.filepath,
+            filepath : stats.filepath,
+            modified : stats.mtime,
+            created  : stats.birthtime
+        };
+        this.index[id] = item;
+    }
+    this.saveIndex();
+    console.info("Saved new index for", this.type);
 };
 
 

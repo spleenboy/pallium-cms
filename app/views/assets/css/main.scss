@@ -4,7 +4,12 @@
 @import '../../../../node_modules/font-awesome/scss/font-awesome.scss';
 
 @import 'forms';
+@import 'typography';
 @import 'buttons';
+
+body {
+    font-family: $paragraph;
+}
 
 div#layout {
     margin: 0;
@@ -15,6 +20,10 @@ header {
     position: fixed;
     height: 40px;
     background: $background-header;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: $heading;
 }
 
 nav.menu {

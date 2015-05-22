@@ -17,6 +17,17 @@ config.copy = {
             filter: 'isFile'
         }]
      },
+     fonts: {
+        files: [{
+            expand: true, 
+            flatten: true,
+            src: [
+                'app/views/assets/fonts/**/*.*'
+            ],
+            dest: 'public/assets/fonts/',
+            filter: 'isFile'
+        }]
+     },
      styles: {
         files: [{
             expand: true, 

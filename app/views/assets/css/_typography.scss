@@ -1,0 +1,11 @@
+$paragraph: 'paragraph', 'sans-serif';
+@font-face {
+    font-family: 'paragraph';
+    src: url('../fonts/Exo-Medium.otf');
+}
+
+$heading: 'heading', 'sans-serif';
+@font-face {
+    font-family: 'heading';
+    src: url('../fonts/Exo-Bold.otf');
+}
