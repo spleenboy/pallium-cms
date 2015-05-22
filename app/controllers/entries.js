@@ -23,11 +23,17 @@ util.inherits(Entries, Controller);
 
 Entries.prototype.list = function() {
     var all = this.factory.all();
+    var items = [];
     for (var id in all) {
-        all[id].createdFromNow  = moment(all[id].created).fromNow();
-        all[id].modifiedFromNow = moment(all[id].modified).fromNow();
+        var item = all[id];
+        item.createdFromNow  = moment(item.created).fromNow();
+        item.modifiedFromNow = moment(item.modified).fromNow();
+        items.push(item);
     }
-    this.send('entries/list', {list: all});
+    items.sort(function(a, b) {
+        return b.modified - a.modified;
+    });
+    this.send('entries/list', {list: items});
 };
 
 
