@@ -18,10 +18,10 @@ html(lang="en")
                         each type, key in entries.types
                             if key === params.type
                                 li.pure-menu-item.pure-menu-selected
-                                    a.pure-menu-link(href="/entry/list/#{key}")= type.plural
+                                    a.pure-menu-link(href="/entry/#{key}/list")= type.plural
                             else
                                 li.pure-menu-item
-                                    a.pure-menu-link(href="/entry/list/#{key}")= type.plural
+                                    a.pure-menu-link(href="/entry/#{key}/list")= type.plural
             section.main
                 block main
                     p Main

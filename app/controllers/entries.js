@@ -55,9 +55,9 @@ Entries.prototype.save = function() {
     var newpath = this.factory.save(entry, oldpath);
 
     if (newpath) {
-        this.response.redirect('../edit/' + newpath);
+        this.response.redirect('/entries/' + this.type + '/edit/' + newpath);
     } else {
-        this.response.redirect('../list');
+        this.response.redirect('/entries/' + this.type + '/list');
     }
 };
 

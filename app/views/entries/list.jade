@@ -5,9 +5,10 @@ block main
     h1= definition.plural
     h2= definition.description
 
-    a.pure-button.pure-button-primary.hvr-skew-forward(href='../create/#{params.type}')
+    a.pure-button.pure-button-primary.hvr-skew-forward(href='create')
         | Add a New #{definition.name}
 
     ul
         each filepath in list
-            li filepath 
+            li
+                a.hvr-grow(href='edit/' + filepath)= filepath 

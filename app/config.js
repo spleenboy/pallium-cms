@@ -45,7 +45,15 @@ get: function(namespacedKey, context, args) {
         value = this.find(config, keys);
     }
 
-    return typeof value === 'function' ? value.apply(context, args) : value;
+    if (value === undefined) {
+        console.info("Found nothing for configu key", namespacedKey);
+        return undefined;
+    }
+
+    if (typeof value === 'function') {
+        return value.apply(context || this, args || []);
+    }
+    return value;
 },
 
 /**

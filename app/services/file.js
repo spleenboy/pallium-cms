@@ -10,13 +10,19 @@ module.exports.list = function(dir, flat) {
     var items = [];
     try {
         var paths = fs.readdirSync(dir);
+
+        console.info("Paths found in", dir, paths);
+
         for (var i=0; i<paths.length; i++) {
-            var stats = fs.statSync(paths[i]);
+
+            var filepath = path.join(dir, paths[i]);
+            var stats    = fs.statSync(filepath);
+
             if (!flat && stats.isDirectory()) {
-                items = items.concat(this.list(paths[i], flat));
+                items = items.concat(this.list(filepath, flat));
                 continue;
             } else if (stats.isFile()) {
-                stats.filepath = paths[i];
+                stats.filepath = filepath;
                 items.push(stats);
             }
         }
@@ -32,7 +38,7 @@ module.exports.list = function(dir, flat) {
 **/
 module.exports.mkdirs = function(filepath) {
     var dirs  = path.dirname(filepath).split(path.sep);
-    var dir   = '';
+    var dir   = path.sep;
     while (dirs.length) {
         dir = path.join(dir, dirs.shift());
         try {

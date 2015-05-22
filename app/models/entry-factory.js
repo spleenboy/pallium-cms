@@ -11,15 +11,16 @@ var delimiter = module.exports.delimiter = '---\n';
 function Factory(type) {
     this.type  = type;
     this.model = new Entry(type);
-    this.root  = path.join(
-        config.get('entry.output'),
-        this.config('directory')
-    );
+
+    this.output    = config.get('entry.output');
+    this.directory = this.config('directory');
+    this.root      = path.join(this.output, this.directory);
 }
 
 
 Factory.prototype.config = function(key, entry) {
-    return config.get(['entry.types', this.type, key].join('.'), entry);
+    var key = ['entry.types', this.type, key].join('.');
+    return config.get(key, entry);
 };
 
 

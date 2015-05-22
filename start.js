@@ -11,4 +11,4 @@ require(path.join(__dirname, 'app/bootstrap'))(app, args);
 
 // Start the server
 app.listen(port);
-console.log('Pallium CMS is running at http://localhost:' + port);
+console.log('Pallium CMS is running from', process.cwd(), 'at http://localhost:' + port);

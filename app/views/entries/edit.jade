@@ -2,17 +2,17 @@ extends ../layout/site
 
 block main
     - var definition = entries.types[params.type]
-    h1 Add a New #{definition.name}
+    h1 Edit #{definition.name}
 
     a.pure-button.hvr-skew-backward(href='list')= definition.plural
 
     form.pure-form.pure-form-stacked(method='post')
         fieldset
-            legend Create a New #{definition.name}
+            legend Edit #{params.filepath}
 
             each field in entry.fields
                 | !{field.html}
 
             hr
 
-            button.pure-button.pure-button-primary.hvr-skew-forward(type='submit') Create #{definition.name}
+            button.pure-button.pure-button-primary.hvr-skew-forward(type='submit') Save Changes to #{definition.name}
