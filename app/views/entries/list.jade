@@ -9,6 +9,6 @@ block main
         | Add a New #{definition.name}
 
     ul
-        each filepath in list
+        each item in list
             li
-                a.hvr-grow(href='edit/' + filepath)= filepath 
+                a.hvr-grow(href='edit/' + item.id)= item.title

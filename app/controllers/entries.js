@@ -55,9 +55,9 @@ Entries.prototype.save = function() {
     var id = this.factory.save(entry);
 
     if (id) {
-        this.response.redirect('/entries/' + this.type + '/edit/' + id);
+        this.response.redirect('/entry/' + this.type + '/edit/' + id);
     } else {
-        this.response.redirect('/entries/' + this.type + '/list');
+        this.response.redirect('/entry/' + this.type + '/list');
     }
 };
 

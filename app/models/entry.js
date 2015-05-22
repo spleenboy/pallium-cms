@@ -32,8 +32,8 @@ Entry.prototype.configure = function(type) {
 Entry.prototype.getFilename = function() {
     var sub   = this.config['subdirectory'].call(this);
     var title = this.config['title'].call(this);
-    name = title.replace(/([^a-zA-Z0-9]+)/g, '-') + Entry.extension;
-    return path.join(sub, title);
+    var name  = title.replace(/([^a-zA-Z0-9]+)/g, '-') + Entry.extension;
+    return path.join(sub, name);
 };
 
 

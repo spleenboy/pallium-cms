@@ -51,16 +51,7 @@ Factory.prototype.saveIndex = function() {
 
 
 Factory.prototype.all = function() {
-    var entries = [];
-    for (var id in this.index) {
-        var entry = this.index[id];
-        entries.push({
-            id       : id,
-            filepath : entry.filepath,
-            title    : entry.title
-        });
-    }
-    return entries;
+    return this.index;
 };
 
 
@@ -78,8 +69,11 @@ Factory.prototype.get = function(id) {
             console.error("Error parsing file", filepath);
             return false;
         }
+
         var entry = new Entry(this.type);
         entry.id = id;
+        entry.created  = item.created;
+        entry.modified = item.modified;
 
         entry.populate(data);
         return entry;
@@ -121,8 +115,11 @@ Factory.prototype.save = function(entry) {
 
     if (file.write(filepath, content)) {
         this.index[id] = {
+            id       : id,
             title    : entry.getTitle(),
-            filepath : this.relativepath(filepath)
+            filepath : this.relativepath(filepath),
+            created  : entry.created || new Date(),
+            modified : new Date()
         };
         this.saveIndex();
         return id;
