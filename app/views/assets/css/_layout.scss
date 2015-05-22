@@ -5,10 +5,17 @@ div#layout {
 
 nav.menu {
     height: 100%;
-    max-width: 20%;
+    width: 10%;
     position: fixed;
     background: $background-menu;
     color: $foreground-light;
+    @include prefixed(transition-duration, $mediumDuration);
+    @include prefixed(transition-property, "width");
+
+    &:hover {
+        width: 20%;
+        z-index: 1000;
+    }
 }
 
 nav.menu li.pure-menu-selected {

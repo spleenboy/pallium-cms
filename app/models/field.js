@@ -17,6 +17,7 @@ Field.prototype.render = function() {
     if (this.value === undefined) {
         this.value = this.defaultValue;
     }
+    this.required = 'required' in this.validators ? 'required' : '';
     return View.render('fields/' + this.type, this);
 };
 

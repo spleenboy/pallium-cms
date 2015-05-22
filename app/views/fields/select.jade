@@ -1,5 +1,5 @@
 label(for=id) #{label}
-select(id=id, name=fieldName, value=value)
+select(id=id, name=fieldName, value=value, required)
     each optionLabel, optionValue in options
         if (optionValue == value)
             option('selected', value=optionValue)= optionLabel
