@@ -34,10 +34,10 @@ Entries.prototype.create = function() {
 
 
 Entries.prototype.edit = function() {
-    var filepath = this.request.params.filepath;
-    var entry    = this.factory.get(filepath);
+    var id    = this.request.params.id;
+    var entry = this.factory.get(id);
     if (!entry) {
-        console.error("Invalid entry path", filepath);
+        console.error("Invalid entry id", id);
         this.response.redirect('back');
     }
     entry.prerender();
@@ -47,15 +47,15 @@ Entries.prototype.edit = function() {
 
 Entries.prototype.save = function() {
     var posted  = this.request.body[this.type];
-    var oldpath = this.request.params.filepath;
-    var entry   = oldpath ? this.factory.get(oldpath) : new Entry(this.type);
+    var id      = this.request.params.id;
+    var entry   = id ? this.factory.get(id) : new Entry(this.type);
     entry.populate(posted);
 
     // @todo: add validation
-    var newpath = this.factory.save(entry, oldpath);
+    var id = this.factory.save(entry);
 
-    if (newpath) {
-        this.response.redirect('/entries/' + this.type + '/edit/' + newpath);
+    if (id) {
+        this.response.redirect('/entries/' + this.type + '/edit/' + id);
     } else {
         this.response.redirect('/entries/' + this.type + '/list');
     }

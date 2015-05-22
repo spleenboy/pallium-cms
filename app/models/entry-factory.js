@@ -3,6 +3,7 @@ var yaml   = require('js-yaml');
 var path   = require('path');
 var file   = plugin('services/file');
 var object = plugin('services/object');
+var random = plugin('services/random');
 var config = plugin('config');
 var Entry  = plugin('models/entry');
 
@@ -15,6 +16,9 @@ function Factory(type) {
     this.output    = config.get('entry.output');
     this.directory = this.config('directory');
     this.root      = path.join(this.output, this.directory);
+    this.indexPath = path.join(this.root, 'index.yaml');
+
+    this.loadIndex();
 }
 
 
@@ -34,22 +38,40 @@ Factory.prototype.relativepath = function(fullpath) {
 };
 
 
+Factory.prototype.loadIndex = function() {
+    var contents = file.read(this.indexPath);
+    this.index = contents ? yaml.safeLoad(contents) || {} : {};
+};
+
+
+Factory.prototype.saveIndex = function() {
+    var contents = yaml.safeDump(this.index);
+    return file.write(this.indexPath, contents);
+};
+
+
 Factory.prototype.all = function() {
-    var items = file.list(this.root);
-    if (!items) {
-        return [];
-    }
     var entries = [];
-    for (var i=0; i<items.length; i++) {
-        var relativepath = items[i].filepath.replace(this.root, '');
-        entries.push(relativepath);
+    for (var id in this.index) {
+        var entry = this.index[id];
+        entries.push({
+            id       : id,
+            filepath : entry.filepath,
+            title    : entry.title
+        });
     }
     return entries;
 };
 
 
-Factory.prototype.get = function(relativepath) {
-    var filepath = this.fullpath(relativepath);
+Factory.prototype.get = function(id) {
+    var item = this.index[id];
+    if (!item) {
+        return false;
+    }
+
+    var filepath = this.fullpath(item.filepath);
+
     try {
         var data = front.loadFront(filepath);
         if (!data) {
@@ -57,7 +79,8 @@ Factory.prototype.get = function(relativepath) {
             return false;
         }
         var entry = new Entry(this.type);
-        entry.filepath = relativepath;
+        entry.id = id;
+
         entry.populate(data);
         return entry;
     } catch (e) {
@@ -67,12 +90,7 @@ Factory.prototype.get = function(relativepath) {
 };
 
 
-Factory.prototype.save = function(entry, oldpath) {
-    var filepath = path.join(
-        this.root, 
-        entry.getFilename()
-    );
-    console.info("Saving entry to path", filepath);
+Factory.prototype.save = function(entry) {
     var data = entry.data();
     var content = data.__content;
     delete(data.__content);
@@ -83,22 +101,50 @@ Factory.prototype.save = function(entry, oldpath) {
         content = delimiter + frontMatter + delimiter + content;
     }
 
-    if (oldpath) {
-        oldpath = path.join(this.root, oldpath);
-        if (oldpath !== filepath) {
-            file.delete(oldpath);
+    var filepath = path.join(
+        this.root, 
+        entry.getFilename()
+    );
+
+    if (entry.id && entry.id in this.index) {
+        var oldEntry = this.index[entry.id];
+        var oldPath  = this.fullpath(oldEntry.filepath);
+        if (oldPath !== filepath) {
+            console.info("Deleting old entry path", oldPath);
+            file.delete(oldPath);
         }
     }
 
+    var id = entry.id || random.id();
+
+    console.info("Saving entry to path", filepath);
+
     if (file.write(filepath, content)) {
-        return this.relativepath(filepath);
+        this.index[id] = {
+            title    : entry.getTitle(),
+            filepath : this.relativepath(filepath)
+        };
+        this.saveIndex();
+        return id;
     }
+
     return false;
 };
 
 
-Factory.prototype.delete = function(entry) {
+Factory.prototype.delete = function(id) {
+    var item = this.index[id];
+    if (!item) {
+        return false;
+    }
 
+    var filepath = this.fullpath(item.filepath);
+    if (file.delete(filepath)) {
+        delete this.index[id];
+        return this.saveIndex();
+    }
+
+    return false;
 };
 
 

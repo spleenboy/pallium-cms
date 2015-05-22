@@ -4,7 +4,7 @@ module.exports = {
     plural: 'Pages',
     description: 'A basic page',
     directory: 'pages',
-    filename: function() {
+    title: function() {
         return this.data('title') || 'New Page';
     },
     fields: [

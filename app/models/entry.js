@@ -4,7 +4,7 @@ var Field  = plugin('models/field');
 
 function Entry(type) {
     this.configure(type);
-    this.filepath = null;
+    this.id = null;
 }
 
 Entry.extension = '.md';
@@ -28,12 +28,18 @@ Entry.prototype.configure = function(type) {
 };
 
 
-// Gets this entry's filename based on its settings
+// Gets this entry's filename based on its config
 Entry.prototype.getFilename = function() {
-    var sub  = this.config['subdirectory'].call(this);
-    var name = this.config['filename'].call(this);
-    name = name.replace(/(![a-zA-Z0-9]+)/g, '-') + Entry.extension;
-    return path.join(sub, name);
+    var sub   = this.config['subdirectory'].call(this);
+    var title = this.config['title'].call(this);
+    name = title.replace(/([^a-zA-Z0-9]+)/g, '-') + Entry.extension;
+    return path.join(sub, title);
+};
+
+
+// Gets this entry's title based on its config
+Entry.prototype.getTitle = function() {
+    return this.config['title'].call(this);
 };
 
 

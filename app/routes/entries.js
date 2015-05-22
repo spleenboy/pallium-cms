@@ -7,7 +7,7 @@ var Entries = plugin('controllers/entries');
 router.get('/:type/create', handle('create', Entries));
 router.post('/:type/create', handle('save', Entries));
 
-router.get('/:type/edit/:filepath(*)', handle('edit', Entries));
-router.post('/:type/edit/:filepath(*)', handle('save', Entries));
+router.get('/:type/edit/:id', handle('edit', Entries));
+router.post('/:type/edit/:id', handle('save', Entries));
 
 router.get('/:type/list', handle('list', Entries));

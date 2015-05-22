@@ -52,6 +52,16 @@ module.exports.mkdirs = function(filepath) {
 };
 
 
+module.exports.read = function(filepath) {
+    try {
+        return fs.readSync(filepath);
+    } catch (e) {
+        console.error("Can't read file", filepath, e);
+        return false;
+    }
+};
+
+
 /**
  * Writes out a file asynchronously
 **/

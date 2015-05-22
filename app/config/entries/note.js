@@ -8,7 +8,7 @@ module.exports = {
         var date = new Date(this.data('dateAdded')) || new Date();
         return [date.getYear(), date.getMonth()].join('/');
     },
-    filename: function() {
+    title: function() {
         return this.data('title') || 'New Note';
     },
     fields: [
