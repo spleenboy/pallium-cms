@@ -19,6 +19,12 @@ module.exports = {
             type         : 'datetime',
             name         : 'publishDate',
             label        : 'Publish Date',
+        },
+        {
+            type         : 'md',
+            name         : '__content',
+            label        : 'Content',
+            validation   : ['required']
         }
     ]
 };
