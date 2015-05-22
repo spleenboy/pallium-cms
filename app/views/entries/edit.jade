@@ -4,15 +4,13 @@ block main
     - var definition = entries.types[params.type]
     h1 Edit #{definition.name}
 
-    a.pure-button.hvr-skew-backward(href='../list') All #{definition.plural}
+    a.pure-button.button-list(href='../list') All #{definition.plural}
 
     form.pure-form.pure-form-stacked(method='post')
         fieldset
-            legend Edit #{params.filepath}
-
             each field in entry.fields
                 | !{field.html}
 
             hr
 
-            button.pure-button.pure-button-primary.hvr-skew-forward(type='submit') Save Changes to #{definition.name}
+            button.pure-button.pure-button-primary(type='submit') Save Changes to #{definition.name}

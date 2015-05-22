@@ -1,10 +1,11 @@
 @import 'colors';
+
 @import '../../../../node_modules/hover.css/scss/hover.scss';
 @import '../../../../node_modules/bourbon/app/assets/stylesheets/_bourbon.scss';
 @import '../../../../node_modules/font-awesome/scss/font-awesome.scss';
 
-@import 'forms';
 @import 'typography';
+@import 'forms';
 @import 'buttons';
 
 body {

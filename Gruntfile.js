@@ -22,7 +22,8 @@ config.copy = {
             expand: true, 
             flatten: true,
             src: [
-                'app/views/assets/fonts/**/*.*'
+                'app/views/assets/fonts/**/*.*',
+                'node_modules/font-awesome/fonts/*.*'
             ],
             dest: 'public/assets/fonts/',
             filter: 'isFile'

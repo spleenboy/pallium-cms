@@ -1,0 +1,25 @@
+@mixin icon-button($content) {
+    font-family: 'FontAwesome';
+    margin-right: 10px;
+    content: $content;
+}
+
+.button-add {
+    @include skew-forward();
+}
+
+.button-list, .button-back {
+    @include skew-backward();
+}
+
+.button-add:before {
+    @include icon-button($fa-var-plus);
+}
+
+.button-back:before {
+    @include icon-button($fa-var-arrow-left);
+}
+
+.button-list:before {
+    @include icon-button($fa-var-list-alt);
+}
