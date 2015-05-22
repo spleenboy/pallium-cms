@@ -17,6 +17,17 @@ config.copy = {
             filter: 'isFile'
         }]
      },
+     scripts: {
+        files: [{
+            expand: true,
+            flatten: true,
+            src: [
+                'node_modules/list.js/dist/list.min.js'
+            ], 
+            dest: 'public/assets/js/', 
+            filter: 'isFile'
+        }]
+     },
      fonts: {
         files: [{
             expand: true, 

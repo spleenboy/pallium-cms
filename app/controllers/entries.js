@@ -1,9 +1,10 @@
-var util = require('util');
-var object = plugin('services/object');
-var Controller = plugin('controllers/controller');
-var Entry = plugin('models/entry');
-var Factory = plugin('models/entry-factory');
-var View = plugin('views/view');
+var util        = require('util');
+var moment      = require('moment');
+var object      = plugin('services/object');
+var Controller  = plugin('controllers/controller');
+var Entry       = plugin('models/entry');
+var Factory     = plugin('models/entry-factory');
+var View        = plugin('views/view');
 
 function Entries() {
     Object.defineProperty(this, 'type', {
@@ -22,6 +23,10 @@ util.inherits(Entries, Controller);
 
 Entries.prototype.list = function() {
     var all = this.factory.all();
+    for (var id in all) {
+        all[id].createdFromNow  = moment(all[id].created).fromNow();
+        all[id].modifiedFromNow = moment(all[id].modified).fromNow();
+    }
     this.send('entries/list', {list: all});
 };
 

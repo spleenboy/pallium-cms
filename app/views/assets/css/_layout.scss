@@ -1,0 +1,36 @@
+div#layout {
+    margin: 0;
+    padding: 0;
+}
+
+nav.menu {
+    height: 100%;
+    max-width: 20%;
+    position: fixed;
+    background: $background-menu;
+    color: $foreground-light;
+}
+
+nav.menu li.pure-menu-selected {
+    background: $background;
+}
+
+nav.menu li.pure-menu-item a {
+    @include sweep-to-right();
+    display: block;
+}
+
+section.main {
+    margin-left: 24%;
+    padding: 20px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    border-top: 1px solid $line-dark;
+    background: $background-footer;
+}

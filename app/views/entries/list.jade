@@ -3,12 +3,27 @@ extends ../layout/site
 block main
     - var definition = entries.types[params.type]
     h1= definition.plural
-    h2= definition.description
+    blockquote= definition.description
 
     a.pure-button.pure-button-primary.button-add(href='create')
         | Add a New #{definition.name}
 
-    ul
-        each item in list
-            li
-                a.hvr-grow(href='edit/' + item.id)= item.title
+    hr
+
+    .fancy-list(data-list-value-names="title,created,modified")
+        .pure-form.search-form
+            input.search(placeholder='Search ' + definition.plural)
+            button.sort.pure-button.button-sort(data-sort='title') Sort by Title
+            button.sort.pure-button.button-sort(data-sort='created') Sort by Created
+            button.sort.pure-button.button-sort(data-sort='modified') Sort by Updated
+        
+        
+        ul.list
+            each item in list
+                li.item.button-edit
+                    .hidden.created= item.created
+                    .hidden.modified= item.modified
+                    a(href='edit/' + item.id)
+                        strong.title= item.title
+                        em Created #{item.createdFromNow}
+                        em Updated #{item.modifiedFromNow}

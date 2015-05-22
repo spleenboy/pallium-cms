@@ -4,12 +4,28 @@
     content: $content;
 }
 
+
+/** Animations **/
 .button-add {
     @include skew-forward();
 }
 
 .button-list, .button-back {
     @include skew-backward();
+}
+
+.button-edit {
+    @include grow();
+}
+
+.button-sort {
+    @include bob();
+}
+
+
+/** Icons **/
+.button-edit:before {
+    @include icon-button($fa-var-pencil);
 }
 
 .button-add:before {
@@ -22,4 +38,13 @@
 
 .button-list:before {
     @include icon-button($fa-var-list-alt);
+}
+
+.button-sort:before {
+    @include icon-button($fa-var-sort);
+}
+
+
+.list .item {
+    margin: 5px 0;
 }
