@@ -59,6 +59,8 @@ Entries.prototype.save = function() {
     // @todo: add validation
     var id = this.factory.save(entry);
 
+    this.request.flash('info', '"' + entry.getTitle() + '" saved!');
+
     if (id) {
         this.response.redirect('/entry/' + this.type + '/edit/' + id);
     } else {

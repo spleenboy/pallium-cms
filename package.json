@@ -26,7 +26,8 @@
     "session-file-store": "0.0.11",
     "js-yaml": "^3.3.1",
     "body-parser": "^1.12.4",
-    "moment": "^2.10.3"
+    "moment": "^2.10.3",
+    "connect-flash": "^0.1.1"
   },
   "napa": {},
   "devDependencies": {

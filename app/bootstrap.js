@@ -1,5 +1,6 @@
 var express = require('express');
 var session = require('express-session');
+var flash   = require('connect-flash');
 var bodyParser = require('body-parser');
 var FileStore = require('session-file-store')(session);
 
@@ -19,6 +20,8 @@ module.exports = function(app, args) {
         resave: false,
         saveUninitialized: true
     }));
+
+    app.use(flash());
 
     plugin('routes')(app);
 };

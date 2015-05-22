@@ -23,6 +23,7 @@ Controller.prototype.populate = function(data) {
     data.site    = data.site    || config.get('site');
     data.entries = data.entries || config.get('entry');
     data.params  = data.params  || this.request.params;
+    data.flash   = data.flash   || this.request.flash();
     return data;
 }
 
