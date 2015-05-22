@@ -2,13 +2,11 @@ extends ../layout/site
 
 block main
     - var definition = entries.types[params.type]
-    h1= definition.plural
-    blockquote= definition.description
-
-    a.pure-button.pure-button-primary.button-add(href='create')
-        | Add a New #{definition.name}
-
-    hr
+    .pure-g
+        .pure-u-2-5
+            h1= definition.plural
+        .pure-u-3-5
+            h3= definition.description
 
     .fancy-list(data-list-value-names="title,created,modified")
         .pure-form.search-form
@@ -17,6 +15,8 @@ block main
             button.sort.pure-button.button-sort(data-sort='created') Sort by Created
             button.sort.pure-button.button-sort(data-sort='modified') Sort by Updated
         
+        a.pure-button.pure-button-primary.button-add(href='create')
+            | Add a New #{definition.name}
         
         ul.list
             each item in list
