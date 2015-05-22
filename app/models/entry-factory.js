@@ -8,6 +8,7 @@ var config = plugin('config');
 var Entry  = plugin('models/entry');
 
 var delimiter = module.exports.delimiter = '---\n';
+var indexFile = '_index.yaml';
 
 function Factory(type) {
     this.type  = type;
@@ -16,7 +17,7 @@ function Factory(type) {
     this.output    = config.get('entry.output');
     this.directory = this.config('directory');
     this.root      = path.join(this.output, this.directory);
-    this.indexPath = path.join(this.root, 'index.yaml');
+    this.indexPath = path.join(this.root, indexFile);
 
     this.loadIndex();
 }

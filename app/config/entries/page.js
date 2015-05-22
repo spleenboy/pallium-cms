@@ -4,6 +4,9 @@ module.exports = {
     plural: 'Pages',
     description: 'A basic page',
     directory: 'pages',
+    subdirectory: function() {
+        return this.data('section').toLowerCase();
+    },
     title: function() {
         return this.data('title') || 'New Page';
     },
@@ -19,6 +22,17 @@ module.exports = {
             type         : 'datetime',
             name         : 'publishDate',
             label        : 'Publish Date',
+        },
+        {
+            type         : 'select',
+            name         : 'section',
+            label        : 'Section',
+            options      : {
+                'main': 'Main', 
+                'docs': 'Documentation', 
+                'hist': 'History'
+            },
+            defaultValue : 'Main'
         },
         {
             type         : 'md',
