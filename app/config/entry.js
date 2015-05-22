@@ -6,6 +6,7 @@ module.exports = {
     },
     types: {
         'page': plugin('config/entries/page'),
-        'note': plugin('config/entries/note')
+        'note': plugin('config/entries/note'),
+        'event': plugin('config/entries/event')
     },
 }
