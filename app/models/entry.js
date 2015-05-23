@@ -49,7 +49,7 @@ Entry.prototype.setFields = function(fieldConfigs) {
     for (var i=0; i<fieldConfigs.length; i++) {
         var field = Field.create(fieldConfigs[i]);
 
-        field.id        = [this.type, field.name].join('-');
+        field.id        = this.type + field.name;
         field.entryType = this.type;
         field.fieldName = this.type + '[' + field.name + ']';
 
