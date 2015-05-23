@@ -10,7 +10,6 @@ local: function(name) {
     try {
         return require(localName);
     } catch (e) {
-        console.info('No local configuration file found for', name);
         return null;
     }
 },
@@ -46,7 +45,7 @@ get: function(namespacedKey, context, args) {
     }
 
     if (value === undefined) {
-        console.info("Found nothing for configu key", namespacedKey);
+        console.info("Found nothing for config key", namespacedKey);
         return undefined;
     }
 

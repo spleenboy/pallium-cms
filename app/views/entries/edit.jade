@@ -4,8 +4,9 @@ block main
     - var definition = entries.types[params.type]
     h1 Edit #{definition.name}
 
-    a.pure-button.button-list(href='../list') All #{definition.plural}
-    a.pure-button.pure-button-primary.button-add(href='../create') Add New #{definition.name}
+    if definition.maximum !== 1
+        a.pure-button.button-list(href='../list') All #{definition.plural}
+        a.pure-button.pure-button-primary.button-add(href='../create') Add New #{definition.name}
 
     form.pure-form.pure-form-stacked(method='post')
         fieldset

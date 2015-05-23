@@ -21,6 +21,15 @@ function Entries() {
 util.inherits(Entries, Controller);
 
 
+Entries.prototype.redirect = function() {
+    var parts = Array.prototype.slice.call(arguments);
+    parts.unshift('entry', this.type);
+    var url = '/' + parts.join('/');
+    console.info("Redirecting to", url);
+    this.response.redirect(url); 
+};
+
+
 Entries.prototype.list = function() {
     var all = this.factory.all();
     var items = [];
@@ -30,9 +39,21 @@ Entries.prototype.list = function() {
         item.modifiedFromNow = moment(item.modified).fromNow();
         items.push(item);
     }
+
+    // Handle single entry types
+    if (this.factory.model.maximum === 1) {
+        var item = items.shift();
+        if (item) {
+            return this.redirect('edit', item.id);
+        } else {
+            return this.redirect('create');
+        }
+    }
+
     items.sort(function(a, b) {
         return b.modified - a.modified;
     });
+
     this.send('entries/list', {list: items});
 };
 
@@ -48,7 +69,7 @@ Entries.prototype.edit = function() {
     var id    = this.request.params.id;
     var entry = this.factory.get(id);
     if (!entry) {
-        console.error("Invalid entry id", id);
+        console.error("Can't edit. Invalid entry id", id);
         this.response.redirect('back');
     }
     entry.prerender();

@@ -5,7 +5,7 @@ module.exports = {
     description: 'A basic page',
     directory: 'pages',
     subdirectory: function() {
-        return this.data('section').toLowerCase();
+        return this.data('section');
     },
     title: function() {
         return this.data('title') || 'New Page';

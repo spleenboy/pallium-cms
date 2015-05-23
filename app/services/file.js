@@ -3,6 +3,26 @@ var path  = require('path');
 
 
 /**
+ * Creates a file-friendly slug version of a string
+**/
+module.exports.slug = function(value) {
+    return value.replace(/([^a-zA-Z0-9]+)/g, '-').toLowerCase();
+};
+
+
+module.exports.stats = function(filepath) {
+    try {
+        var stats = fs.statSync(filepath);
+        stats.filepath = filepath;
+        return stats;
+    } catch (e) {
+        console.info("File doesn't exist", filepath);
+        return false;
+    }
+};
+
+
+/**
  * Provides a flat array of the stats (including path)
  * for the files in the specified directory (and subdirectories)
 **/
@@ -16,7 +36,7 @@ module.exports.list = function(dir, flat) {
         for (var i=0; i<paths.length; i++) {
 
             var filepath = path.join(dir, paths[i]);
-            var stats    = fs.statSync(filepath);
+            var stats    = this.stats(filepath);
 
             if (!flat && stats.isDirectory()) {
                 items = items.concat(this.list(filepath, flat));

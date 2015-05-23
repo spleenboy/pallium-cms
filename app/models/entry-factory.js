@@ -16,7 +16,7 @@ function Factory(type) {
 
     this.output    = config.get('entry.output');
     this.directory = this.config('directory');
-    this.root      = path.join(this.output, this.directory);
+    this.root      = path.join(this.output, this.directory || '');
     this.indexPath = path.join(this.root, indexFile);
 
     this.loadIndex();
@@ -40,12 +40,46 @@ Factory.prototype.relativepath = function(fullpath) {
 
 
 Factory.prototype.loadIndex = function() {
+
+    if (this.model.maximum === 1) {
+        this.createSingleIndex();
+        return;
+    }
+
     var contents = file.read(this.indexPath);
+
     if (contents) {
-        this.index = yaml.safeLoad(contents) || {};
+        try {
+            this.index = yaml.safeLoad(contents);
+        } catch (e) {
+            console.error("Error reading contents of index", this.indexPath, e);
+            this.index = {};
+        }
     } else {
         this.createIndex();
     }
+};
+
+
+// Creates a pseudo-index for one entry, if it exists
+Factory.prototype.createSingleIndex = function() {
+
+    var filepath = this.model.getRelativePath();
+    var stats    = file.stats(this.fullpath(filepath));
+    var title    = this.model.getTitle();
+    this.id      = file.slug(title);
+
+    this.index = {};
+
+    this.index[this.id] = {
+        id       : this.id,
+        title    : title,
+        filepath : filepath,
+        modified : stats && stats.mtime,
+        created  : stats && stats.birthtime
+    };
+
+    console.info("Single index created", this.index, stats);
 };
 
 
@@ -71,6 +105,9 @@ Factory.prototype.createIndex = function() {
 
 
 Factory.prototype.saveIndex = function() {
+    if (this.model.maximum === 1) {
+        return false;
+    }
     var contents = yaml.safeDump(this.index);
     return file.write(this.indexPath, contents);
 };
@@ -83,6 +120,7 @@ Factory.prototype.all = function() {
 
 Factory.prototype.get = function(id) {
     var item = this.index[id];
+
     if (!item) {
         return false;
     }
@@ -115,15 +153,17 @@ Factory.prototype.save = function(entry) {
     var content = data.__content;
     delete(data.__content);
 
-    var frontMatter = yaml.dump(data);
+    if (data !== undefined) {
+        var frontMatter = yaml.dump(data);
 
-    if (frontMatter) {
-        content = delimiter + frontMatter + delimiter + content;
+        if (frontMatter) {
+            content = delimiter + frontMatter + delimiter + content;
+        }
     }
 
     var filepath = path.join(
         this.root, 
-        entry.getFilename()
+        entry.getRelativePath()
     );
 
     if (entry.id && entry.id in this.index) {

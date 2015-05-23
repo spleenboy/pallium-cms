@@ -1,4 +1,5 @@
 var path   = require('path');
+var file   = plugin('services/file');
 var config = plugin('config');
 var Field  = plugin('models/field');
 
@@ -11,39 +12,44 @@ Entry.extension = '.md';
 
 
 Entry.prototype.configure = function(type) {
-    this.type   = type;
-    this.config = config.get('entry.types.' + type, this);
+    this.type    = type;
+    this.basekey = 'entry.types.' + type;
+    var settings = config.get(this.basekey, this);
 
-    if (!this.config) {
-        return;
+    if (!settings) {
+        console.error("No configuration file for type", this.basekey);
+        throw new Error("No configuration");
     }
 
-    for (var key in this.config) {
-        if (key === 'fields') {
-            this.setFields(this.config.fields);
-        } else {
-            this[key] = this.config[key];
+    this.loadFields();
+
+    for (var key in settings) {
+        if (key !== 'fields') {
+            this[key] = this.get(key);
         }
     }
 };
 
 
-// Gets this entry's filename based on its config
-Entry.prototype.getFilename = function() {
-    var sub   = this.config['subdirectory'].call(this);
-    var title = this.config['title'].call(this);
-    var name  = title.replace(/([^a-zA-Z0-9]+)/g, '-') + Entry.extension;
-    return path.join(sub, name);
+// Gets the configuration setting for the specified key
+Entry.prototype.get = function(key) {
+    var fullkey = this.basekey + '.' + key;
+    var value = config.get(fullkey, this);
+    if (value === undefined) {
+        console.error("Could not find value for key", fullkey);
+    }
+    return value;
 };
 
 
-// Gets this entry's title based on its config
-Entry.prototype.getTitle = function() {
-    return this.config['title'].call(this);
-};
+Entry.prototype.loadFields = function() {
+    var fieldConfigs = this.get('fields');
 
+    if (!fieldConfigs) {
+        console.error("No field configuration for type", this.basekey);
+        throw new Error("No fields in configuration");
+    }
 
-Entry.prototype.setFields = function(fieldConfigs) {
     this.fields = {};
 
     for (var i=0; i<fieldConfigs.length; i++) {
@@ -55,6 +61,33 @@ Entry.prototype.setFields = function(fieldConfigs) {
 
         this.fields[field.name] = field;
     }
+};
+
+
+// Gets the relative path from this entrys directory, based on its config
+Entry.prototype.getRelativePath = function() {
+
+    var title = this.getTitle();
+
+    if (!title) {
+        console.error("Config for entry type is missing a title key", this.type);
+        throw new Error("Configuration file missing title key");
+    }
+
+    var name = file.slug(title) + Entry.extension;
+    var sub  = this.get('subdirectory');
+
+    if (sub === undefined) {
+        return name;
+    }
+
+    return path.join(sub, name);
+};
+
+
+// Gets this entry's title based on its config
+Entry.prototype.getTitle = function() {
+    return this.get('title');
 };
 
 
@@ -83,6 +116,11 @@ Entry.prototype.data = function(name, value) {
             values[key] = this.fields[key].value;
         }
         return values;
+    }
+
+    if (!this.fields) {
+        console.error("Fields array is missing!", this);
+        throw new Error("Entry not configured. Fields are missing.");
     }
 
     if (!this.fields[name]) {
