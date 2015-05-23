@@ -1,7 +1,7 @@
 module.exports = {
     type: 'page',
     name: 'Page',
-    plural: 'Pages',
+    plural: 'Other Pages',
     description: 'A basic page',
     directory: 'pages',
     subdirectory: function() {
