@@ -1,7 +1,5 @@
 .sass-cache
 node_modules
-config/*.js
-public/*
 sessions/*
 
 # Elastic Beanstalk Files
