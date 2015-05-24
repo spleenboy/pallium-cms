@@ -55,7 +55,7 @@ Entry.prototype.loadFields = function() {
     for (var i=0; i<fieldConfigs.length; i++) {
         var field = Field.create(fieldConfigs[i]);
 
-        field.id        = this.type + field.name;
+        field.id        = file.slug(this.type + '-' + field.name);
         field.entryType = this.type;
         field.fieldName = this.type + '[' + field.name + ']';
 
@@ -88,6 +88,12 @@ Entry.prototype.getRelativePath = function() {
 // Gets this entry's title based on its config
 Entry.prototype.getTitle = function() {
     return this.get('title');
+};
+
+
+// Gets this entry's subtitle based on its config
+Entry.prototype.getSubtitle = function() {
+    return this.get('subtitle');
 };
 
 

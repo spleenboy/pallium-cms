@@ -1,7 +1,7 @@
 - var previewId = 'md-preview-' + field.id
-label(for=field.id) #{field.label}
+label.md-label(for=field.id) #{field.label}
 
-.pure-g
+.pure-g.md-wrapper
     .pure-u-1-2
         textarea.md-editor(id=field.id, name=field.fieldName, data-md-preview=previewId)= field.value
     .pure-u-1-2

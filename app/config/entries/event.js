@@ -16,7 +16,7 @@ module.exports = {
             type         : 'text',
             name         : 'title',
             label        : 'Title',
-            validation   : ['required'],
+            attributes   : {autofocus: true, required: true},
             defaultValue : 'New Event'
         },
         {
@@ -32,8 +32,8 @@ module.exports = {
         {
             type         : 'datetime',
             name         : 'startDate',
-            label        : 'Start Date',
-            validation   : ['required']
+            label        : 'Start Date'
+            attributes   : {required: true},
         },
         {
             type         : 'datetime',
@@ -43,8 +43,7 @@ module.exports = {
         {
             type         : 'md',
             name         : '__content',
-            label        : 'Content',
-            validation   : ['required']
+            label        : 'Content'
         }
     ]
 };

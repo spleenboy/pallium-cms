@@ -1,3 +1,8 @@
 mixin input(inputType)
-    label(for=field.id) #{field.label}
-    input(id=field.id, name=field.fieldName, value=field.value, type=inputType, field.required)
+    - var fieldPlaceholder = field.placeholder || field.label || '';
+    - var fieldAttributes = {};
+    if field.attributes
+        - fieldAttributes = field.attributes
+
+    label(for=field.id, class=inputType + '-label') #{field.label}
+    input(id=field.id, name=field.fieldName, placeholder=fieldPlaceholder, value=field.value, type=inputType)&attributes(fieldAttributes)

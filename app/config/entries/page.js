@@ -15,7 +15,7 @@ module.exports = {
             type         : 'text',
             name         : 'title',
             label        : 'Title',
-            validation   : ['required'],
+            attributes   : {autofocus: true, required: true},
             defaultValue : 'New Page'
         },
         {
@@ -37,8 +37,7 @@ module.exports = {
         {
             type         : 'md',
             name         : '__content',
-            label        : 'Content',
-            validation   : ['required']
+            label        : 'Content'
         }
     ]
 };

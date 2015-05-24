@@ -1,0 +1,5 @@
+@mixin icon-button($content) {
+    font-family: 'FontAwesome';
+    margin-right: 10px;
+    content: $content;
+}

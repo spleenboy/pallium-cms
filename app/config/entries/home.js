@@ -9,7 +9,7 @@ module.exports = {
             type         : 'text',
             name         : 'heading',
             label        : 'Heading',
-            validation   : ['required'],
+            attributes   : {autofocus: true, required: true},
             defaultValue : 'Welcome'
         },
         {

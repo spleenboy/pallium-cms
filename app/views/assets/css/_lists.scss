@@ -32,4 +32,9 @@
     em {
         display: block;
     }
+
+    em.subtitle {
+        color: $foreground-bold;
+        font-size: 1.2em;
+    }
 }

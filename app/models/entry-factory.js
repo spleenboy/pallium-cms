@@ -195,6 +195,7 @@ Factory.prototype.save = function(entry) {
         this.index[id] = {
             id       : id,
             title    : entry.getTitle(),
+            subtitle : entry.getSubtitle(),
             filepath : this.relativepath(filepath),
             created  : entry.created || new Date(),
             modified : new Date()
