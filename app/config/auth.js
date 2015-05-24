@@ -4,7 +4,7 @@ module.exports = {
         clientID: 'your-client-id',
         clientSecret: 'your-client-secret'
     },
-    allow: function(user) {
-        return true;
+    allow: function() {
+        return false;
     },
 };
