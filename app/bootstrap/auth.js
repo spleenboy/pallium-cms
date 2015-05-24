@@ -6,17 +6,31 @@ var config = plugin('config');
 var unprotected = ['/login', '/auth', '/verified', '/logout'];
 
 function protection(req, res, next) {
-    if (req.user || unprotected.indexOf(req.path) >= 0) {
+
+    // Safe urls
+    if (unprotected.indexOf(req.path) >= 0) {
         return next();
     }
-    console.warn("Unauthorized URL requested", req.originalUrl);
+
+    // Not logged in!
+    if (!req.user) {
+        return res.redirect('/login');
+    }
+
+    var allowed = config.get('auth.allow', req.user);
+    if (allowed === true || allowed === undefined) {
+        // config-approved!
+        return next();
+    }
+
+    console.warn("Unauthorized URL requested", req.user, req.originalUrl);
     return res.redirect('/login');
 }
 
 
 function makeStrategy() {
     var Strategy     = require('passport-auth0');
-    var authSettings = config.get('auth');
+    var authSettings = config.get('auth.settings');
     authSettings.callbackURL = '/verified';
 
     function verified(accessToken, refreshToken, extraParams, profile, done) {

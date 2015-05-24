@@ -1,5 +1,5 @@
 /** Animations **/
-.button-add {
+.button-add, .button-login, .button-logout {
     @include skew-forward();
 }
 
@@ -37,6 +37,13 @@
     @include icon-button($fa-var-sort);
 }
 
+.button-login:before {
+    @include icon-button($fa-var-sign-in);
+}
+
+.button-logout:before {
+    @include icon-button($fa-var-sign-out);
+}
 
 .list .item {
     margin: 5px 0;

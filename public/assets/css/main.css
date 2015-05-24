@@ -5932,6 +5932,9 @@ section.main {
   margin-left: 24%;
   padding: 20px 20px 80px 20px; }
 
+.header {
+  float: right; }
+
 footer {
   position: fixed;
   bottom: 0;
@@ -5942,7 +5945,7 @@ footer {
   background: rgba(55, 55, 33, 0.46); }
 
 /** Animations **/
-.button-add {
+.button-add, .button-login, .button-logout {
   display: inline-block;
   vertical-align: middle;
   -webkit-transform: translateZ(0);
@@ -5957,7 +5960,7 @@ footer {
   transition-property: transform;
   -webkit-transform-origin: 0 100%;
   transform-origin: 0 100%; }
-  .button-add:hover, .button-add:focus, .button-add:active {
+  .button-add:hover, .button-add:focus, .button-add:active, .button-login:hover, .button-login:focus, .button-login:active, .button-logout:hover, .button-logout:focus, .button-logout:active {
     -webkit-transform: skew(-10deg);
     transform: skew(-10deg); }
 
@@ -6047,6 +6050,16 @@ footer {
   font-family: 'FontAwesome';
   margin-right: 10px;
   content: ""; }
+
+.button-login:before {
+  font-family: 'FontAwesome';
+  margin-right: 10px;
+  content: ""; }
+
+.button-logout:before {
+  font-family: 'FontAwesome';
+  margin-right: 10px;
+  content: ""; }
 
 .list .item {
   margin: 5px 0; }
