@@ -13,7 +13,7 @@ module.exports = function(app, args) {
             return require(overrides[name]);
         }
 
-        var local = path.join(__dirname, name);
-        return require(local);
+        var appModule = path.join(process.cwd(), 'app', name);
+        return require(appModule);
     }
 };

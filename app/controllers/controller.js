@@ -1,7 +1,11 @@
 var config = plugin('config');
 var View = plugin('views/view');
 
-function Controller() {};
+function Controller(req, res, next) {
+    this.request  = req;
+    this.response = res;
+    this.next     = next;
+};
 
 
 /**
@@ -24,6 +28,7 @@ Controller.prototype.populate = function(data) {
     data.entries = data.entries || config.get('entry');
     data.params  = data.params  || this.request.params;
     data.flash   = data.flash   || this.request.flash();
+    data.user    = data.user    || this.request.user;
     return data;
 }
 

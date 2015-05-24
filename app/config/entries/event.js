@@ -32,7 +32,7 @@ module.exports = {
         {
             type         : 'datetime',
             name         : 'startDate',
-            label        : 'Start Date'
+            label        : 'Start Date',
             attributes   : {required: true},
         },
         {
