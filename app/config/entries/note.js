@@ -20,7 +20,7 @@ module.exports = {
             defaultValue : 'New Note'
         },
         {
-            type         : 'datetime',
+            type         : 'date',
             name         : 'dateAdded',
             label        : 'Date Added',
             defaultValue : function() {return new Date();}
