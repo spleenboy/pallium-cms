@@ -1,13 +1,14 @@
 var fs = require('fs');
 var path = require('path');
+var file = plugin('services/file');
 var config = plugin('config');
 
 module.exports = function(app, args) {
-    var dir = config.get('site.pluginDirectory');
-
-    if (!fs.statSync(dir).isDirectory) {
+    var dir   = config.get('site.pluginDirectory');
+    var stats = file.stats(dir);
+    if (!stats || !stats.isDirectory) {
         console.error("Invalid plugin directory", dir);
-        throw new Error("Invalid plugin directory");
+        return;
     }
 
     var plugins = fs.readdirSync(dir);
