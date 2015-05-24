@@ -139,8 +139,10 @@ Entry.prototype.data = function(name, value) {
 Entry.prototype.prerender = function(data) {
     for (var key in this.fields) {
         var field = this.fields[key];
-        if (data) {
+        if (data && key in data) {
             field.value = data[key];
+        } else if (field.value === undefined) {
+            field.value = field.defaultValue;
         }
         field.html = field.render();
     }

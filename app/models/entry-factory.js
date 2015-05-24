@@ -46,6 +46,10 @@ Factory.prototype.loadIndex = function() {
         return;
     }
 
+    if (this.directory === undefined) {
+        console.warn("Missing directory for entry type that allows multiple entries. This can cause problems!", this.type);
+    }
+
     var contents = file.read(this.indexPath);
 
     if (contents) {
@@ -128,19 +132,27 @@ Factory.prototype.get = function(id) {
     var filepath = this.fullpath(item.filepath);
 
     try {
-        var data = front.loadFront(filepath);
-        if (!data) {
-            console.error("Error parsing file", filepath);
-            return false;
-        }
 
         var entry = new Entry(this.type);
         entry.id = id;
         entry.created  = item.created;
         entry.modified = item.modified;
 
-        entry.populate(data);
+        if (item.created || item.modified) {
+            var data = front.loadFront(filepath);
+
+            if (!data) {
+                console.error("Error parsing file", filepath);
+                return false;
+            }
+
+            entry.populate(data);
+        } else {
+            console.warn("Entry file not found. Skipping population", item);
+        }
+
         return entry;
+
     } catch (e) {
         console.error("Error loading file", filepath, e);
         return false;

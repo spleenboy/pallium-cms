@@ -14,11 +14,8 @@ Field.prototype.render = function() {
         console.trace("Invalid field", util.inspect(this));
         throw new TypeError("Field requires a type");
     }
-    if (this.value === undefined) {
-        this.value = this.defaultValue;
-    }
     this.required = 'required' in this.validators ? 'required' : '';
-    return View.render('fields/' + this.type, this);
+    return View.render('fields/' + this.type, {field: this});
 };
 
 

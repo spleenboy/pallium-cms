@@ -3,13 +3,16 @@ var path = require('path');
 module.exports = {
 
 /**
- *¬Loads the full local and default configuration settings.
+ * Loads the full local and default configuration settings.
 **/
 local: function(name) {
-    var localName = path.join(process.cwd(), 'config', name + '.local');
+    var localName = path.join(process.cwd(), 'config', name);
     try {
-        return require(localName);
+        var localConf = require(localName);
+        console.info("Using local configuration file", localName);
+        return localConf;
     } catch (e) {
+        console.info("No local configuration file found", localName, e);
         return null;
     }
 },
