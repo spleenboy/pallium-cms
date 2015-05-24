@@ -112,8 +112,13 @@ Factory.prototype.saveIndex = function() {
     if (this.model.maximum === 1) {
         return false;
     }
-    var contents = yaml.safeDump(this.index);
-    return file.write(this.indexPath, contents);
+    try {
+        var contents = yaml.safeDump(this.index);
+        return file.write(this.indexPath, contents);
+    } catch (e) {
+        console.error("Error saving index", this.index, this.indexPath, e);
+        throw e;
+    }
 };
 
 
@@ -166,10 +171,15 @@ Factory.prototype.save = function(entry) {
     delete(data.__content);
 
     if (data !== undefined) {
-        var frontMatter = yaml.dump(data);
+        try {
+            var frontMatter = yaml.safeDump(data);
 
-        if (frontMatter) {
-            content = delimiter + frontMatter + delimiter + content;
+            if (frontMatter) {
+                content = delimiter + frontMatter + delimiter + content;
+            }
+        } catch (e) {
+            console.error("Error dumping front matter for entry", entry.type, data);
+            throw e;
         }
     }
 

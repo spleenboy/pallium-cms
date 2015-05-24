@@ -93,7 +93,8 @@ Entry.prototype.getTitle = function() {
 
 // Gets this entry's subtitle based on its config
 Entry.prototype.getSubtitle = function() {
-    return this.get('subtitle');
+    var st = this.get('subtitle');
+    return st !== undefined ? st : '';
 };
 
 
