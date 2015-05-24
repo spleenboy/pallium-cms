@@ -3,7 +3,7 @@ var path    = require('path');
 
 // Parse command line arguments
 var args = require('minimist')(process.argv.slice(2)) || {};
-var port = args.port || 4000;
+var port = args.port || process.env.PORT || 4000;
 
 // Initialize the application
 var app = express();
