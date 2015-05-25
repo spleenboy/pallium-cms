@@ -36,15 +36,16 @@ get: function(namespacedKey, context, args) {
         throw new Error('Invalid configuration key');
     }
     var file = keys.shift();
+    var source = {};
 
     // Think locally first
-    var local = this.local(file);
-    var value = this.find(local, keys);
+    source = this.local(file);
+    var value = this.find(source, keys);
 
     // Now think globally
     if (value === undefined) {
-        var config = plugin(path.join('config', file));
-        value = this.find(config, keys);
+        source = plugin(path.join('config', file));
+        value = this.find(source, keys);
     }
 
     if (value === undefined) {
@@ -53,8 +54,9 @@ get: function(namespacedKey, context, args) {
     }
 
     if (typeof value === 'function') {
-        return value.apply(context || this, args || []);
+        return value.apply(context || source, args || []);
     }
+
     return value;
 },
 

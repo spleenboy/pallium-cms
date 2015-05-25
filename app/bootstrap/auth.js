@@ -27,33 +27,49 @@ function protection(req, res, next) {
     return res.redirect('/login');
 }
 
+function createStrategy() {
+    var name     = config.get('auth.name');
+    var settings = config.get('auth.settings');
+    settings.callbackURL = '/verified';
 
-function makeStrategy() {
-    var Strategy     = require('passport-auth0');
-    var authSettings = config.get('auth.settings');
-    authSettings.callbackURL = '/verified';
-
-    function verified(accessToken, refreshToken, extraParams, profile, done) {
-        console.info("Verification worked!", arguments);
-        return done(null, profile);
+    if (name === 'auth0') {
+        var Strategy = require('passport-auth0');
+        return new Strategy(settings,
+            function verified(access, refresh, extra, profile, done) {
+                return done(null, profile);
+            }
+        );
+    } else if (name === 'google') {
+        var Strategy = require('passport-google-oauth').OAuth2Strategy;
+        return new Strategy(settings,
+            function verified(access, refresh, profile, done) {
+                return done(null, profile);
+            }
+        );
     }
 
-    passport.serializeUser(function(user, done) {
-        done(null, user);
-    });
+    throw new Error("Invalid strategy");
+}
 
-    passport.deserializeUser(function(user, done) {
-        done(null, user);
-    });
 
-    return new Strategy(authSettings, verified);
+function getAuthenticate() {
+    var name = config.get('auth.name');
+
+    if (name === 'google') {
+        return passport.authenticate(name, {scope: config.get('auth.scope')});
+    }
+
+    return passport.authenticate(name);
 }
 
 
 module.exports = function(app) {
-    var strategy = makeStrategy();
+    var strategy = createStrategy();
 
     passport.use(strategy);
+    passport.serializeUser(function(user, done) {done(null, user);});
+    passport.deserializeUser(function(user, done) {done(null, user);});
+
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -66,7 +82,7 @@ module.exports = function(app) {
     }); 
 
     // Triggers authentication by redirecting
-    app.get('/auth', passport.authenticate(strategy.name));
+    app.get('/auth', getAuthenticate());
 
     // The callback URL after auth verification
     app.get('/verified', 
