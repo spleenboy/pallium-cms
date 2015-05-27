@@ -11,4 +11,6 @@ module.exports = function(app, args) {
     }));
 
     app.use(flash());
+
+    console.info("Using express-session, session-file-store, and connect-flash");
 };

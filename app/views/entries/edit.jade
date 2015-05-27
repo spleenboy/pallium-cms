@@ -8,11 +8,5 @@ block main
         a.pure-button.button-list(href='../list') All #{definition.plural}
         a.pure-button.pure-button-primary.button-add(href='../create') Add New #{definition.name}
 
-    form.pure-form.pure-form-stacked(method='post')
-        fieldset
-            each field in entry.fields
-                | !{field.html}
-
-            hr
-
-            button.pure-button.pure-button-primary(type='submit') Save Changes to #{definition.name}
+    include entry-form
+    +entry-form('Save Changes to ' + definition.name)

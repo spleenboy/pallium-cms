@@ -1,0 +1,9 @@
+mixin entry-form(btnText)
+    form.pure-form.pure-form-stacked(method='post')
+        fieldset
+            each field in entry.fields
+                | !{field.html}
+
+            hr
+
+            button.pure-button.pure-button-primary.button-add(type='submit')= btnText

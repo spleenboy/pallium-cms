@@ -37,7 +37,7 @@ Field.create = function(settings) {
     }, settings);
 
     if (settings.source) {
-        field = require(settings.source);
+        field = new plugin(settings.source)();
     } else {
         field = new Field();
     }

@@ -75,6 +75,8 @@ module.exports = function(app) {
 
     app.use(protection);
 
+    console.info("Using", strategy.name, "auth strategy");
+
     // Displays the login page
     app.get('/login', function(req, res, next) {
         var ctrl = new Controller(req, res, next);

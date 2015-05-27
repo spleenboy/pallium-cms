@@ -7,11 +7,5 @@ block main
     if definition.maximum !== 1
         a.pure-button.button-list(href='list') All #{definition.plural}
 
-    form.pure-form.pure-form-stacked(method='post')
-        fieldset
-            each field in entry.fields
-                | !{field.html}
-
-            hr
-
-            button.pure-button.pure-button-primary.button-add(type='submit') Create #{definition.name}
+    include entry-form
+    +entry-form('Create ' + definition.name)

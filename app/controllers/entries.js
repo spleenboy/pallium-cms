@@ -78,12 +78,13 @@ Entries.prototype.edit = function() {
 
 
 Entries.prototype.save = function() {
-    var posted  = this.request.body[this.type];
-    var id      = this.request.params.id;
-    var entry   = id ? this.factory.get(id) : new Entry(this.type);
+    var posted = this.request.body[this.type];
+    var id     = this.request.params.id;
+    var entry  = id ? this.factory.get(id) : new Entry(this.type);
+
+    console.info("Populating with posted data", posted);
     entry.populate(posted);
 
-    // @todo: add validation
     var id = this.factory.save(entry);
 
     this.request.flash('info', '"' + entry.getTitle() + '" saved!');
