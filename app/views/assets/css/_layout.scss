@@ -7,15 +7,11 @@ nav.menu {
     height: 100%;
     width: 10%;
     position: fixed;
-    background: $background-menu;
+    z-index: 1000;
     color: $foreground-light;
+    @include linear-gradient(to right, $background-menu, 100%, $line-dark, 0%);
     @include prefixed(transition-duration, $mediumDuration);
     @include prefixed(transition-property, "width");
-
-    &:hover {
-        width: 20%;
-        z-index: 1000;
-    }
 }
 
 nav.menu li.pure-menu-selected {
@@ -41,7 +37,8 @@ footer {
     bottom: 0;
     width: 100%;
     text-align: center;
-    height: 50px;
+    height: 40px;
+    padding-top: 15px;
     border-top: 1px solid $line-dark;
-    background: $background-footer;
+    @include linear-gradient(to top, $background-footer, 100%, $line-dark, 0%);
 }

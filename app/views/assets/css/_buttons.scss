@@ -1,3 +1,9 @@
+.pure-button {
+  padding: 15px 25px;
+  margin: 2px;
+  border-radius: 1px;
+}
+
 /** Animations **/
 .button-add, .button-login, .button-logout, .button-save {
     @include skew-forward();
@@ -35,6 +41,7 @@
 
 .button-delete {
     background-color: $background-warning;
+    color: $foreground-callout;
     &:before {
         @include icon-button($fa-var-trash);
     }

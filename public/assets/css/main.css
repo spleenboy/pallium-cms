@@ -5808,6 +5808,19 @@ body {
 h1, h2, h3, h4, h5 {
   font-family: "heading", "sans-serif"; }
 
+.entry-form fieldset {
+  width: 100%;
+  margin: 10px 10px 10px -50%;
+  padding: 20px 20px 20px 50%;
+  background-color: rgba(220, 220, 220, 0.5);
+  background-image: -webkit-linear-gradient(top, rgba(220, 220, 220, 0.5), 100%, #191919, 0%);
+  background-image: linear-gradient(to bottom,rgba(220, 220, 220, 0.5), 100%, #191919, 0%);
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: 1px solid #f0f0f0; }
+  .entry-form fieldset .pure-button {
+    background-color: white; }
+
 .md-wrapper {
   height: auto; }
   .md-wrapper .CodeMirror {
@@ -5875,15 +5888,15 @@ nav.menu {
   height: 100%;
   width: 10%;
   position: fixed;
-  background: rgba(35, 142, 81, 0.5);
+  z-index: 1000;
   color: #636363;
+  background-color: rgba(35, 142, 81, 0.5);
+  background-image: -webkit-linear-gradient(left, rgba(35, 142, 81, 0.5), 100%, #191919, 0%);
+  background-image: linear-gradient(to right,rgba(35, 142, 81, 0.5), 100%, #191919, 0%);
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
   -webkit-transition-property: width;
   transition-property: width; }
-  nav.menu:hover {
-    width: 20%;
-    z-index: 1000; }
 
 nav.menu li.pure-menu-selected {
   background: white; }
@@ -5940,9 +5953,17 @@ footer {
   bottom: 0;
   width: 100%;
   text-align: center;
-  height: 50px;
+  height: 40px;
+  padding-top: 15px;
   border-top: 1px solid #191919;
-  background: rgba(55, 55, 33, 0.46); }
+  background-color: rgba(55, 55, 33, 0.46);
+  background-image: -webkit-linear-gradient(bottom, rgba(55, 55, 33, 0.46), 100%, #191919, 0%);
+  background-image: linear-gradient(to top,rgba(55, 55, 33, 0.46), 100%, #191919, 0%); }
+
+.pure-button {
+  padding: 15px 25px;
+  margin: 2px;
+  border-radius: 1px; }
 
 /** Animations **/
 .button-add, .button-login, .button-logout, .button-save {
@@ -6047,7 +6068,8 @@ footer {
   content: ""; }
 
 .button-delete {
-  background-color: #ff5e5e; }
+  background-color: #ff5e5e;
+  color: white; }
   .button-delete:before {
     font-family: 'FontAwesome';
     margin-right: 10px;
