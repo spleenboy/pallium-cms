@@ -4,18 +4,22 @@ html(lang="en")
         title= site.title
         block styles
             link(rel='stylesheet', href='/assets/css/pure-min.css')
+            link(rel='stylesheet', href='/assets/css/grids-responsive-min.css')
             link(rel='stylesheet', href='/assets/css/catdown.css')
             link(rel='stylesheet', href='/assets/css/main.css')
     body
         #layout
-            nav.menu.pure-menu
-                block menu 
-                    include menu
-            section.main
-                include header
-                include flash
-                block main
-                    p Main
+            .pure-g
+                section.menu.pure-u-1-8
+                    block menu 
+                        include menu
+                section.main.pure-u-3-4
+                    include header
+                    .content
+                        include flash
+                        block main
+                section.sidebar.pure-u-1-8
+                    include sidebar
             footer
                 block footer
                     include footer

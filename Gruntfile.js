@@ -47,7 +47,8 @@ config.copy = {
             src: [
                 'app/views/assets/css/*.css',
                 'node_modules/catdown/styles/dist/catdown.css',
-                'node_modules/purecss/build/pure-min.css'
+                'node_modules/purecss/build/pure-min.css',
+                'node_modules/purecss/build/grids-responsive-min.css'
             ],
             dest: 'public/assets/css/',
             filter: 'isFile'

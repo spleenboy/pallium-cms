@@ -1,12 +1,16 @@
+body, html, div#layout, .pure-g {
+    height: 100%;
+}
+
 div#layout {
     margin: 0;
     padding: 0;
 }
 
-nav.menu {
+section.menu {
     height: 100%;
-    width: 10%;
-    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 1000;
     color: $foreground-light;
     @include linear-gradient(to right, $background-menu, 100%, $line-dark, 0%);
@@ -14,18 +18,29 @@ nav.menu {
     @include prefixed(transition-property, "width");
 }
 
-nav.menu li.pure-menu-selected {
+nav li.pure-menu-selected {
     background: $background;
 }
 
-nav.menu li.pure-menu-item a {
+nav li.pure-menu-item a {
     @include sweep-to-right();
     display: block;
 }
 
-section.main {
-    margin-left: 24%;
-    padding: 20px 20px 80px 20px;
+section.main .content {
+    padding: 0 40px;
+}
+
+section.sidebar {
+    height: 100%;
+    right: 0;
+    top: 0;
+    @include linear-gradient(to left, $background-sidebar, 100%, $line-dark, 0%);
+
+    .pure-button {
+        width: 100%;
+        background-color: $background-sidebar;
+    }
 }
 
 .header {
