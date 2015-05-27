@@ -7,7 +7,7 @@
     @include skew-backward();
 }
 
-.button-edit {
+.button-edit, .button-view {
     @include grow();
 }
 
@@ -19,6 +19,10 @@
 /** Icons **/
 .button-edit:before {
     @include icon-button($fa-var-pencil);
+}
+
+.button-view:before {
+    @include icon-button($fa-var-eye);
 }
 
 .button-add:before {

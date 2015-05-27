@@ -22,17 +22,18 @@ module.exports = {
             attributes   : {autofocus: true, required: true}
         },
         {
+            type         : 'md',
+            name         : '__content',
+            label        : 'Content',
+            full         : true,
+        },
+        {
             type         : 'date',
             name         : 'dateAdded',
             label        : 'Date Added',
             defaultValue : function() {
                 return moment().format('YYYY-MM-DD');
             }
-        },
-        {
-            type         : 'md',
-            name         : '__content',
-            label        : 'Content'
         }
     ]
 };

@@ -5983,7 +5983,7 @@ footer {
     -webkit-transform: skew(10deg);
     transform: skew(10deg); }
 
-.button-edit {
+.button-edit, .button-view {
   display: inline-block;
   vertical-align: middle;
   -webkit-transform: translateZ(0);
@@ -5996,7 +5996,7 @@ footer {
   transition-duration: 0.3s;
   -webkit-transition-property: transform;
   transition-property: transform; }
-  .button-edit:hover, .button-edit:focus, .button-edit:active {
+  .button-edit:hover, .button-edit:focus, .button-edit:active, .button-view:hover, .button-view:focus, .button-view:active {
     -webkit-transform: scale(1.1);
     transform: scale(1.1); }
 
@@ -6030,6 +6030,11 @@ footer {
   font-family: 'FontAwesome';
   margin-right: 10px;
   content: ""; }
+
+.button-view:before {
+  font-family: 'FontAwesome';
+  margin-right: 10px;
+  content: ""; }
 
 .button-add:before {
   font-family: 'FontAwesome';
