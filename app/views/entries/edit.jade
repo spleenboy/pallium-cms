@@ -10,3 +10,6 @@ block main
 
     include entry-form
     +entry-form('Save Changes to ' + definition.name)
+
+    form(method='post', action='../delete/#{entry.id}')
+        button.pure-button.button-delete(type='submit', onclick='return confirm("Are you sure?");') Delete #{definition.name}

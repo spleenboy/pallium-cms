@@ -1,9 +1,9 @@
 /** Animations **/
-.button-add, .button-login, .button-logout {
+.button-add, .button-login, .button-logout, .button-save {
     @include skew-forward();
 }
 
-.button-list, .button-back {
+.button-list, .button-back, .button-delete {
     @include skew-backward();
 }
 
@@ -27,6 +27,17 @@
 
 .button-add:before {
     @include icon-button($fa-var-plus);
+}
+
+.button-save:before {
+    @include icon-button($fa-var-floppy-o);
+}
+
+.button-delete {
+    background-color: $background-warning;
+    &:before {
+        @include icon-button($fa-var-trash);
+    }
 }
 
 .button-back:before {

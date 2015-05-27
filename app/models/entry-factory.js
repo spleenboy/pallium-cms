@@ -237,7 +237,11 @@ Factory.prototype.delete = function(id) {
     var filepath = this.fullpath(item.filepath);
     if (file.delete(filepath)) {
         delete this.index[id];
-        return this.saveIndex();
+        if (this.saveIndex()) {
+            return item;
+        } else {
+            return false;
+        }
     }
 
     return false;
