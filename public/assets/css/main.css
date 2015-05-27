@@ -6057,10 +6057,13 @@ footer {
   margin-right: 10px;
   content: ""; }
 
-.button-add:before {
-  font-family: 'FontAwesome';
-  margin-right: 10px;
-  content: ""; }
+.button-add {
+  background-color: #238e51;
+  color: white; }
+  .button-add:before {
+    font-family: 'FontAwesome';
+    margin-right: 10px;
+    content: ""; }
 
 .button-save:before {
   font-family: 'FontAwesome';

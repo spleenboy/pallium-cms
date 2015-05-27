@@ -31,8 +31,12 @@
     @include icon-button($fa-var-eye);
 }
 
-.button-add:before {
-    @include icon-button($fa-var-plus);
+.button-add {
+    background-color: $background-callout;
+    color: $foreground-callout;
+    &:before {
+        @include icon-button($fa-var-plus);
+    }
 }
 
 .button-save:before {

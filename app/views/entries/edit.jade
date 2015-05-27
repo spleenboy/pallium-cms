@@ -6,7 +6,7 @@ block main
 
     if definition.maximum !== 1
         a.pure-button.button-list(href='../list') All #{definition.plural}
-        a.pure-button.pure-button-primary.button-add(href='../create') Add New #{definition.name}
+        a.pure-button.button-add(href='../create') Add New #{definition.name}
 
     form.pull-right(method='post', action='../delete/#{entry.id}')
         button.pure-button.button-delete(type='submit', onclick='return confirm("Are you sure?");') Delete #{definition.name}
