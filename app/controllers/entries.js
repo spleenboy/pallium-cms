@@ -1,6 +1,6 @@
 var util        = require('util');
 var moment      = require('moment');
-var object      = plugin('services/object');
+var object      = plugin('util/object');
 var Controller  = plugin('controllers/controller');
 var Entry       = plugin('models/entry');
 var Factory     = plugin('models/entry-factory');
@@ -59,7 +59,7 @@ Entries.prototype.list = function() {
 
 
 Entries.prototype.create = function() {
-    var entry = new Entry(this.type);
+    var entry = this.factory.create();
     entry.prerender();
     this.send('entries/create', {entry: entry});
 };

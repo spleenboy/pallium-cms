@@ -34,6 +34,9 @@ Entry.prototype.configure = function(type) {
 // Gets the configuration setting for the specified key
 Entry.prototype.get = function(key) {
     var fullkey = this.basekey + '.' + key;
+    for (var i=1; i<arguments.length; i++) {
+        fullkey += '.' + arguments[i];
+    }
     var value = config.get(fullkey, this);
     if (value === undefined) {
         console.error("Could not find value for key", fullkey);
@@ -105,6 +108,13 @@ Entry.prototype.populate = function(data) {
     for (var key in this.fields) {
         if (key in data) {
             this.fields[key].value = data[key];
+        } else {
+            var defaultValue = this.fields[key].defaultValue;
+            if (typeof defaultValue === 'function') {
+                this.fields[key].value = defaultValue.call(this);
+            } else {
+                this.fields[key].value = defaultValue;
+            }
         }
     }
 };

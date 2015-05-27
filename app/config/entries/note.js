@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 module.exports = {
     type: 'note',
     name: 'Note',
@@ -5,8 +7,8 @@ module.exports = {
     description: 'A note about something',
     directory: 'notes',
     subdirectory: function() {
-        var date = new Date(this.data('dateAdded')) || new Date();
-        return [date.getYear(), date.getMonth()].join('/');
+        var date = moment(this.data('dateAdded'));
+        return date.format('YYYY/MM');
     },
     title: function() {
         return this.data('title') || 'New Note';
@@ -16,14 +18,16 @@ module.exports = {
             type         : 'text',
             name         : 'title',
             label        : 'Title',
-            attributes   : {autofocus: true, required: true},
-            defaultValue : 'New Note'
+            placeholder  : 'Enter title',
+            attributes   : {autofocus: true, required: true}
         },
         {
             type         : 'date',
             name         : 'dateAdded',
             label        : 'Date Added',
-            defaultValue : function() {return new Date();}
+            defaultValue : function() {
+                return moment().format('YYYY-MM-DD');
+            }
         },
         {
             type         : 'md',

@@ -1,5 +1,5 @@
 var util   = require('util');
-var object = plugin('services/object');
+var object = plugin('util/object');
 var View   = plugin('views/view');
 
 function Field() {

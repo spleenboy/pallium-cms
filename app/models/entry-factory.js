@@ -2,8 +2,8 @@ var front  = require('yaml-front-matter');
 var yaml   = require('js-yaml');
 var path   = require('path');
 var file   = plugin('services/file');
-var object = plugin('services/object');
-var random = plugin('services/random');
+var object = plugin('util/object');
+var random = plugin('util/random');
 var config = plugin('config');
 var Entry  = plugin('models/entry');
 
@@ -124,6 +124,16 @@ Factory.prototype.saveIndex = function() {
 
 Factory.prototype.all = function() {
     return this.index;
+};
+
+
+Factory.prototype.create = function() {
+    var entry = new Entry(this.type);
+    entry.id       = null;
+    entry.created  = new Date();
+    entry.modified = new Date();
+    entry.populate({});
+    return entry;
 };
 
 
