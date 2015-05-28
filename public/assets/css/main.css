@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* Buttons */
 /* Used for hover.css */
 /*!
  * Hover.css (http://ianlunn.github.io/Hover/)
@@ -5802,6 +5803,12 @@
 @font-face {
   font-family: 'heading';
   src: url("../fonts/Exo-Bold.otf"); }
+html, button, input, select, textarea, .pure-g [class*="pure-u"] {
+  font-family: "paragraph", "sans-serif"; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "heading", "sans-serif"; }
+
 body {
   font-family: "paragraph", "sans-serif"; }
 
@@ -5819,7 +5826,7 @@ h1, h2, h3, h4, h5 {
   border-top-right-radius: 4px;
   border-bottom: 1px solid #f0f0f0; }
   .entry-form fieldset .pure-button {
-    background-color: white; }
+    background-color: #838383; }
 
 .md-wrapper {
   height: auto; }
@@ -5849,8 +5856,11 @@ h1, h2, h3, h4, h5 {
 input {
   width: 100%; }
 
-input[type='time'], input[type='date'], input[type='datetime'], input[type='month'], input[type='number'], input[type='tel'], input[type='search'] {
+input[type='time'], input[type='date'], input[type='datetime'], input[type='month'], input[type='number'], input[type='tel'], input[type='search'], input[type='checkbox'] {
   width: auto; }
+
+input[type='checkbox'] {
+  margin-right: 0.5em; }
 
 .pure-form-stacked label {
   margin-top: 12px; }
@@ -5960,6 +5970,53 @@ section.sidebar {
 
 .header {
   float: right; }
+
+.entry-type {
+  display: table;
+  width: 100%; }
+  .entry-type .title {
+    display: table-cell;
+    float: left;
+    font-family: "heading", "sans-serif";
+    font-size: 34px;
+    font-weight: bold; }
+  .entry-type .description {
+    display: table-cell;
+    float: right;
+    padding: 20px;
+    color: #838383;
+    background-color: #d2e4e5;
+    background-image: -webkit-linear-gradient(top, #d2e4e5, 100%, #191919, 0%);
+    background-image: linear-gradient(to bottom,#d2e4e5, 100%, #191919, 0%);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px; }
+    .entry-type .description:hover {
+      display: inline-block;
+      vertical-align: middle;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      box-shadow: 0 0 1px transparent;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative; }
+      .entry-type .description:hover:before {
+        pointer-events: none;
+        position: absolute;
+        z-index: -1;
+        content: '';
+        border-style: solid;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+        -webkit-transition-property: transform;
+        transition-property: transform;
+        top: calc(50% - 10px);
+        left: 0;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent rgba(190, 170, 170, 0.8) transparent transparent; }
+      .entry-type .description:hover:hover:before, .entry-type .description:hover:focus:before, .entry-type .description:hover:active:before {
+        -webkit-transform: translateX(-10px);
+        transform: translateX(-10px); }
 
 footer {
   position: fixed;
@@ -6110,7 +6167,7 @@ footer {
   content: ""; }
 
 .button-add {
-  background-color: #238e51;
+  background-color: #8894D0;
   color: white; }
   .button-add:before {
     font-family: 'FontAwesome';
@@ -6140,10 +6197,13 @@ footer {
   margin-right: 10px;
   content: ""; }
 
-.button-sort:before {
-  font-family: 'FontAwesome';
-  margin-right: 10px;
-  content: ""; }
+.button-sort {
+  padding-top: 9px;
+  padding-bottom: 9px; }
+  .button-sort:before {
+    font-family: 'FontAwesome';
+    margin-right: 10px;
+    content: ""; }
 
 .button-login:before {
   font-family: 'FontAwesome';
@@ -6172,6 +6232,7 @@ footer {
   background: rgba(220, 220, 220, 0.5);
   padding: 10px;
   margin: 10px;
+  width: 30%;
   float: left; }
   .list .item a {
     color: black;

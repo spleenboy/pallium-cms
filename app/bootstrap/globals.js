@@ -10,6 +10,7 @@ module.exports = function(app, args) {
     // for the require statement.
     global.plugin = function(name) {
         if (name in overrides) {
+            console.info('Using override', overrides[name], 'for', name);
             return require(overrides[name]);
         }
 

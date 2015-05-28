@@ -1,7 +1,7 @@
 var path   = require('path');
 var file   = plugin('services/file');
 var config = plugin('config');
-var Field  = plugin('models/field');
+var fieldFactory = plugin('models/fields/field-factory');
 
 function Entry(type) {
     this.configure(type);
@@ -56,7 +56,7 @@ Entry.prototype.loadFields = function() {
     this.fields = {};
 
     for (var i=0; i<fieldConfigs.length; i++) {
-        var field = Field.create(fieldConfigs[i]);
+        var field = fieldFactory.create(fieldConfigs[i]);
 
         field.id        = file.slug(this.type + '-' + field.name);
         field.entryType = this.type;

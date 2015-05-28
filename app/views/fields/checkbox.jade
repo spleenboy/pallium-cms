@@ -1,0 +1,8 @@
+- var fieldAttributes = {};
+if field.attributes
+    - fieldAttributes = field.attributes
+if field.value === true
+    - fieldAttributes.checked = true
+label.pure-checkbox.checkbox-label(for=field.id)
+    input(id=field.id, name=field.fieldName, type='checkbox', value='1')&attributes(fieldAttributes)
+    | #{field.label}

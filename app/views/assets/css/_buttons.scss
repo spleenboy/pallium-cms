@@ -36,8 +36,8 @@
 }
 
 .button-add {
-    background-color: $background-callout;
-    color: $foreground-callout;
+    background-color: $background-button-primary;
+    color: $foreground-button-primary;
     &:before {
         @include icon-button($fa-var-plus);
     }
@@ -48,8 +48,8 @@
 }
 
 .button-delete {
-    background-color: $background-warning;
-    color: $foreground-callout;
+    background-color: $background-button-warning;
+    color: $foreground-button-warning;
     &:before {
         @include icon-button($fa-var-trash);
     }
@@ -63,8 +63,12 @@
     @include icon-button($fa-var-list-alt);
 }
 
-.button-sort:before {
-    @include icon-button($fa-var-sort);
+.button-sort {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    &:before {
+        @include icon-button($fa-var-sort);
+    }
 }
 
 .button-login:before {

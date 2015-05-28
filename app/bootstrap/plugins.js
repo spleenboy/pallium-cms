@@ -24,7 +24,7 @@ module.exports = function(app, args) {
         }
 
         try {
-            var main = require(path.join(plugins[i], 'register'))();
+            var main = require(path.join(dir, plugins[i], 'register'))();
             console.info("Registered plugin", plugins[i]);
         } catch (e) {
             console.error("Plugin missing register.js file", plugins[i]);

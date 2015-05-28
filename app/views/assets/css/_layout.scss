@@ -47,6 +47,32 @@ section.sidebar {
     float: right;
 }
 
+.entry-type {
+   display: table; 
+   width: 100%;
+
+   .title {
+       display: table-cell;
+       float: left;
+       font-family: $heading;
+       font-size: 34px;
+       font-weight: bold;
+   }
+
+   .description {
+       display: table-cell;
+       float: right;
+       padding: 20px;
+       color: $foreground-callout;
+       @include linear-gradient(to bottom, $background-callout, 100%, $line-dark, 0%);
+       @include border-bottom-radius(4px);
+
+       &:hover {
+           @include bubble-left();
+       }
+   }
+}
+
 footer {
     position: fixed;
     bottom: 0;

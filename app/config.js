@@ -9,10 +9,8 @@ local: function(name) {
     var localName = path.join(process.cwd(), 'config', name);
     try {
         var localConf = require(localName);
-        console.info("Using local configuration file", localName);
         return localConf;
     } catch (e) {
-        console.info("No local configuration file found", localName, e);
         return null;
     }
 },
