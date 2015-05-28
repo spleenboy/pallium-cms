@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "prestart": "grunt",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "test": "mocha test/*",
     "install": "napa"
   },
   "keywords": [
