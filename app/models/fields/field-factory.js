@@ -26,7 +26,8 @@ module.exports.create = function create(settings) {
         var PluginField = plugin(settings.source);
         field = new PluginField();
     } else if (settings.type in fields) {
-        field = new fields[settings.type]();
+        var CustomField = fields[settings.type];
+        field = new CustomField();
     } else {
         field = new fields.field();
     }
