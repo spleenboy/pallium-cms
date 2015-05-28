@@ -7,8 +7,9 @@ module.exports = function(app, args) {
     app.use(express.static('public'));
 
     plugins.load();
-    plugins.require('bootstrap/forms')(app);
-    plugins.require('bootstrap/session')(app);
-    plugins.require('bootstrap/auth')(app);
-    plugins.require('bootstrap/routes')(app);
+
+    plugin('bootstrap/forms')(app);
+    plugin('bootstrap/session')(app);
+    plugin('bootstrap/auth')(app);
+    plugin('bootstrap/routes')(app);
 };

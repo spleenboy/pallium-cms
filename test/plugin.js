@@ -13,7 +13,7 @@ describe('plugins', function() {
         plugins = require(pluginsModule);
     });
 
-    describe('register', function() {
+    describe('find', function() {
         it('should find a registered override', function() {
             plugins.register('foo', 'bar');
             assert.equal(plugins.find('foo'), 'bar');
@@ -22,6 +22,12 @@ describe('plugins', function() {
         it('should find a default', function() {
             var pluginsPath = path.resolve(__dirname, pluginsModule);
             assert.equal(plugins.find(pluginsModule), pluginsPath);
+        });
+    });
+
+    describe('global.plugin', function() {
+        it('should register a global plugin method', function() {
+            assert.equal(typeof global.plugin, 'function');
         });
     });
 });

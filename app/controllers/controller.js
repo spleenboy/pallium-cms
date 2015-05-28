@@ -16,8 +16,6 @@ Controller.prototype.send = function(name, data) {
     var view = new View(name);
     data = this.populate(data);
 
-    log.info('Rendering view', name, 'with', data);
-
     var content = View.render(name, data);
     this.response.send(content);
 };
