@@ -35,8 +35,13 @@ Entries.prototype.list = function() {
     var items = [];
     for (var id in all) {
         var item = all[id];
-        item.createdFromNow  = moment(item.created).fromNow();
-        item.modifiedFromNow = moment(item.modified).fromNow();
+        item.createdMoment  = moment(item.created);
+        item.createdFromNow = item.createdMoment.fromNow();
+        item.createdIso     = item.createdMoment.format();
+
+        item.modifiedMoment  = moment(item.modified);
+        item.modifiedFromNow = item.modifiedMoment.fromNow();
+        item.modifiedIso     = item.modifiedMoment.format();
         items.push(item);
     }
 

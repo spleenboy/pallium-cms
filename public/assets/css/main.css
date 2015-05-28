@@ -5824,7 +5824,7 @@ h1, h2, h3, h4, h5 {
   background-image: linear-gradient(to bottom,rgba(220, 220, 220, 0.5), 100%, #191919, 0%);
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
-  border-bottom: 1px solid #f0f0f0; }
+  border-bottom: 1px solid #c8c8c8; }
   .entry-form fieldset .pure-button {
     background-color: #838383; }
 
@@ -5839,7 +5839,7 @@ h1, h2, h3, h4, h5 {
     border-top-right-radius: 4px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid #c8c8c8;
     box-shadow: inset 0 1px 3px #ddd; }
   .md-wrapper .md-preview {
     height: 100%;
@@ -5849,7 +5849,7 @@ h1, h2, h3, h4, h5 {
     border-top-right-radius: 4px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid #c8c8c8;
     margin: 0 10px;
     padding: 0 10px; }
 
@@ -6228,10 +6228,10 @@ footer {
   border-top-right-radius: 4px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-  border: #f0f0f0;
+  border: 1px solid #c8c8c8;
   background: rgba(220, 220, 220, 0.5);
-  padding: 10px;
-  margin: 10px;
+  padding: 5px;
+  margin: 2px;
   width: 30%;
   float: left; }
   .list .item a {

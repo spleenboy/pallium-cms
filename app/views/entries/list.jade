@@ -14,7 +14,7 @@ block main
     a.pure-button.button-add(href='create')
         | Add a New #{definition.name}
 
-    .fancy-list(data-list-value-names="title,created,modified")
+    .fancy-list(data-list-value-names="title,filepath,created,modified")
         .pure-form.search-form
             input.search(placeholder='Search ' + definition.plural, type='search')
             button.sort.pure-button.button-sort(data-sort='title') Title
@@ -26,8 +26,8 @@ block main
             each item in list
                 li.item.button-edit
                     .hidden.filepath= item.filepath
-                    .hidden.created= item.created
-                    .hidden.modified= item.modified
+                    .hidden.created= item.createdIso
+                    .hidden.modified= item.modifiedIso
                     a(href='edit/' + item.id)
                         strong.title= item.title
                         if item.subtitle

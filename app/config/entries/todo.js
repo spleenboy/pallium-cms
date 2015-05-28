@@ -3,14 +3,14 @@ module.exports = {
     name: 'To Do',
     plural: 'To Dos',
     directory: 'todos',
+    subdirectory: function() {
+        return this.data('done') ? 'done' : '';
+    },
     title: function() {
         return this.data('title');
     },
     subtitle: function() {
-        if (this.data('done')) {
-          return 'Done!';
-        }
-        return '';
+        return this.data('done') ? 'Done!' : 'In Progress';
     },
     fields: [
         {
