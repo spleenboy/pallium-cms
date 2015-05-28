@@ -1,5 +1,6 @@
 var path   = require('path');
 var file   = plugin('services/file');
+var log    = plugin('services/log');
 var config = plugin('config');
 var fieldFactory = plugin('models/fields/field-factory');
 
@@ -17,7 +18,7 @@ Entry.prototype.configure = function(type) {
     var settings = config.get(this.basekey, this);
 
     if (!settings) {
-        console.error("No configuration file for type", this.basekey);
+        log.error("No configuration file for type", this.basekey);
         throw new Error("No configuration");
     }
 
@@ -39,7 +40,7 @@ Entry.prototype.get = function(key) {
     }
     var value = config.get(fullkey, this);
     if (value === undefined) {
-        console.error("Could not find value for key", fullkey);
+        log.error("Could not find value for key", fullkey);
     }
     return value;
 };
@@ -49,7 +50,7 @@ Entry.prototype.loadFields = function() {
     var fieldConfigs = this.get('fields');
 
     if (!fieldConfigs) {
-        console.error("No field configuration for type", this.basekey);
+        log.error("No field configuration for type", this.basekey);
         throw new Error("No fields in configuration");
     }
 
@@ -73,7 +74,7 @@ Entry.prototype.getRelativePath = function() {
     var title = this.getTitle();
 
     if (!title) {
-        console.error("Config for entry type is missing a title key", this.type);
+        log.error("Config for entry type is missing a title key", this.type);
         throw new Error("Configuration file missing title key");
     }
 
@@ -136,12 +137,12 @@ Entry.prototype.data = function(name, value) {
     }
 
     if (!this.fields) {
-        console.error("Fields array is missing!", this);
+        log.error("Fields array is missing!", this);
         throw new Error("Entry not configured. Fields are missing.");
     }
 
     if (!this.fields[name]) {
-        console.info("Key doesn't exist in fields", name);
+        log.info("Key doesn't exist in fields", name);
         return undefined;
     }
 

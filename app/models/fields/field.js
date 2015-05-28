@@ -1,4 +1,5 @@
 var object = plugin('util/object');
+var log    = plugin('services/log');
 var View   = plugin('views/view');
 
 function Field() {
@@ -10,7 +11,7 @@ function Field() {
 
 Field.prototype.render = function(data) {
     if (this.type === undefined) {
-        console.trace("Invalid field", util.inspect(this));
+        log.trace("Invalid field", util.inspect(this));
         throw new TypeError("Field requires a type");
     }
 

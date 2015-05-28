@@ -1,6 +1,7 @@
 var util   = require('util');
+var log    = plugin('services/log');
 var object = plugin('util/object');
-var fields = plugin('models/fields');
+var fields = plugin('models/fields/');
 
 /**
  * Factory method for creating a new Field instance
@@ -20,7 +21,7 @@ module.exports.create = function create(settings) {
     }, settings);
 
     if (settings.source) {
-        console.info("Using custom field source", settings.source);
+        log.info("Using custom field source", settings.source);
         field = new plugin(settings.source)();
     } else if (settings.type in fields) {
         field = new fields[settings.type]();

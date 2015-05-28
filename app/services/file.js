@@ -1,5 +1,6 @@
 var fs    = require('fs');
 var path  = require('path');
+var log   = plugin('services/log');
 
 
 /**
@@ -16,7 +17,7 @@ module.exports.stats = function(filepath) {
         stats.filepath = filepath;
         return stats;
     } catch (e) {
-        console.info("File doesn't exist", filepath);
+        log.info("File doesn't exist", filepath);
         return false;
     }
 };
@@ -31,7 +32,7 @@ module.exports.list = function(dir, flat) {
     try {
         var paths = fs.readdirSync(dir);
 
-        console.info("Paths found in", dir, paths);
+        log.info("Paths found in", dir, paths);
 
         for (var i=0; i<paths.length; i++) {
 
@@ -47,7 +48,7 @@ module.exports.list = function(dir, flat) {
             }
         }
     } catch (e) {
-        console.error("Error reading directory", dir, e);
+        log.error("Error reading directory", dir, e);
     }
     return items;
 };
@@ -65,7 +66,7 @@ module.exports.mkdirs = function(filepath) {
             var stats = fs.statSync(dir);
         }
         catch (e) {
-            console.info("Created directory", dir);
+            log.info("Created directory", dir);
             fs.mkdirSync(dir);
         }
     }
@@ -76,7 +77,7 @@ module.exports.read = function(filepath) {
     try {
         return fs.readFileSync(filepath);
     } catch (e) {
-        console.error("Can't read file", filepath, e);
+        log.error("Can't read file", filepath, e);
         return false;
     }
 };
@@ -91,7 +92,7 @@ module.exports.write = function(filepath, content) {
         fs.writeFileSync(filepath, content);
         return filepath;
     } catch (e) {
-        console.error("Error writing file", filepath, e);
+        log.error("Error writing file", filepath, e);
         return false;
     }
 };
@@ -102,7 +103,7 @@ module.exports.delete = function(filepath) {
         fs.unlinkSync(filepath);
         return true;
     } catch (e) {
-        console.error("Error deleting file", filepath, e);
+        log.error("Error deleting file", filepath, e);
         return false;
     }
 };

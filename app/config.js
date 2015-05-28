@@ -1,4 +1,5 @@
 var path = require('path');
+var log  = plugin('services/log');
 
 module.exports = {
 
@@ -47,7 +48,7 @@ get: function(namespacedKey, context, args) {
     }
 
     if (value === undefined) {
-        console.info("Found nothing for config key", namespacedKey);
+        log.info("Found nothing for config key", namespacedKey);
         return undefined;
     }
 

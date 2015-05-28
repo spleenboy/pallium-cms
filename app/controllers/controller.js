@@ -1,4 +1,5 @@
 var config = plugin('config');
+var log = plugin('services/log');
 var View = plugin('views/view');
 
 function Controller(req, res, next) {
@@ -15,7 +16,7 @@ Controller.prototype.send = function(name, data) {
     var view = new View(name);
     data = this.populate(data);
 
-    console.info('Rendering view', name, 'with', data);
+    log.info('Rendering view', name, 'with', data);
 
     var content = View.render(name, data);
     this.response.send(content);

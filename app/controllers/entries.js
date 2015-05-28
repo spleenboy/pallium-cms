@@ -1,12 +1,14 @@
 var util        = require('util');
 var moment      = require('moment');
 var object      = plugin('util/object');
+var log         = plugin('services/log');
 var Controller  = plugin('controllers/controller');
 var Entry       = plugin('models/entry');
 var Factory     = plugin('models/entry-factory');
 var View        = plugin('views/view');
 
 function Entries() {
+    Controller.apply(this, arguments);
     Object.defineProperty(this, 'type', {
         get: function() {
             return this.request.params.type;
@@ -25,7 +27,7 @@ Entries.prototype.redirect = function() {
     var parts = Array.prototype.slice.call(arguments);
     parts.unshift('entry', this.type);
     var url = '/' + parts.join('/');
-    console.info("Redirecting to", url);
+    log.info("Redirecting to", url);
     this.response.redirect(url); 
 };
 
@@ -74,7 +76,7 @@ Entries.prototype.edit = function() {
     var id    = this.request.params.id;
     var entry = this.factory.get(id);
     if (!entry) {
-        console.error("Can't edit. Invalid entry id", id);
+        log.error("Can't edit. Invalid entry id", id);
         this.response.redirect('back');
     }
     entry.prerender();
@@ -87,7 +89,7 @@ Entries.prototype.save = function() {
     var id     = this.request.params.id;
     var entry  = id ? this.factory.get(id) : new Entry(this.type);
 
-    console.info("Populating with posted data", posted);
+    log.info("Populating with posted data", posted);
     entry.populate(posted);
 
     var id = this.factory.save(entry);

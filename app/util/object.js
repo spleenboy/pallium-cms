@@ -1,10 +1,12 @@
+var log = plugin('services/log');
+
 /**
  * Recursively copy into an object.
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
 **/
 module.exports.assign = function assign(target, firstSource) {
     if (target === undefined || target === null) {
-        console.error("Invalid assign target", target);
+        log.error("Invalid assign target", target);
         throw new TypeError('Cannot convert first argument to object');
     }
 

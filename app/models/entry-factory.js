@@ -5,6 +5,7 @@ var file   = plugin('services/file');
 var object = plugin('util/object');
 var random = plugin('util/random');
 var config = plugin('config');
+var log    = plugin('services/log');
 var Entry  = plugin('models/entry');
 
 var delimiter = module.exports.delimiter = '---\n';
@@ -47,7 +48,7 @@ Factory.prototype.loadIndex = function() {
     }
 
     if (this.directory === undefined) {
-        console.warn("Missing directory for entry type that allows multiple entries. This can cause problems!", this.type);
+        log.warn("Missing directory for entry type that allows multiple entries. This can cause problems!", this.type);
     }
 
     var contents = file.read(this.indexPath);
@@ -56,7 +57,7 @@ Factory.prototype.loadIndex = function() {
         try {
             this.index = yaml.safeLoad(contents);
         } catch (e) {
-            console.error("Error reading contents of index", this.indexPath, e);
+            log.error("Error reading contents of index", this.indexPath, e);
             this.index = {};
         }
     } else {
@@ -83,7 +84,7 @@ Factory.prototype.createSingleIndex = function() {
         created  : stats && stats.birthtime
     };
 
-    console.info("Single index created", this.index, stats);
+    log.info("Single index created", this.index, stats);
 };
 
 
@@ -104,7 +105,7 @@ Factory.prototype.createIndex = function() {
         this.index[id] = item;
     }
     this.saveIndex();
-    console.info("Saved new index for", this.type);
+    log.info("Saved new index for", this.type);
 };
 
 
@@ -116,7 +117,7 @@ Factory.prototype.saveIndex = function() {
         var contents = yaml.safeDump(this.index);
         return file.write(this.indexPath, contents);
     } catch (e) {
-        console.error("Error saving index", this.index, this.indexPath, e);
+        log.error("Error saving index", this.index, this.indexPath, e);
         throw e;
     }
 };
@@ -157,19 +158,19 @@ Factory.prototype.get = function(id) {
             var data = front.loadFront(filepath);
 
             if (!data) {
-                console.error("Error parsing file", filepath);
+                log.error("Error parsing file", filepath);
                 return false;
             }
 
             entry.populate(data);
         } else {
-            console.warn("Entry file not found. Skipping population", item);
+            log.warn("Entry file not found. Skipping population", item);
         }
 
         return entry;
 
     } catch (e) {
-        console.error("Error loading file", filepath, e);
+        log.error("Error loading file", filepath, e);
         return false;
     }
 };
@@ -188,7 +189,7 @@ Factory.prototype.save = function(entry) {
                 content = delimiter + frontMatter + delimiter + content;
             }
         } catch (e) {
-            console.error("Error dumping front matter for entry", entry.type, data);
+            log.error("Error dumping front matter for entry", entry.type, data);
             throw e;
         }
     }
@@ -202,14 +203,14 @@ Factory.prototype.save = function(entry) {
         var oldEntry = this.index[entry.id];
         var oldPath  = this.fullpath(oldEntry.filepath);
         if (oldPath !== filepath) {
-            console.info("Deleting old entry path", oldPath);
+            log.info("Deleting old entry path", oldPath);
             file.delete(oldPath);
         }
     }
 
     var id = entry.id || random.id();
 
-    console.info("Saving entry to path", filepath);
+    log.info("Saving entry to path", filepath);
 
     if (file.write(filepath, content)) {
         this.index[id] = {

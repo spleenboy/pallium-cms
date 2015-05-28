@@ -44,8 +44,11 @@
     "passport-auth0": "^0.2.1",
     "passport-google-oauth": "^0.2.0",
     "formidable": "^1.0.17",
-    "body-parser": "^1.12.4"
+    "body-parser": "^1.12.4",
+    "winston": "^1.0.0"
   },
   "napa": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "mocha": "^2.2.5"
+  }
 }
