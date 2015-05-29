@@ -4,12 +4,14 @@ var router  = module.exports = express.Router();
 var handle = plugin('controllers/controller').handle;
 var Entries = plugin('controllers/entries');
 
-router.get('/:type/create', handle('create', Entries));
-router.post('/:type/create', handle('save', Entries));
+var header = '/:domain?/:type/';
 
-router.get('/:type/edit/:id', handle('edit', Entries));
-router.post('/:type/edit/:id', handle('save', Entries));
+router.get(header + 'create', handle('create', Entries));
+router.post(header + 'create', handle('save', Entries));
 
-router.post('/:type/delete/:id', handle('delete', Entries));
+router.get(header + 'edit/:id', handle('edit', Entries));
+router.post(header + 'edit/:id', handle('save', Entries));
 
-router.get('/:type/list', handle('list', Entries));
+router.post(header + 'delete/:id', handle('delete', Entries));
+
+router.get(header + 'list', handle('list', Entries));

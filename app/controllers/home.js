@@ -12,14 +12,4 @@ Home.prototype.list = function() {
 };
 
 
-Home.prototype.login = function() {
-
-};
-
-
-Home.prototype.logout = function() {
-
-};
-
-
 module.exports = Home;

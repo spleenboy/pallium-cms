@@ -1,5 +1,5 @@
 var object = plugin('util/object');
-var log    = plugin('services/log');
+var log    = plugin('services/log')(module);
 var View   = plugin('views/view');
 
 function Field() {

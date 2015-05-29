@@ -1,5 +1,5 @@
 var body = require('body-parser');
-var log  = plugin('services/log');
+var log  = plugin('services/log')(module);
 
 module.exports = function(app, args) {
     app.use(body.json());

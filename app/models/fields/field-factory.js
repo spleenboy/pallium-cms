@@ -1,5 +1,5 @@
 var util   = require('util');
-var log    = plugin('services/log');
+var log    = plugin('services/log')(module);
 var object = plugin('util/object');
 var fields = plugin('models/fields/');
 

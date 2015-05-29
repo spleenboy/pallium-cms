@@ -1,22 +1,31 @@
 var util        = require('util');
 var moment      = require('moment');
 var object      = plugin('util/object');
-var log         = plugin('services/log');
+var log         = plugin('services/log')(module);
 var Controller  = plugin('controllers/controller');
 var Entry       = plugin('models/entry');
+var Definition  = plugin('models/entry-definition');
 var Factory     = plugin('models/entry-factory');
 var View        = plugin('views/view');
 
 function Entries() {
     Controller.apply(this, arguments);
-    Object.defineProperty(this, 'type', {
-        get: function() {
-            return this.request.params.type;
-        }
+
+    object.lazyGet(this, 'type', function() {
+        return this.request.params.type;
+    });
+
+    object.lazyGet(this, 'domain', function() {
+        return this.request.params.domain;
+    });
+
+    object.lazyGet(this, 'definition', function() {
+        return new Definition(this.domain);
     });
 
     object.lazyGet(this, 'factory', function() {
-        return new Factory(this.request.params.type);
+        log.info('Creating factory from params', this.request.params);
+        return new Factory(this.type, this.definition);
     });
 }
 
@@ -25,7 +34,15 @@ util.inherits(Entries, Controller);
 
 Entries.prototype.redirect = function() {
     var parts = Array.prototype.slice.call(arguments);
-    parts.unshift('entry', this.type);
+
+    parts.unshift(this.type);
+
+    if (this.domain) {
+        parts.unshift(this.domain);
+    }
+
+    parts.unshift('entry');
+
     var url = '/' + parts.join('/');
     log.info("Redirecting to", url);
     this.response.redirect(url); 

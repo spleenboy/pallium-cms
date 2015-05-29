@@ -1,5 +1,6 @@
+var util = require('util');
 var path = require('path');
-var log  = plugin('services/log');
+var log  = plugin('services/log')(module);
 
 module.exports = {
 
@@ -39,12 +40,12 @@ get: function(namespacedKey, context, args) {
 
     // Think locally first
     source = this.local(file);
-    var value = this.find(source, keys);
+    var value = this.resolve(source, keys, context, args);
 
     // Now think globally
     if (value === undefined) {
         source = plugin(path.join('config', file));
-        value = this.find(source, keys);
+        value = this.resolve(source, keys, context, args);
     }
 
     if (value === undefined) {
@@ -52,27 +53,32 @@ get: function(namespacedKey, context, args) {
         return undefined;
     }
 
-    if (typeof value === 'function') {
-        return value.apply(context || source, args || []);
-    }
-
     return value;
 },
 
 /**
- *¬Recursively hunt for a value in an object
+ * Recursively hunt for a value in an object. If that value is a function,
+ * resolve it using the specified context.
 **/
-find: function(obj, keys) {
-    if (!obj) {
+resolve: function(source, keys, context, args) {
+    if (!source) {
         return undefined;
     }
 
-    keys = keys.slice(); // Prevent byref manipulation
-    var value = obj;
+    if (util.isArray(keys)) {
+        keys = keys.slice(); // Prevent byref manipulation of the array
+    } else {
+        keys = [keys];
+    }
+    var value = source;
     var key;
 
     while (key = keys.shift()) {
         value = value && key in value ? value[key] : undefined;
+    }
+
+    if (typeof value === 'function') {
+        return value.apply(context || source, args || []);
     }
 
     return value;
