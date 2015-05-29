@@ -8,7 +8,11 @@ module.exports = function(caller) {
 
     return new winston.Logger({
         transports: [
-            new winston.transports.Console({colorize: true, label: label()})
+            new winston.transports.Console({
+                colorize: true, 
+                label: label(),
+                level: 'debug'
+            })
         ]
     });
 };

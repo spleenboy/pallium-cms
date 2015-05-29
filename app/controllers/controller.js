@@ -26,7 +26,7 @@ Controller.prototype.populate = function(data) {
     data = data || {};
 
     data.site    = config.get('site');
-    data.entries = new Definition();
+    data.entries = new Definition(this.request.params.domain);
 
     data.params = this.request.params;
     data.flash  = this.request.flash();

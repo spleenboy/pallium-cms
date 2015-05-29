@@ -16,10 +16,15 @@ Entry.prototype.configure = function(type, definition) {
     this.type       = type;
     this.definition = definition;
 
-    var settings = this.definition.types[type];
+    if (!definition || !definition.types) {
+        log.error('Invalid definition for entry', type, definition);
+        throw new TypeError('Invalid definition');
+    }
+
+    var settings = definition.types[type];
 
     if (!settings) {
-        log.error("No definition found for type", type, this.definition);
+        log.error('No definition found for type', type, definition);
         throw new Error("No configuration");
     }
 

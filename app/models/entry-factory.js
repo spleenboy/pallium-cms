@@ -13,10 +13,19 @@ var Definition = plugin('models/entry-definition');
 
 var indexFile = '_index.yaml';
 
-function Factory(type, domain) {
-    this.type  = type;
-    this.definition = new Definition(domain);
-    this.model = new Entry(type, this.definition);
+function Factory(type, definition) {
+
+    if (!type) {
+        throw new TypeError('Invalid type');
+    }
+
+    if (!(definition instanceof Definition)) {
+        throw new TypeError('Invalid definition');
+    }
+
+    this.type = type;
+    this.definition = definition;
+    this.model = new Entry(type, definition);
 
     this.delimiter = '---\n';
 
