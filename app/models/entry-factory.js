@@ -1,22 +1,36 @@
 var front  = require('yaml-front-matter');
 var yaml   = require('js-yaml');
 var path   = require('path');
-var file   = plugin('services/file');
+
 var object = plugin('util/object');
 var random = plugin('util/random');
+var log    = plugin('services/log')(module);
 var config = plugin('config');
-var log    = plugin('services/log');
-var Entry  = plugin('models/entry');
+var file   = plugin('services/file');
 
-var delimiter = module.exports.delimiter = '---\n';
+var Entry      = plugin('models/entry');
+var Definition = plugin('models/entry-definition');
+
 var indexFile = '_index.yaml';
 
-function Factory(type) {
-    this.type  = type;
-    this.model = new Entry(type);
+function Factory(type, definition) {
 
-    this.output    = config.get('entry.output');
-    this.directory = this.config('directory');
+    if (!type) {
+        throw new TypeError('Invalid type');
+    }
+
+    if (!(definition instanceof Definition)) {
+        throw new TypeError('Invalid definition');
+    }
+
+    this.type = type;
+    this.definition = definition;
+    this.model = new Entry(type, definition);
+
+    this.delimiter = '---\n';
+
+    this.output    = this.definition.get('output');
+    this.directory = this.model.get('directory');
     this.root      = path.join(this.output, this.directory || '');
     this.indexPath = path.join(this.root, indexFile);
 
@@ -25,8 +39,8 @@ function Factory(type) {
 
 
 Factory.prototype.config = function(key, entry) {
-    var key = ['entry.types', this.type, key].join('.');
-    return config.get(key, entry);
+    var keys = ['types', this.type, key];
+    return this.definition.get(keys, entry);
 };
 
 
@@ -117,7 +131,7 @@ Factory.prototype.saveIndex = function() {
         var contents = yaml.safeDump(this.index);
         return file.write(this.indexPath, contents);
     } catch (e) {
-        log.error("Error saving index", this.index, this.indexPath, e);
+        log.error("Error saving index to", this.indexPath, e, this.index);
         throw e;
     }
 };
@@ -129,7 +143,7 @@ Factory.prototype.all = function() {
 
 
 Factory.prototype.create = function() {
-    var entry = new Entry(this.type);
+    var entry = new Entry(this.type, this.definition);
     entry.id       = null;
     entry.created  = new Date();
     entry.modified = new Date();
@@ -149,7 +163,7 @@ Factory.prototype.get = function(id) {
 
     try {
 
-        var entry = new Entry(this.type);
+        var entry = new Entry(this.type, this.definition);
         entry.id = id;
         entry.created  = item.created;
         entry.modified = item.modified;
@@ -186,7 +200,7 @@ Factory.prototype.save = function(entry) {
             var frontMatter = yaml.safeDump(data);
 
             if (frontMatter) {
-                content = delimiter + frontMatter + delimiter + content;
+                content = this.delimiter + frontMatter + this.delimiter + content;
             }
         } catch (e) {
             log.error("Error dumping front matter for entry", entry.type, data);

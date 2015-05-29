@@ -1,24 +1,30 @@
 var path   = require('path');
 var file   = plugin('services/file');
-var log    = plugin('services/log');
+var log    = plugin('services/log')(module);
 var config = plugin('config');
 var fieldFactory = plugin('models/fields/field-factory');
 
-function Entry(type) {
-    this.configure(type);
+function Entry(type, definition) {
+    this.configure(type, definition);
     this.id = null;
 }
 
 Entry.extension = '.md';
 
 
-Entry.prototype.configure = function(type) {
-    this.type    = type;
-    this.basekey = 'entry.types.' + type;
-    var settings = config.get(this.basekey, this);
+Entry.prototype.configure = function(type, definition) {
+    this.type       = type;
+    this.definition = definition;
+
+    if (!definition || !definition.types) {
+        log.error('Invalid definition for entry', type, definition);
+        throw new TypeError('Invalid definition');
+    }
+
+    var settings = definition.types[type];
 
     if (!settings) {
-        log.error("No configuration file for type", this.basekey);
+        log.error('No definition found for type', type, definition);
         throw new Error("No configuration");
     }
 
@@ -26,21 +32,22 @@ Entry.prototype.configure = function(type) {
 
     for (var key in settings) {
         if (key !== 'fields') {
-            this[key] = this.get(key);
+            this[key] = settings[key];
         }
     }
 };
 
 
 // Gets the configuration setting for the specified key
-Entry.prototype.get = function(key) {
-    var fullkey = this.basekey + '.' + key;
-    for (var i=1; i<arguments.length; i++) {
-        fullkey += '.' + arguments[i];
-    }
-    var value = config.get(fullkey, this);
+Entry.prototype.get = function() {
+
+    var keys = Array.prototype.slice.call(arguments);
+    keys.unshift('types', this.type);
+
+    var value = this.definition.get(keys, this);
+
     if (value === undefined) {
-        log.error("Could not find value for key", fullkey);
+        log.info("Could not find value for key", keys);
     }
     return value;
 };
@@ -50,7 +57,7 @@ Entry.prototype.loadFields = function() {
     var fieldConfigs = this.get('fields');
 
     if (!fieldConfigs) {
-        log.error("No field configuration for type", this.basekey);
+        log.error("No field configuration for type", this.type);
         throw new Error("No fields in configuration");
     }
 

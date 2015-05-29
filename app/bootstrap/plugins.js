@@ -22,7 +22,7 @@ plugins.require = function (name) {
 
 
 plugins.register = function register(name, path) {
-    var log = plugins.require('services/log');
+    var log = plugins.require('services/log')(module);
     if (name in plugins.overrides) {
         log.warn("Plugin override already exists for", name);
     }
@@ -33,7 +33,7 @@ plugins.register = function register(name, path) {
 plugins.load = function load(app, args) {
     var file   = plugins.require('services/file');
     var config = plugins.require('config');
-    var log    = plugins.require('services/log');
+    var log    = plugins.require('services/log')(module);
 
     var dir   = config.get('site.pluginDirectory');
     var stats = file.stats(dir);

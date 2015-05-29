@@ -1,4 +1,4 @@
-var log = plugin('services/log');
+var log = plugin('services/log')(module);
 
 /**
  * Recursively copy into an object.

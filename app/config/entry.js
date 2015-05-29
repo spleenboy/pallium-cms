@@ -1,23 +1,27 @@
 var path = require('path');
 
 module.exports = {
-    output: function() {
-        return path.join(process.cwd(), 'content')
-    },
-    types: {
-        'home': plugin('config/entries/home'),
-        'page': plugin('config/entries/page'),
-        'note': plugin('config/entries/note'),
-        'event': plugin('config/entries/event')
-    },
-    sets: {
-        'main': {
-            name  : 'Main',
-            types : ['home', 'page', 'event']
+    domains: {
+        'website': {
+            name: 'Website',
+            output: function() {
+                return path.join(process.cwd(), 'content')
+            },
+            types: {
+                'home': plugin('config/entries/home'),
+                'page': plugin('config/entries/page'),
+                'event': plugin('config/entries/event')
+            }
         },
-        'internal': {
-            name  : 'Main',
-            types : ['note']
+        'notes': {
+            name: 'Planning',
+            output: function() {
+                return path.join(process.cwd(), 'content/planning')
+            },
+            types: {
+                'note': plugin('config/entries/note'),
+                'todo': plugin('config/entries/todo')
+            }
         }
     }
 }

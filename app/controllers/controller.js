@@ -1,5 +1,6 @@
 var config = plugin('config');
-var log = plugin('services/log');
+var log = plugin('services/log')(module);
+var Definition = plugin('models/entry-definition');
 var View = plugin('views/view');
 
 function Controller(req, res, next) {
@@ -22,12 +23,15 @@ Controller.prototype.send = function(name, data) {
 
 
 Controller.prototype.populate = function(data) {
-    data         = data         || {};
-    data.site    = data.site    || config.get('site');
-    data.entries = data.entries || config.get('entry');
-    data.params  = data.params  || this.request.params;
-    data.flash   = data.flash   || this.request.flash();
-    data.user    = data.user    || this.request.user;
+    data = data || {};
+
+    data.site    = config.get('site');
+    data.entries = new Definition(this.request.params.domain);
+
+    data.params = this.request.params;
+    data.flash  = this.request.flash();
+    data.user   = this.request.user;
+
     return data;
 }
 

@@ -1,6 +1,6 @@
 var fs    = require('fs');
 var path  = require('path');
-var log   = plugin('services/log');
+var log   = plugin('services/log')(module);
 
 
 /**

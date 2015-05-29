@@ -2,7 +2,7 @@ var passport = require('passport');
 
 var Controller = plugin('controllers/controller');
 var config = plugin('config');
-var log = plugin('services/log');
+var log = plugin('services/log')(module);
 
 var unprotected = ['/login', '/auth', '/verified', '/logout'];
 
@@ -24,7 +24,11 @@ function protection(req, res, next) {
         return next();
     }
 
-    log.warn("Unauthorized URL requested", req.user, req.originalUrl);
+    if (allowed !== undefined) {
+        log.warn("User is not allowed", req.originalUrl, req.user);
+    } else {
+        log.warn("Unauthorized URL requested", req.originalUrl, req.user);
+    }
     return res.redirect('/login');
 }
 
