@@ -4,16 +4,21 @@ var log  = plugin('services/log')(module);
 
 module.exports = {
 
+
+localPath: function(name) {
+    return path.join(process.cwd(), 'config', name);
+},
+
 /**
  * Loads the full local and default configuration settings.
 **/
 local: function(name) {
-    var localName = path.join(process.cwd(), 'config', name);
+    var localPath = this.localPath(name);
     try {
-        var localConf = require(localName);
+        var localConf = require(localPath);
         return localConf;
     } catch (e) {
-        return null;
+        return undefined;
     }
 },
 
@@ -49,7 +54,6 @@ get: function(namespacedKey, context, args) {
     }
 
     if (value === undefined) {
-        log.info("Found nothing for config key", namespacedKey);
         return undefined;
     }
 
@@ -61,7 +65,7 @@ get: function(namespacedKey, context, args) {
  * resolve it using the specified context.
 **/
 resolve: function(source, keys, context, args) {
-    if (!source) {
+    if (source === undefined) {
         return undefined;
     }
 
@@ -70,6 +74,11 @@ resolve: function(source, keys, context, args) {
     } else {
         keys = [keys];
     }
+
+    if (args && !util.isArray(args)) {
+        args = [args];
+    }
+
     var value = source;
     var key;
 
