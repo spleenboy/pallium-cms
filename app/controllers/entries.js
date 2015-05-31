@@ -24,7 +24,6 @@ function Entries() {
     });
 
     object.lazyGet(this, 'factory', function() {
-        log.info('Creating factory from params', this.request.params);
         return new Factory(this.type, this.definition);
     });
 }
