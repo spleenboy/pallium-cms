@@ -3,14 +3,16 @@ var log    = plugin('services/log')(module);
 var object = plugin('util/object');
 var fields = plugin('models/fields/');
 
-module.exports.defaults = {
-    type         : 'text',
-    source       : null,
-    name         : null,
-    value        : null,
-    label        : null,
-    attributes   : [],
-    defaultValue : null
+module.exports.defaults = function() {
+    return {
+        type         : 'text',
+        source       : null,
+        name         : null,
+        value        : null,
+        label        : null,
+        attributes   : [],
+        defaultValue : null
+    };
 };
 
 /**
@@ -20,7 +22,7 @@ module.exports.defaults = {
 module.exports.create = function create(settings) {
 
     var field;
-    settings = object.assign(module.exports.defaults, settings || {});
+    settings = object.assign(module.exports.defaults(), settings || {});
 
     if (settings.source) {
         var PluginField = plugin(settings.source);

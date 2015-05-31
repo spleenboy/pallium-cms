@@ -72,6 +72,7 @@ Entry.prototype.loadFields = function() {
 
         this.fields[field.name] = field;
     }
+
 };
 
 
