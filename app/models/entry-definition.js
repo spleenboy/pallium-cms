@@ -2,8 +2,8 @@ var config = plugin('config');
 var log    = plugin('services/log')(module);
 var object = plugin('util/object');
 
-function Definition(domain) {
-    this.data = config.get('entry') || {};
+function Definition(domain, data) {
+    this.data   = data || config.get('entry') || {};
     this.domain = domain;
 
     var domainProperties = ['name', 'output', 'types'];
@@ -26,15 +26,15 @@ function Definition(domain) {
 
 Definition.prototype.get = function(keys, context) {
     if (!this.data.domains) {
-        return config.resolve(this.data, keys, context);
+        return config.resolve(this.data, keys, context || this);
     }
 
     if (this.domain in this.data.domains) {
-        return config.resolve(this.data.domains[this.domain], keys, context);
+        return config.resolve(this.data.domains[this.domain], keys, context || this);
     }
 
     for (var domainName in this.data.domains) {
-        return config.resolve(this.data.domains[domainName], keys, context);
+        return config.resolve(this.data.domains[domainName], keys, context || this);
     }
 };
 
