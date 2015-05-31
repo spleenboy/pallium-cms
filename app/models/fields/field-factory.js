@@ -3,7 +3,9 @@ var log    = plugin('services/log')(module);
 var object = plugin('util/object');
 var fields = plugin('models/fields/');
 
-module.exports.defaults = function() {
+function FieldFactory() {}
+
+FieldFactory.prototype.defaults = function() {
     return {
         type         : 'text',
         source       : null,
@@ -13,16 +15,16 @@ module.exports.defaults = function() {
         attributes   : [],
         defaultValue : null
     };
-};
+}
 
 /**
  * Factory method for creating a new Field instance
  * based on the settings specified
 **/
-module.exports.create = function create(settings) {
+FieldFactory.prototype.create = function create(settings) {
 
     var field;
-    settings = object.assign(module.exports.defaults(), settings || {});
+    settings = object.assign(this.defaults(), settings || {});
 
     if (settings.source) {
         var PluginField = plugin(settings.source);
@@ -38,3 +40,5 @@ module.exports.create = function create(settings) {
 
     return field;
 };
+
+module.exports = new FieldFactory();
