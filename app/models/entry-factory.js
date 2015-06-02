@@ -186,6 +186,48 @@ Factory.prototype.get = function(id) {
 };
 
 
+// Processes uploads for an entry
+Factory.prototype.upload = function(entry, files) {
+    if (!files) {
+        return false;
+    }
+
+    for (var key in entry.fields) {
+
+        var field = entry.fields[key];
+
+        if (!field.multipart) {
+            continue;
+        }
+
+        if (!files[field.fieldName]) {
+            continue;
+        }
+
+        var up = files[field.fieldName];
+
+        if (field.value) {
+            var oldpath = this.fullpath(field.value);
+            log.debug("Removing old value for field");
+            file.delete(oldpath);
+        }
+
+        var filename = up.originalname;
+        if (typeof field.rename === 'function') {
+            filename = field.rename.call(field, up);
+        }
+
+        var newpath = this.fullpath(filename);
+
+        if (file.rename(up.path, newpath)) {
+            field.value = filename;
+        } else {
+            file.delete(up.path);
+        }
+    }
+};
+
+
 Factory.prototype.save = function(entry) {
     var data = entry.data();
     var content = data.__content;

@@ -113,17 +113,18 @@ Entry.prototype.getSubtitle = function() {
 /**
  * Populates the values in the fields from a data dictionary
 **/
-Entry.prototype.populate = function(data, files) {
+Entry.prototype.populate = function(data) {
 
     for (var key in this.fields) {
+        var field = this.fields[key];
         if (key in data) {
-            this.fields[key].value = data[key];
+            field.value = data[key];
         } else {
-            var defaultValue = this.fields[key].defaultValue;
+            var defaultValue = field.defaultValue;
             if (typeof defaultValue === 'function') {
-                this.fields[key].value = defaultValue.call(this);
+                field.value = defaultValue.call(this);
             } else {
-                this.fields[key].value = defaultValue;
+                field.value = defaultValue;
             }
         }
     }
