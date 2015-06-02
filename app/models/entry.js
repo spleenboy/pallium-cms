@@ -5,8 +5,9 @@ var config = plugin('config');
 var fieldFactory = plugin('models/fields/field-factory');
 
 function Entry(type, definition) {
-    this.configure(type, definition);
     this.id = null;
+    this.multipart = false;
+    this.configure(type, definition);
 }
 
 Entry.extension = '.md';
@@ -66,6 +67,10 @@ Entry.prototype.loadFields = function() {
         field.fieldName = this.type + '[' + field.name + ']';
 
         this.fields[field.name] = field;
+
+        if (field.multipart) {
+            this.multipart = true;
+        }
     }
 
 };
@@ -108,7 +113,8 @@ Entry.prototype.getSubtitle = function() {
 /**
  * Populates the values in the fields from a data dictionary
 **/
-Entry.prototype.populate = function(data) {
+Entry.prototype.populate = function(data, files) {
+
     for (var key in this.fields) {
         if (key in data) {
             this.fields[key].value = data[key];
@@ -121,6 +127,7 @@ Entry.prototype.populate = function(data) {
             }
         }
     }
+
 };
 
 

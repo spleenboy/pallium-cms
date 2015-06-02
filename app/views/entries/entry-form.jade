@@ -1,5 +1,6 @@
 mixin entry-form(btnText)
-    form.pure-form.pure-form-stacked.entry-form(method='post')
+    - var formAttributes = entry.multipart ? {enctype: 'multipart/form-data'} : {}
+    form.pure-form.pure-form-stacked.entry-form(method='post')&attributes(formAttributes)
         fieldset
             each field in entry.fields
                 | !{field.html}

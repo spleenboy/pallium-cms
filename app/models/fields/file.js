@@ -3,6 +3,7 @@ var Field = plugin('models/fields/field');
 
 function File() {
     Field.call(this);
+    this.multipart = true;
 }
 
 util.inherits(File, Field);

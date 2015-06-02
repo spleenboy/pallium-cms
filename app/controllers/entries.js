@@ -102,11 +102,12 @@ Entries.prototype.edit = function() {
 
 Entries.prototype.save = function() {
     var posted = this.request.body[this.type];
+    var files  = this.request.files;
     var id     = this.request.params.id;
     var entry  = id ? this.factory.get(id) : new Entry(this.type);
 
-    log.info("Populating with posted data", posted);
-    entry.populate(posted);
+    log.info("Populating with posted data", posted, files);
+    entry.populate(posted, files);
 
     var id = this.factory.save(entry);
 
