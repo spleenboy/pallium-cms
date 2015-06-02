@@ -5,7 +5,6 @@ var path   = require('path');
 var object = plugin('util/object');
 var random = plugin('util/random');
 var log    = plugin('services/log')(module);
-var config = plugin('config');
 var file   = plugin('services/file');
 
 var Entry      = plugin('models/entry');
@@ -15,33 +14,30 @@ var indexFile = '_index.yaml';
 
 function Factory(type, definition) {
 
-    if (!type) {
-        throw new TypeError('Invalid type');
-    }
-
     if (!(definition instanceof Definition)) {
         throw new TypeError('Invalid definition');
     }
 
-    this.type = type;
-    this.definition = definition;
-    this.model = new Entry(type, definition);
+    if (!(type in definition.types)) {
+        throw new TypeError('Invalid type');
+    }
 
     this.delimiter = '---\n';
+    this.type = type;
+    this.definition = definition;
+    this.output = this.definition.get('output');
 
-    this.output    = this.definition.get('output');
-    this.directory = this.model.get('directory');
+    if (!this.output) {
+        throw new TypeError('Definition must include output directory');
+    }
+
+    this.model     = new Entry(type, definition);
+    this.directory = this.model.get('directory') || '';
     this.root      = path.join(this.output, this.directory || '');
     this.indexPath = path.join(this.root, indexFile);
 
     this.loadIndex();
 }
-
-
-Factory.prototype.config = function(key, entry) {
-    var keys = ['types', this.type, key];
-    return this.definition.get(keys, entry);
-};
 
 
 Factory.prototype.fullpath = function(relativepath) {
@@ -97,8 +93,6 @@ Factory.prototype.createSingleIndex = function() {
         modified : stats && stats.mtime,
         created  : stats && stats.birthtime
     };
-
-    log.info("Single index created", this.index, stats);
 };
 
 
@@ -119,13 +113,15 @@ Factory.prototype.createIndex = function() {
         this.index[id] = item;
     }
     this.saveIndex();
-    log.info("Saved new index for", this.type);
 };
 
 
 Factory.prototype.saveIndex = function() {
     if (this.model.maximum === 1) {
         return false;
+    }
+    if (this.index === undefined) {
+        throw new Error('Undefined index');
     }
     try {
         var contents = yaml.safeDump(this.index);

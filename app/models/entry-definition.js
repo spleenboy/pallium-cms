@@ -3,8 +3,8 @@ var log    = plugin('services/log')(module);
 var object = plugin('util/object');
 
 function Definition(domain, data) {
-    this.data   = data || config.get('entry') || {};
     this.domain = domain;
+    this.data   = data || config.get('entry') || {};
 
     var domainProperties = ['name', 'output', 'types'];
 

@@ -44,12 +44,7 @@ Entry.prototype.get = function() {
     var keys = Array.prototype.slice.call(arguments);
     keys.unshift('types', this.type);
 
-    var value = this.definition.get(keys, this);
-
-    if (value === undefined) {
-        log.info("Could not find value for key", keys);
-    }
-    return value;
+    return this.definition.get(keys, this);
 };
 
 
