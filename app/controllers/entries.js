@@ -103,7 +103,7 @@ Entries.prototype.edit = function() {
 Entries.prototype.save = function() {
     var posted = this.request.body[this.type];
     var id     = this.request.params.id;
-    var entry  = id ? this.factory.get(id) : new Entry(this.type);
+    var entry  = id ? this.factory.get(id) : new Entry(this.type, this.definition);
 
     entry.populate(posted);
 
