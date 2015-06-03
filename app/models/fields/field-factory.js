@@ -1,5 +1,6 @@
 var util   = require('util');
 var log    = plugin('services/log')(module);
+var file   = plugin('services/file');
 var object = plugin('util/object');
 var fields = plugin('models/fields/');
 
@@ -21,7 +22,7 @@ FieldFactory.prototype.defaults = function() {
  * Factory method for creating a new Field instance
  * based on the settings specified
 **/
-FieldFactory.prototype.create = function create(settings) {
+FieldFactory.prototype.create = function create(settings, entry) {
 
     var field;
     settings = object.assign(this.defaults(), settings || {});
@@ -37,6 +38,10 @@ FieldFactory.prototype.create = function create(settings) {
     }
 
     object.defineProperties(field, settings);
+
+    field.id        = file.slug(entry.type + '-' + field.name);
+    field.entryType = entry.type;
+    field.fieldName = entry.type + '[' + field.name + ']';
 
     return field;
 };

@@ -60,11 +60,7 @@ Entry.prototype.loadFields = function() {
     this.fields = {};
 
     for (var i=0; i<fieldConfigs.length; i++) {
-        var field = fieldFactory.create(fieldConfigs[i]);
-
-        field.id        = file.slug(this.type + '-' + field.name);
-        field.entryType = this.type;
-        field.fieldName = this.type + '[' + field.name + ']';
+        var field = fieldFactory.create(fieldConfigs[i], this);
 
         this.fields[field.name] = field;
 
@@ -107,28 +103,6 @@ Entry.prototype.getTitle = function() {
 Entry.prototype.getSubtitle = function() {
     var st = this.get('subtitle');
     return st !== undefined ? st : '';
-};
-
-
-/**
- * Populates the values in the fields from a data dictionary
-**/
-Entry.prototype.populate = function(data) {
-
-    for (var key in this.fields) {
-        var field = this.fields[key];
-        if (key in data) {
-            field.value = data[key];
-        } else {
-            var defaultValue = field.defaultValue;
-            if (typeof defaultValue === 'function') {
-                field.value = defaultValue.call(this);
-            } else {
-                field.value = defaultValue;
-            }
-        }
-    }
-
 };
 
 

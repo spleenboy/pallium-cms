@@ -143,7 +143,7 @@ Factory.prototype.create = function() {
     entry.id       = null;
     entry.created  = new Date();
     entry.modified = new Date();
-    entry.populate({});
+    this.populate(entry, {});
     return entry;
 };
 
@@ -172,7 +172,7 @@ Factory.prototype.get = function(id) {
                 return false;
             }
 
-            entry.populate(data);
+            this.populate(entry, data);
         } else {
             log.warn("Entry file not found. Skipping population", item);
         }
@@ -186,44 +186,95 @@ Factory.prototype.get = function(id) {
 };
 
 
-// Processes uploads for an entry
-Factory.prototype.upload = function(entry, files) {
-    if (!files) {
-        return false;
-    }
-
+/**
+ * Populates the values in the fields from a data dictionary
+ * Optionally manages multipart fields by uploading a new file
+ * and associating it to the field.
+**/
+Factory.prototype.populate = function(entry, data, files) {
     for (var key in entry.fields) {
-
         var field = entry.fields[key];
 
-        if (!field.multipart) {
-            continue;
+        if (files && field.fieldName in files) {
+            // A file was added for the field
+            this.uploadFieldFile(field, files[field.fieldName]);
+        } else if (field.name in data) {
+            if (field.multipart && data[field.name].deleted) {
+                this.deleteFieldFiles(field, data[field.name].deleted);
+            } else {
+                // Data was included
+                field.value = data[field.name];
+            }
+        } else if (!field.multipart) {
+            // Multipart fields don't support default values
+            var defaultValue = field.defaultValue;
+            if (typeof defaultValue === 'function') {
+                field.value = defaultValue.call(this);
+            } else {
+                field.value = defaultValue;
+            }
         }
+    }
+};
 
-        if (!files[field.fieldName]) {
-            continue;
-        }
 
-        var up = files[field.fieldName];
+Factory.prototype.deleteFieldFiles = function(field, files) {
+    if (!files) {
+        return;
+    }
 
-        if (field.value) {
-            var oldpath = this.fullpath(field.value);
-            log.debug("Removing old value for field");
+    if (!files.forEach) {
+        files = [files];
+    }
+
+    var existing = field.value;
+    if (!existing.forEach) {
+        existing = [existing];
+    }
+
+    files.forEach(function(oldname) {
+        var index = existing.indexOf(oldname);
+        if (index >=0 ) {
+            var oldpath = this.fullpath(oldname);
             file.delete(oldpath);
+            existing.splice(index, 1);
         }
+    }, this);
 
-        var filename = up.originalname;
-        if (typeof field.rename === 'function') {
-            filename = field.rename.call(field, up);
-        }
+    if (field.multiple) {
+        field.value = existing;
+    } else if (existing.length) {
+        field.value = existing.shift();
+    } else {
+        field.value = '';
+    }
+};
 
-        var newpath = this.fullpath(filename);
 
-        if (file.rename(up.path, newpath)) {
+Factory.prototype.uploadFieldFile = function(field, upload) {
+    if (field.value && !field.multiple) {
+        var oldpath = this.fullpath(field.value);
+        log.debug("Removing old file for field", oldpath);
+        file.delete(oldpath);
+    }
+
+    var filename = upload.originalname;
+    if (typeof field.rename === 'function') {
+        filename = field.rename.call(field, upload);
+    }
+
+    var newpath = this.fullpath(filename);
+
+    if (file.rename(upload.path, newpath)) {
+        if (!field.multiple) {
             field.value = filename;
+        } else if (field.value) {
+            field.value.push(filename);
         } else {
-            file.delete(up.path);
+            field.value = [filename];
         }
+    } else {
+        file.delete(upload.path);
     }
 };
 
@@ -287,11 +338,27 @@ Factory.prototype.delete = function(id) {
         return false;
     }
 
+    var entry = this.get(id);
+
+    if (!entry) {
+        log.error('Entry not found for id', id);
+        throw new Error('Could not find entry');
+    }
+
+    // Delete all of the files
+    for (var key in entry.fields) {
+        var field = entry.fields[key];
+        if (field.multipart && field.value) {
+            file.delete(field.value);
+        }
+    }
+
+    // Delete the actual record
     var filepath = this.fullpath(item.filepath);
     if (file.delete(filepath)) {
         delete this.index[id];
         if (this.saveIndex()) {
-            return item;
+            return entry;
         } else {
             return false;
         }

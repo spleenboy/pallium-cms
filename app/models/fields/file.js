@@ -4,8 +4,9 @@ var log   = plugin('services/log')(module);
 var file  = plugin('services/file');
 
 function File() {
-    Field.call(this);
     this.multipart = true;
+    this.multiple  = false;
+    Field.call(this);
 }
 
 util.inherits(File, Field);

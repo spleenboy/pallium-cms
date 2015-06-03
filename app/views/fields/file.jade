@@ -2,4 +2,8 @@ include input
 +input('file')
 
 if field.value
-    em.filename= field.value
+    label.filename
+        input(type='checkbox', name=field.fieldName + '[deleted][]', value=field.value)
+        em.fa.fa-trash 
+        strong  Remove existing file: 
+        em= field.value

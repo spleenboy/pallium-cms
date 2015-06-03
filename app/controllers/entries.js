@@ -105,11 +105,7 @@ Entries.prototype.save = function() {
     var id     = this.request.params.id;
     var entry  = id ? this.factory.get(id) : new Entry(this.type, this.definition);
 
-    entry.populate(posted);
-
-    if (entry.multipart && this.request.files) {
-        this.factory.upload(entry, this.request.files);
-    }
+    this.factory.populate(entry, posted, this.request.files);
 
     var id = this.factory.save(entry);
 
