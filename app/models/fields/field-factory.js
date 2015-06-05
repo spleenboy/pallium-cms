@@ -39,6 +39,7 @@ FieldFactory.prototype.create = function create(settings, entry) {
 
     object.defineProperties(field, settings);
 
+    field.entry     = entry;
     field.id        = file.slug(entry.type + '-' + field.name);
     field.entryType = entry.type;
     field.fieldName = entry.type + '[' + field.name + ']';

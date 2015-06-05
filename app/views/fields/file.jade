@@ -1,9 +1,23 @@
 include input
 +input('file')
 
-if field.value
-    label.filename
-        input(type='checkbox', name=field.fieldName + '[deleted][]', value=field.value)
-        em.fa.fa-trash 
-        strong  Remove existing file: 
-        em= field.value
+mixin existing(filename, index)
+    - var parts = ['../file', field.entry.id, field.name];
+    if index
+        - parts.push(index + 1)
+    .drop-down= filename
+        .drop-down-items
+            .switch.on-off
+                input(id=field.id + '-deleted', type='checkbox', name=field.fieldName + '[deleted][]', value=filename)
+                label(for=field.id + '-deleted')
+                    .off
+                        .pure-button.button-okay Keep File
+                    .on
+                        .pure-button.button-delete Delete File
+            a.pure-button.button-download(href=parts.join('/')) Download File
+
+if Array.isArray(field.value)
+    each filename, index in field.value
+        +existing(filename, index)
+else if field.value
+    +existing(field.value)

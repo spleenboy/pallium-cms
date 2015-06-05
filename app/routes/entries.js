@@ -15,3 +15,5 @@ router.post(header + 'edit/:id', handle('save', Entries));
 router.post(header + 'delete/:id', handle('delete', Entries));
 
 router.get(header + 'list', handle('list', Entries));
+
+router.get(header + 'file/:id/:field/:number?', handle('file', Entries));
