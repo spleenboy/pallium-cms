@@ -107,3 +107,15 @@ module.exports.delete = function(filepath) {
         return false;
     }
 };
+
+
+module.exports.rename = function(oldpath, newpath) {
+    try {
+        this.mkdirs(newpath);
+        fs.renameSync(oldpath, newpath);
+        return true;
+    } catch (e) {
+        log.error("Error renaming file", oldpath, "to", newpath, e);
+        return false;
+    }
+};

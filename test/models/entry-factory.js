@@ -172,21 +172,6 @@ describe('EntryFactory', function() {
     });
 
 
-    describe('createIndex', function() {
-
-    });
-
-
-    describe('saveIndex', function() {
-
-    });
-
-
-    describe('all', function() {
-
-    });
-
-
     describe('create', function() {
 
     });

@@ -1,0 +1,10 @@
+extends ./layout/site.jade
+
+block main 
+    h1 Oops
+    if message
+        .message= message
+    if code == 404
+        p.error We couldn't find that
+    else
+        p.error Something went wrong

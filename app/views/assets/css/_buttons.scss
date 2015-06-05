@@ -5,7 +5,7 @@
 }
 
 /** Animations **/
-.button-add, .button-login, .button-save {
+.button-add, .button-login, .button-save, .button-okay {
     @include skew-forward();
 }
 
@@ -13,7 +13,7 @@
     @include skew-backward();
 }
 
-.button-edit, .button-view {
+.button-edit, .button-view, .button-download {
     @include grow();
 }
 
@@ -27,6 +27,10 @@
 
 
 /** Icons **/
+.button-okay:before {
+    @include icon-button($fa-var-check);
+}
+
 .button-edit:before {
     @include icon-button($fa-var-pencil);
 }
@@ -73,6 +77,10 @@
 
 .button-login:before {
     @include icon-button($fa-var-sign-in);
+}
+
+.button-download:before {
+    @include icon-button($fa-var-download);
 }
 
 .list .item {

@@ -5,8 +5,9 @@ var config = plugin('config');
 var fieldFactory = plugin('models/fields/field-factory');
 
 function Entry(type, definition) {
-    this.configure(type, definition);
     this.id = null;
+    this.multipart = false;
+    this.configure(type, definition);
 }
 
 Entry.extension = '.md';
@@ -59,13 +60,13 @@ Entry.prototype.loadFields = function() {
     this.fields = {};
 
     for (var i=0; i<fieldConfigs.length; i++) {
-        var field = fieldFactory.create(fieldConfigs[i]);
-
-        field.id        = file.slug(this.type + '-' + field.name);
-        field.entryType = this.type;
-        field.fieldName = this.type + '[' + field.name + ']';
+        var field = fieldFactory.create(fieldConfigs[i], this);
 
         this.fields[field.name] = field;
+
+        if (field.multipart) {
+            this.multipart = true;
+        }
     }
 
 };
@@ -102,25 +103,6 @@ Entry.prototype.getTitle = function() {
 Entry.prototype.getSubtitle = function() {
     var st = this.get('subtitle');
     return st !== undefined ? st : '';
-};
-
-
-/**
- * Populates the values in the fields from a data dictionary
-**/
-Entry.prototype.populate = function(data) {
-    for (var key in this.fields) {
-        if (key in data) {
-            this.fields[key].value = data[key];
-        } else {
-            var defaultValue = this.fields[key].defaultValue;
-            if (typeof defaultValue === 'function') {
-                this.fields[key].value = defaultValue.call(this);
-            } else {
-                this.fields[key].value = defaultValue;
-            }
-        }
-    }
 };
 
 

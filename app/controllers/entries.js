@@ -1,5 +1,6 @@
 var util        = require('util');
 var moment      = require('moment');
+var fs          = require('fs');
 var object      = plugin('util/object');
 var log         = plugin('services/log')(module);
 var Controller  = plugin('controllers/controller');
@@ -103,10 +104,9 @@ Entries.prototype.edit = function() {
 Entries.prototype.save = function() {
     var posted = this.request.body[this.type];
     var id     = this.request.params.id;
-    var entry  = id ? this.factory.get(id) : new Entry(this.type);
+    var entry  = id ? this.factory.get(id) : new Entry(this.type, this.definition);
 
-    log.info("Populating with posted data", posted);
-    entry.populate(posted);
+    this.factory.populate(entry, posted, this.request.files);
 
     var id = this.factory.save(entry);
 
@@ -131,6 +131,40 @@ Entries.prototype.delete = function() {
     }
 
     this.redirect('list');
+};
+
+
+Entries.prototype.file = function() {
+    var id = this.request.params.id;
+    var fieldName  = this.request.params.field;
+    var fileNumber = this.request.params.number || 1;
+
+    var entry = this.factory.get(id);
+
+    if (!entry) {
+        this.request.flash('error', 'File not found');
+        this.redirect('list');
+    }
+
+    var field = entry.fields[fieldName];
+    var File  = plugin('models/fields/file');
+    if (!(field instanceof File)) {
+        this.request.flash('error', 'Field not found');
+        this.redirect('list');
+    }
+
+    var index     = fileNumber - 1;
+    var filenames = Array.isArray(field.value) ? field.value : [field.value];
+
+    if (index < 0 || fileNumber > filenames.length) {
+        this.sendError(404);
+    }
+
+    var filename = filenames[index];
+    var filepath = this.factory.fullpath(filename);
+
+    this.response.setHeader('Content-disposition', 'attachment; filename=' + filename);
+    return fs.createReadStream(filepath).pipe(this.response);
 };
 
 

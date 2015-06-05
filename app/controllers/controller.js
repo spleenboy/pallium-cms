@@ -14,11 +14,19 @@ function Controller(req, res, next) {
  * Send the output of a template¬
 **/
 Controller.prototype.send = function(name, data) {
-    var view = new View(name);
     data = this.populate(data);
-
     var content = View.render(name, data);
     this.response.send(content);
+};
+
+
+Controller.prototype.sendError = function(code, message) {
+    var data = {
+        code    : code,
+        message : message
+    };
+    this.response.status(code);
+    this.response.send(View.render('error', data));
 };
 
 
