@@ -6028,7 +6028,7 @@ footer {
     -webkit-animation-direction: alternate;
     animation-direction: alternate; }
 
-.button-list, .button-back, .button-delete {
+.button-list, .button-back, .button-delete, .button-cancel {
   display: inline-block;
   vertical-align: middle;
   -webkit-transform: translateZ(0);
@@ -6037,7 +6037,7 @@ footer {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -moz-osx-font-smoothing: grayscale; }
-  .button-list:hover, .button-list:focus, .button-list:active, .button-back:hover, .button-back:focus, .button-back:active, .button-delete:hover, .button-delete:focus, .button-delete:active {
+  .button-list:hover, .button-list:focus, .button-list:active, .button-back:hover, .button-back:focus, .button-back:active, .button-delete:hover, .button-delete:focus, .button-delete:active, .button-cancel:hover, .button-cancel:focus, .button-cancel:active {
     -webkit-animation-name: hvr-pulse-shrink;
     animation-name: hvr-pulse-shrink;
     -webkit-animation-duration: 0.3s;
@@ -6160,12 +6160,20 @@ footer {
   content: ""; }
 
 .button-delete {
-  background-color: #ff5e5e;
+  background-color: #19b43e;
   color: white; }
   .button-delete:before {
     font-family: 'FontAwesome';
     margin-right: 10px;
     content: ""; }
+
+.button-cancel {
+  background-color: #ff5e5e;
+  color: white; }
+  .button-cancel:before {
+    font-family: 'FontAwesome';
+    margin-right: 10px;
+    content: ""; }
 
 .button-back:before {
   font-family: 'FontAwesome';

@@ -13,7 +13,7 @@
     @include pulse-grow();
 }
 
-.button-list, .button-back, .button-delete {
+.button-list, .button-back, .button-delete, .button-cancel {
     @include pulse-shrink();
 }
 
@@ -56,10 +56,18 @@
 }
 
 .button-delete {
+    background-color: $background-button-error;
+    color: $foreground-button-error;
+    &:before {
+        @include icon-button($fa-var-trash);
+    }
+}
+
+.button-cancel {
     background-color: $background-button-warning;
     color: $foreground-button-warning;
     &:before {
-        @include icon-button($fa-var-trash);
+        @include icon-button($fa-var-undo);
     }
 }
 
