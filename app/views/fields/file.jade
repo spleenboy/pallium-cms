@@ -5,9 +5,9 @@ mixin existing(filename, index)
     - var parts = ['../file', field.entry.id, field.name];
     if index
         - parts.push(index + 1)
-    .drop-down= filename
-        .drop-down-items
-            a.pure-button.button-download(href=parts.join('/'), target='_blank') View File
+    div
+        .buttons
+            a.pure-button.button-view(href=parts.join('/'), target='_blank')= filename
             .switch.on-off
                 input(id=field.id + '-deleted', type='checkbox', name=field.fieldName + '[deleted][]', value=filename)
                 label(for=field.id + '-deleted')

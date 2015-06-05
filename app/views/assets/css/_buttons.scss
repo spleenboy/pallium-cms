@@ -4,13 +4,17 @@
   border-radius: 1px;
 }
 
+.buttons > * {
+    display: inline-block;
+}
+
 /** Animations **/
 .button-add, .button-login, .button-save, .button-okay {
-    @include skew-forward();
+    @include pulse-grow();
 }
 
 .button-list, .button-back, .button-delete {
-    @include skew-backward();
+    @include pulse-shrink();
 }
 
 .button-edit, .button-view, .button-download {

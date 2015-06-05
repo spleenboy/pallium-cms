@@ -6003,6 +6003,9 @@ footer {
   margin: 2px;
   border-radius: 1px; }
 
+.buttons > * {
+  display: inline-block; }
+
 /** Animations **/
 .button-add, .button-login, .button-save, .button-okay {
   display: inline-block;
@@ -6012,16 +6015,18 @@ footer {
   box-shadow: 0 0 1px transparent;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-property: transform;
-  transition-property: transform;
-  -webkit-transform-origin: 0 100%;
-  transform-origin: 0 100%; }
+  -moz-osx-font-smoothing: grayscale; }
   .button-add:hover, .button-add:focus, .button-add:active, .button-login:hover, .button-login:focus, .button-login:active, .button-save:hover, .button-save:focus, .button-save:active, .button-okay:hover, .button-okay:focus, .button-okay:active {
-    -webkit-transform: skew(-10deg);
-    transform: skew(-10deg); }
+    -webkit-animation-name: hvr-pulse-grow;
+    animation-name: hvr-pulse-grow;
+    -webkit-animation-duration: 0.3s;
+    animation-duration: 0.3s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate; }
 
 .button-list, .button-back, .button-delete {
   display: inline-block;
@@ -6031,16 +6036,18 @@ footer {
   box-shadow: 0 0 1px transparent;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-property: transform;
-  transition-property: transform;
-  -webkit-transform-origin: 0 100%;
-  transform-origin: 0 100%; }
+  -moz-osx-font-smoothing: grayscale; }
   .button-list:hover, .button-list:focus, .button-list:active, .button-back:hover, .button-back:focus, .button-back:active, .button-delete:hover, .button-delete:focus, .button-delete:active {
-    -webkit-transform: skew(10deg);
-    transform: skew(10deg); }
+    -webkit-animation-name: hvr-pulse-shrink;
+    animation-name: hvr-pulse-shrink;
+    -webkit-animation-duration: 0.3s;
+    animation-duration: 0.3s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate; }
 
 .button-edit, .button-view, .button-download {
   display: inline-block;
