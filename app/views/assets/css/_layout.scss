@@ -8,6 +8,26 @@ div#layout {
     padding: 0;
 }
 
+.logo {
+    text-align: center;
+    background: $background-logo;
+    border-bottom: 4px solid $line-dark;
+    @include radial-gradient(circle at 50% 50%, $background-logo 100%, $background-menu 0%);
+    @include underline-from-center();
+
+    .logo-header, .logo-title, .logo-footer {
+        color: $foreground-logo;
+        font-family: $logo;
+        display: block;
+        font-size: 34px;
+        padding: 0 10px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
+
 section.menu .content {
     position: fixed;
     height: 100%;

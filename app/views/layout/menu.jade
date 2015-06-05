@@ -11,6 +11,10 @@ mixin listEntries(entries, domain)
                     a.pure-menu-link(href=domainUrl + key + '/list')= type.plural
 
 nav.pure-menu
+    .logo 
+        a.logo-header(href='/') ---
+        a.logo-title(href='/') Pallium
+        a.logo-footer(href='/') ---
     ul.pure-menu-list
         if entries.domains
             each domain, key in entries.domains
