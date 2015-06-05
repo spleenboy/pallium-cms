@@ -1,6 +1,10 @@
 var util        = require('util');
 var moment      = require('moment');
 var fs          = require('fs');
+var path        = require('path');
+var mime        = require('mime-types');
+
+var file        = plugin('services/file');
 var object      = plugin('util/object');
 var log         = plugin('services/log')(module);
 var Controller  = plugin('controllers/controller');
@@ -163,7 +167,17 @@ Entries.prototype.file = function() {
     var filename = filenames[index];
     var filepath = this.factory.fullpath(filename);
 
-    this.response.setHeader('Content-disposition', 'attachment; filename=' + filename);
+    var stats = file.stats(filepath);
+
+    if (!stats) {
+        this.sendError(404);
+    }
+
+    this.response.writeHead(200, {
+        'Content-Type': mime.contentType(path.basename(filename)),
+        'Content-Length': stats.size
+    });
+
     return fs.createReadStream(filepath).pipe(this.response);
 };
 

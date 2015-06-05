@@ -7,14 +7,12 @@ mixin existing(filename, index)
         - parts.push(index + 1)
     .drop-down= filename
         .drop-down-items
+            a.pure-button.button-download(href=parts.join('/'), target='_blank') View File
             .switch.on-off
                 input(id=field.id + '-deleted', type='checkbox', name=field.fieldName + '[deleted][]', value=filename)
                 label(for=field.id + '-deleted')
-                    .off
-                        .pure-button.button-okay Keep File
-                    .on
-                        .pure-button.button-delete Delete File
-            a.pure-button.button-download(href=parts.join('/')) Download File
+                    .off.button-okay Keep File
+                    .on.button-delete Delete File
 
 if Array.isArray(field.value)
     each filename, index in field.value

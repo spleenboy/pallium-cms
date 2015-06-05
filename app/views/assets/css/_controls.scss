@@ -45,26 +45,30 @@
     input + label .off,
     input + label .on {
         display: inline-block;
+        @include border-left-radius(4px);
+        @include border-right-radius(4px);
+        padding: 4px 10px;
+        cursor: pointer;
     }
 
-    input + label > .off > .pure-button {
+    input + label > .off {
         background-color: $background-button-success;
         color: $foreground-button-success;
         margin-right: 5px;
     }
 
-    input + label > .on > .pure-button {
+    input + label > .on {
         background-color: $background-light;
         color: $foreground-light;
         margin-left: 5px;
     }
 
-    input:checked + label > .off > .pure-button  {
+    input:checked + label > .off  {
         background-color: $background-light;
         color: $foreground-light;
     }
 
-    input:checked + label  > .on > .pure-button {
+    input:checked + label  > .on {
         background-color: $background-button-warning;
         color: $foreground-button-warning;
     }
