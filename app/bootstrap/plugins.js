@@ -21,7 +21,7 @@ plugins.require = function (name) {
 };
 
 
-plugins.register = function register(name, path) {
+plugins.override = function overrride(name, path) {
     var log = plugins.require('services/log')(module);
     if (name in plugins.overrides) {
         log.warn("Plugin override already exists for", name);
@@ -34,6 +34,7 @@ plugins.load = function load(app, args) {
     var file   = plugins.require('services/file');
     var config = plugins.require('config');
     var log    = plugins.require('services/log')(module);
+    var hooks  = plugins.require('services/hooks');
 
     var dir   = config.get('site.pluginDirectory');
     var stats = file.stats(dir);
@@ -51,12 +52,14 @@ plugins.load = function load(app, args) {
 
     for (var i=0; i<list.length; i++) {
 
-        if (!fs.statSync(list[i]).isDirectory) {
+        var pluginPath = path.join(dir, list[i]);
+        var stats = file.stats(pluginPath);
+        if (!stats.isDirectory) {
             continue;
         }
 
         try {
-            var main = require(path.join(dir, list[i], 'register'))();
+            var main = require(path.join(dir, list[i], 'register'))(hooks);
             log.info("Registered plugin", list[i]);
         } catch (e) {
             log.error("Plugin missing register.js file", list[i]);

@@ -4,8 +4,9 @@ var path = require('path');
 
 var Views = {};
 
-function View(name) {
+function View(name, data) {
     this.name      = name;
+    this.data      = data || {};
     this.extension = '.jade';
 }
 
@@ -25,17 +26,17 @@ View.prototype.compile = function() {
 };
 
 
-View.prototype.render = function(data) {
+View.prototype.render = function() {
     var compiled = this.compile();
-    return compiled(data);
+    return compiled(this.data);
 };
 
 
 View.render = function(name, data) {
     if (!(name in Views)) {
-        Views[name] = new View(name);
+        Views[name] = new View(name, data);
     }
-    return Views[name].render(data);
+    return Views[name].render();
 };
 
 

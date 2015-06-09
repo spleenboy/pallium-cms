@@ -5937,8 +5937,6 @@ div#layout {
   .logo:hover:before, .logo:focus:before, .logo:active:before {
     left: 0;
     right: 0; }
-  .logo:hover {
-    box-shadow: inset 0 1px 0 0 #191919; }
   .logo .logo-header, .logo .logo-title, .logo .logo-footer {
     color: #0e640e;
     font-family: "logo", "serif";

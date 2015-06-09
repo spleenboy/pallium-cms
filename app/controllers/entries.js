@@ -4,6 +4,7 @@ var fs          = require('fs');
 var path        = require('path');
 var mime        = require('mime-types');
 
+var hooks       = plugin('services/hooks');
 var file        = plugin('services/file');
 var object      = plugin('util/object');
 var log         = plugin('services/log')(module);
@@ -13,25 +14,28 @@ var Definition  = plugin('models/entry-definition');
 var Factory     = plugin('models/entry-factory');
 var View        = plugin('views/view');
 
-function Entries() {
-    Controller.apply(this, arguments);
 
+function Entries() {
     object.lazyGet(this, 'type', function() {
         return this.request.params.type;
     });
 
-    object.lazyGet(this, 'domain', function() {
+    // Note: 'domain' is reserved by EventEmitter, so we need to use a different variable here
+    object.lazyGet(this, 'entryDomain', function() {
         return this.request.params.domain;
     });
 
     object.lazyGet(this, 'definition', function() {
-        return new Definition(this.domain);
+        return new Definition(this.entryDomain);
     });
 
     object.lazyGet(this, 'factory', function() {
         return new Factory(this.type, this.definition);
     });
+
+    Controller.call(this);
 }
+
 
 util.inherits(Entries, Controller);
 
@@ -41,8 +45,8 @@ Entries.prototype.redirect = function() {
 
     parts.unshift(this.type);
 
-    if (this.domain) {
-        parts.unshift(this.domain);
+    if (this.entryDomain) {
+        parts.unshift(this.entryDomain);
     }
 
     parts.unshift('entry');

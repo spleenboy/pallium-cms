@@ -11,14 +11,8 @@ Pallium CMS provides you with a front-end for the administration of a static web
 
 
 ## Planned features
-
-**Multiple Modes**
-Support for switching between multiple entry type configurations.
-
-**File Field**
-Upload images and other documents and associate them to an entry.
-
 **Index Metadata**
 Move away from "subtitle" and use the entry type configuration file to manage what is displayed on the index page.
+
 **Plugin Menu Items**
 Allow plugins to add menu items to the site.

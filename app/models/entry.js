@@ -1,4 +1,6 @@
 var path   = require('path');
+var util   = require('util');
+var events = require('events');
 var file   = plugin('services/file');
 var log    = plugin('services/log')(module);
 var config = plugin('config');
@@ -8,7 +10,10 @@ function Entry(type, definition) {
     this.id = null;
     this.multipart = false;
     this.configure(type, definition);
+    events.EventEmitter.call(this);
 }
+
+util.inherits(Entry, events.EventEmitter);
 
 Entry.extension = '.md';
 
@@ -29,6 +34,8 @@ Entry.prototype.configure = function(type, definition) {
         throw new Error("No configuration");
     }
 
+    this.emit('configuring', settings);
+
     this.loadFields();
 
     for (var key in settings) {
@@ -36,6 +43,8 @@ Entry.prototype.configure = function(type, definition) {
             this[key] = settings[key];
         }
     }
+
+    this.emit('configured');
 };
 
 
@@ -74,15 +83,7 @@ Entry.prototype.loadFields = function() {
 
 // Gets the relative path from this entrys directory, based on its config
 Entry.prototype.getRelativePath = function() {
-
-    var title = this.getTitle();
-
-    if (!title) {
-        log.error("Config for entry type is missing a title key", this.type);
-        throw new Error("Configuration file missing title key");
-    }
-
-    var name = file.slug(title) + Entry.extension;
+    var name = this.getFilename();
     var sub  = this.get('subdirectory');
 
     if (sub === undefined) {
@@ -90,6 +91,23 @@ Entry.prototype.getRelativePath = function() {
     }
 
     return path.join(sub, name);
+};
+
+
+// Get this entry's generated filename
+Entry.prototype.getFilename = function() {
+    var filename = this.get('filename');
+
+    if (filename === undefined) {
+        filename = file.slug(this.getTitle());
+    }
+
+    if (!filename) {
+        log.error("Cannot generate filename for type:", this.type);
+        throw new Error("Cannot generate filename");
+    }
+
+    return filename + Entry.extension;
 };
 
 
@@ -127,7 +145,7 @@ Entry.prototype.data = function(name, value) {
     }
 
     if (!this.fields[name]) {
-        log.info("Key doesn't exist in fields", name);
+        log.info("Key doesn't exist in fields:", name);
         return undefined;
     }
 

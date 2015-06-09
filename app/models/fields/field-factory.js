@@ -1,10 +1,15 @@
 var util   = require('util');
+var events = require('events');
 var log    = plugin('services/log')(module);
 var file   = plugin('services/file');
 var object = plugin('util/object');
 var fields = plugin('models/fields/');
 
-function FieldFactory() {}
+function FieldFactory() {
+    events.EventEmitter.call(this);
+}
+
+util.inherits(FieldFactory, events.EventEmitter);
 
 FieldFactory.prototype.defaults = function() {
     return {
@@ -24,27 +29,43 @@ FieldFactory.prototype.defaults = function() {
 **/
 FieldFactory.prototype.create = function create(settings, entry) {
 
-    var field;
     settings = object.assign(this.defaults(), settings || {});
+
+    var event = {
+        'settings' : settings,
+        'entry'    : entry,
+        'field'    : null
+    };
+
+    this.emit('creating', event);
 
     if (settings.source) {
         var PluginField = plugin(settings.source);
-        field = new PluginField();
+        event.field = new PluginField();
     } else if (settings.type in fields) {
         var CustomField = fields[settings.type];
-        field = new CustomField();
+        event.field = new CustomField();
     } else {
-        field = new fields.field();
+        event.field = new fields.field();
     }
 
-    object.defineProperties(field, settings);
+    object.defineProperties(event.field, settings);
 
-    field.entry     = entry;
-    field.id        = file.slug(entry.type + '-' + field.name);
-    field.entryType = entry.type;
-    field.fieldName = entry.type + '[' + field.name + ']';
+    event.field.entry     = entry;
+    event.field.id        = file.slug(entry.type + '-' + event.field.name);
+    event.field.entryType = entry.type;
+    event.field.fieldName = entry.type + '[' + event.field.name + ']';
 
-    return field;
+    this.emit('created', event);
+
+    try {
+        event.field.validateDefinition();
+    } catch (e) {
+        console.error("Invalid field definition", settings);
+        throw e;
+    }
+
+    return event.field;
 };
 
 module.exports = new FieldFactory();

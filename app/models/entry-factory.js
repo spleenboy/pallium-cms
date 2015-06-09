@@ -1,3 +1,5 @@
+var util   = require('util');
+var events = require('events');
 var front  = require('yaml-front-matter');
 var yaml   = require('js-yaml');
 var path   = require('path');
@@ -19,6 +21,7 @@ function Factory(type, definition) {
     }
 
     if (!(type in definition.types)) {
+        console.error('Type not found in definition', type, definition);
         throw new TypeError('Invalid type');
     }
 
@@ -37,7 +40,12 @@ function Factory(type, definition) {
     this.indexPath = path.join(this.root, indexFile);
 
     this.loadIndex();
+
+    events.EventEmitter.call(this);
 }
+
+
+util.inherits(Factory, events.EventEmitter);
 
 
 Factory.prototype.fullpath = function(relativepath) {
@@ -144,12 +152,28 @@ Factory.prototype.create = function() {
     entry.created  = new Date();
     entry.modified = new Date();
     this.populate(entry, {});
+    this.emit('creating', entry);
     return entry;
 };
 
 
 Factory.prototype.get = function(id) {
     var item = this.index[id];
+
+    var event = {
+        'id'    : id,
+        'item'  : item,
+        'entry' : null
+    };
+
+    // Allow listeners to intercept the get request and return
+    // something.
+    this.emit('getting', event);
+
+    if (event.entry) {
+        this.emit('got', event.entry);
+        return event.entry;
+    }
 
     if (!item) {
         return false;
@@ -177,6 +201,8 @@ Factory.prototype.get = function(id) {
             log.warn("Entry file not found. Skipping population", item);
         }
 
+        this.emit('got', entry);
+
         return entry;
 
     } catch (e) {
@@ -192,6 +218,14 @@ Factory.prototype.get = function(id) {
  * and associating it to the field.
 **/
 Factory.prototype.populate = function(entry, data, files) {
+    var event = {
+        'entry' : entry,
+        'data'  : data,
+        'files' : files
+    };
+
+    this.emit('populating', event);
+
     for (var key in entry.fields) {
         var field = entry.fields[key];
 
@@ -215,6 +249,8 @@ Factory.prototype.populate = function(entry, data, files) {
             }
         }
     }
+
+    this.emit('populated', event);
 };
 
 
@@ -311,21 +347,32 @@ Factory.prototype.save = function(entry) {
         }
     }
 
-    var id = entry.id || random.id();
+    entry.id = entry.id || random.id();
+    var index = {
+        id       : entry.id,
+        title    : entry.getTitle(),
+        subtitle : entry.getSubtitle(),
+        filepath : this.relativepath(filepath),
+        created  : entry.created || new Date(),
+        modified : new Date()
+    };
 
-    log.info("Saving entry to path", filepath);
+    var event = {
+        'filepath': filepath,
+        'entry'   : entry,
+        'index'   : index,
+        'content' : content
+    };
 
-    if (file.write(filepath, content)) {
-        this.index[id] = {
-            id       : id,
-            title    : entry.getTitle(),
-            subtitle : entry.getSubtitle(),
-            filepath : this.relativepath(filepath),
-            created  : entry.created || new Date(),
-            modified : new Date()
-        };
+    this.emit('saving', event);
+
+    log.info("Saving entry to path", event.filepath);
+
+    if (file.write(event.filepath, event.content)) {
+        this.index[id] = event.index;
         this.saveIndex();
-        return id;
+        this.emit('saved', event);
+        return entry.id;
     }
 
     return false;
@@ -345,6 +392,8 @@ Factory.prototype.delete = function(id) {
         throw new Error('Could not find entry');
     }
 
+    this.emit('deleting', entry);
+
     // Delete all of the files
     for (var key in entry.fields) {
         var field = entry.fields[key];
@@ -358,6 +407,7 @@ Factory.prototype.delete = function(id) {
     if (file.delete(filepath)) {
         delete this.index[id];
         if (this.saveIndex()) {
+            this.emit('deleted', entry);
             return entry;
         } else {
             return false;
