@@ -112,12 +112,13 @@ Factory.prototype.createIndex = function() {
     for (var i=0; i<items.length; i++) {
         var stats = items[i];
         var id = random.id();
+        var relpath = this.relativepath(stats.filepath);
         var item = {
             id       : id,
-            title    : stats.filepath,
-            filepath : stats.filepath,
-            modified : stats.mtime,
-            created  : stats.birthtime
+            title    : relpath,
+            filepath : relpath,
+            modified : stats.mtime || null,
+            created  : stats.birthtime || null
         };
         this.index[id] = item;
     }
@@ -189,8 +190,10 @@ Factory.prototype.get = function(id) {
         entry.created  = item.created;
         entry.modified = item.modified;
 
+        var stats = file.stats(filepath);
+
         if (item.created || item.modified) {
-            var data = front.loadFront(filepath);
+            var data = this.import(filepath);
 
             if (!data) {
                 log.error("Error parsing file", filepath);
@@ -244,7 +247,7 @@ Factory.prototype.populate = function(entry, data, files) {
             // Multipart fields don't support default values
             var defaultValue = field.defaultValue;
             if (typeof defaultValue === 'function') {
-                field.value = defaultValue.call(this);
+                field.value = defaultValue.call(entry);
             } else {
                 field.value = defaultValue;
             }
@@ -316,9 +319,33 @@ Factory.prototype.uploadFieldFile = function(field, upload) {
 };
 
 
-Factory.prototype.save = function(entry) {
+// Loads a file and returns an object with data
+Factory.prototype.import = function(filepath) {
+    var ext = path.extname(filepath);
+    if (ext === '.yaml') {
+        return yaml.safeLoad(filepath);
+    }
+    else if (ext === '.md') {
+        return front.loadFront(filepath);
+    }
+    else if (ext === '.json') {
+        var json = file.read(filepath);
+        return JSON.parse(json);
+    }
+    log.error('Unsupported import file', filepath);
+    throw new Error('Unsupported file type');
+};
+
+
+// Exports an entry into string content (either yaml or json)
+Factory.prototype.export = function(entry) {
+    var extension = entry.getExtension();
+    if (extension === '.json') {
+        return JSON.stringify(entry.data(), true);
+    }
+
     var data = entry.data();
-    var content = data.__content;
+    var content = data.__content || '';
     delete(data.__content);
 
     if (data !== undefined) {
@@ -333,6 +360,13 @@ Factory.prototype.save = function(entry) {
             throw e;
         }
     }
+
+    return content;
+};
+
+
+Factory.prototype.save = function(entry) {
+    var content = this.export(entry);
 
     var filepath = path.join(
         this.root, 

@@ -18,7 +18,7 @@ local: function(name) {
         var localConf = require(localPath);
         return localConf;
     } catch (e) {
-        log.debug('No local config override at', localPath);
+        log.debug('No local config override at', localPath, e);
         return undefined;
     }
 },

@@ -1,3 +1,6 @@
+---
+location: home
+---
 # Pallium CMS
 > In neuroscience, pallium refers to layers of gray and white matter that cover the upper surface of the brain's cerebrum.
 
@@ -14,5 +17,6 @@ Pallium CMS provides you with a front-end for the administration of a static web
 **Index Metadata**
 Move away from "subtitle" and use the entry type configuration file to manage what is displayed on the index page.
 
-**Plugin Menu Items**
-Allow plugins to add menu items to the site.
+**Plugins**
+ - Add menu items and actions
+ - Hooks via `EventEmitter`

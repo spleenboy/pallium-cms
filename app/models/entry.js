@@ -9,13 +9,12 @@ var fieldFactory = plugin('models/fields/field-factory');
 function Entry(type, definition) {
     this.id = null;
     this.multipart = false;
+    this.markdown  = false;
     this.configure(type, definition);
     events.EventEmitter.call(this);
 }
 
 util.inherits(Entry, events.EventEmitter);
-
-Entry.extension = '.md';
 
 
 Entry.prototype.configure = function(type, definition) {
@@ -76,6 +75,10 @@ Entry.prototype.loadFields = function() {
         if (field.multipart) {
             this.multipart = true;
         }
+
+        if (field.type === 'md') {
+            this.markdown = true;
+        }
     }
 
 };
@@ -94,6 +97,15 @@ Entry.prototype.getRelativePath = function() {
 };
 
 
+Entry.prototype.getExtension = function() {
+    var ext = this.get('extension');
+    if (ext !== undefined) {
+        return ext;
+    }
+    return this.markdown ? '.md' : '.yaml';
+};
+
+
 // Get this entry's generated filename
 Entry.prototype.getFilename = function() {
     var filename = this.get('filename');
@@ -107,7 +119,7 @@ Entry.prototype.getFilename = function() {
         throw new Error("Cannot generate filename");
     }
 
-    return filename + Entry.extension;
+    return filename + this.getExtension();
 };
 
 

@@ -1,2 +1,7 @@
-label(for=id) #{label}
-textarea(id=id, name=fieldName, required)= value
+- var fieldPlaceholder = field.placeholder || field.label || '';
+- var fieldAttributes = {};
+if field.attributes
+    - fieldAttributes = field.attributes
+
+label(for=field.id)= field.label
+textarea(id=field.id, name=field.fieldName, placeholder=fieldPlaceholder)&attributes(fieldAttributes)= field.value
