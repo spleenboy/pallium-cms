@@ -1,6 +1,8 @@
 var events = require('events');
 var util   = require('util');
 var hooks  = plugin('services/hooks');
+var file   = plugin('services/file');
+var log    = plugin('services/log')(module);
 
 function Router(app) {
     events.EventEmitter.call(this);
@@ -11,12 +13,20 @@ function Router(app) {
 util.inherits(Router, events.EventEmitter);
 
 Router.prototype.register = function(app) {
-    this.emit('registering', app);
-
     app.use('/', plugin('routes/home'));
     app.use('/entry', plugin('routes/entries'));
 
-    this.emit('registered', app);
+    var event = {
+        'express' : require('express'),
+        'routers' : {}
+    };
+
+    this.emit('registering', event);
+    for (var key in event.routers) {
+        var base = '/use/' + file.slug(key);
+        app.use(base, event.routers[key]);
+        log.debug('Using router at', base);
+    }
 };
 
 module.exports = function(app) {

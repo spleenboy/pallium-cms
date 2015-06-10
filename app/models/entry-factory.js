@@ -21,7 +21,8 @@ function Factory(type, definition) {
     }
 
     if (!(type in definition.types)) {
-        console.error('Type not found in definition', type, definition);
+        var types = Object.keys(definition.types);
+        console.error('Type not found in definition', type, types, definition);
         throw new TypeError('Invalid type');
     }
 

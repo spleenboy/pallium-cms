@@ -76,7 +76,8 @@ module.exports.defineProperties = function defineProperties(obj, properties) {
             value : value
         };
         if (this instanceof events.EventEmitter) {
-            this.emit('get', event);
+            this.emit('getting', event);
+            this.emit('getting.' + key, event);
         }
         return event.value;
     }
@@ -87,7 +88,8 @@ module.exports.defineProperties = function defineProperties(obj, properties) {
             value : value
         };
         if (this instanceof events.EventEmitter) {
-            this.emit('set', event);
+            this.emit('setting', event);
+            this.emit('setting.' + key, event);
         }
         this._properties[key] = event.value;
     }

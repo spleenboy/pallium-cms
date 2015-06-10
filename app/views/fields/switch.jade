@@ -4,5 +4,5 @@ if field.value
 .switch.on-off
     input(id=field.id, type='checkbox', name=field.fieldName, value=field.value)&attributes(fieldAttributes)
     label(for=field.id)
-        .off&attributes(field.off.attributes || {})= field.off.label
-        .on&attributes(field.on.attributes || {})= field.on.label
+        .off&attributes(field.offState.attributes || {})= field.offState.label
+        .on&attributes(field.onState.attributes || {})= field.onState.label

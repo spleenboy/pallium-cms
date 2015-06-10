@@ -8,12 +8,13 @@ function View(name, data) {
     this.name      = name;
     this.data      = data || {};
     this.extension = '.jade';
+    this.base      = __dirname;
 }
 
 
 View.prototype.template = function() {
     var file = this.name + this.extension;
-    return path.join(__dirname, file);
+    return path.join(this.base, file);
 };
 
 

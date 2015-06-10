@@ -29,6 +29,8 @@ Definition.prototype.get = function(keys, context) {
         return config.resolve(this.data, keys, context || this);
     }
 
+    var domains = Object.keys(this.data.domains);
+
     if (this.domain in this.data.domains) {
         return config.resolve(this.data.domains[this.domain], keys, context || this);
     }

@@ -56,8 +56,6 @@ Controller.prototype.populate = function(data) {
     data.site    = config.get('site');
     data.entries = new Definition(this.request.params.domain);
 
-    data.actions = [];
-
     data.params = this.request.params;
     data.flash  = this.request.flash();
     data.user   = this.request.user;
@@ -66,6 +64,8 @@ Controller.prototype.populate = function(data) {
         'data'       : data,
         'controller' : this
     };
+
+    data.sidebar = {};
 
     this.emit('populating', event);
 

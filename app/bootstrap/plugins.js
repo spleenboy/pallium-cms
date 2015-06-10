@@ -53,8 +53,16 @@ plugins.load = function load(app, args) {
     for (var i=0; i<list.length; i++) {
 
         var pluginPath = path.join(dir, list[i]);
+
+        if (pluginPath[0] === '.') {
+            // Ignore dot-prefixed files and directories
+            continue;
+        }
+
         var stats = file.stats(pluginPath);
+
         if (!stats.isDirectory) {
+            // Ignore non-directories
             continue;
         }
 
@@ -63,7 +71,6 @@ plugins.load = function load(app, args) {
             log.info("Registered plugin", list[i]);
         } catch (e) {
             log.error("Plugin missing register.js file", list[i]);
-            throw e;
         }
     }
 };
