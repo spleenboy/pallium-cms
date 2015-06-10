@@ -370,7 +370,7 @@ Factory.prototype.save = function(entry) {
     log.info("Saving entry to path", event.filepath);
 
     if (file.write(event.filepath, event.content)) {
-        this.index[id] = event.index;
+        this.index[entry.id] = event.index;
         this.saveIndex();
         this.emit('saved', event);
         return entry.id;

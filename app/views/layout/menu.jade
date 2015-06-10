@@ -3,7 +3,7 @@ mixin listEntries(entries, domain)
     - var domainUrl = domain ? '/entry/' + domain + '/' : '/entry/';
     li.pure-menu-heading= entriesHeading
         each type, key in entries.types
-            if key === params.type
+            if key === params.type && domain === params.domain
                 li.pure-menu-item.pure-menu-selected
                     a.pure-menu-link(href=domainUrl + key + '/list')= type.plural
             else
