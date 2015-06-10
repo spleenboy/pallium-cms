@@ -102,8 +102,13 @@ Factory.prototype.createIndex = function() {
     this.index = {};
     for (var i=0; i<items.length; i++) {
         var stats = items[i];
-        var id = random.id();
         var relpath = this.relativepath(stats.filepath);
+
+        if (['.md', '.json', '.yaml'].indexOf(path.extname(relpath)) < 0) {
+            continue;
+        }
+
+        var id = random.id();
         var item = {
             id       : id,
             title    : relpath,
@@ -228,7 +233,7 @@ Factory.prototype.populate = function(entry, data, files) {
             // A file was added for the field
             this.uploadFieldFile(field, files[field.fieldName]);
         } else if (field.name in data) {
-            if (field.multipart && data[field.name].deleted) {
+            if (field.multipart && data[field.name] && data[field.name].deleted) {
                 this.deleteFieldFiles(field, data[field.name].deleted);
             } else {
                 // Data was included
