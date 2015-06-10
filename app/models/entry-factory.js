@@ -1,13 +1,12 @@
 var util   = require('util');
 var events = require('events');
-var front  = require('yaml-front-matter');
-var yaml   = require('js-yaml');
 var path   = require('path');
 
 var object = plugin('util/object');
 var random = plugin('util/random');
 var log    = plugin('services/log')(module);
 var file   = plugin('services/file');
+var io     = plugin('services/io');
 
 var Entry      = plugin('models/entry');
 var Definition = plugin('models/entry-definition');
@@ -26,7 +25,6 @@ function Factory(type, definition) {
         throw new TypeError('Invalid type');
     }
 
-    this.delimiter = '---\n';
     this.type = type;
     this.definition = definition;
     this.output = this.definition.get('output');
@@ -70,16 +68,9 @@ Factory.prototype.loadIndex = function() {
         log.warn("Missing directory for entry type that allows multiple entries. This can cause problems!", this.type);
     }
 
-    var contents = file.read(this.indexPath);
+    this.index = io.import(this.indexPath);
 
-    if (contents) {
-        try {
-            this.index = yaml.safeLoad(contents);
-        } catch (e) {
-            log.error("Error reading contents of index", this.indexPath, e);
-            this.index = {};
-        }
-    } else {
+    if (this.index === false) {
         this.createIndex();
     }
 };
@@ -134,7 +125,7 @@ Factory.prototype.saveIndex = function() {
         throw new Error('Undefined index');
     }
     try {
-        var contents = yaml.safeDump(this.index);
+        var contents = io.export(this.index, this.indexPath);
         return file.write(this.indexPath, contents);
     } catch (e) {
         log.error("Error saving index to", this.indexPath, e, this.index);
@@ -193,7 +184,7 @@ Factory.prototype.get = function(id) {
         var stats = file.stats(filepath);
 
         if (item.created || item.modified) {
-            var data = this.import(filepath);
+            var data = io.import(filepath);
 
             if (!data) {
                 log.error("Error parsing file", filepath);
@@ -319,54 +310,8 @@ Factory.prototype.uploadFieldFile = function(field, upload) {
 };
 
 
-// Loads a file and returns an object with data
-Factory.prototype.import = function(filepath) {
-    var ext = path.extname(filepath);
-    if (ext === '.yaml') {
-        return yaml.safeLoad(filepath);
-    }
-    else if (ext === '.md') {
-        return front.loadFront(filepath);
-    }
-    else if (ext === '.json') {
-        var json = file.read(filepath);
-        return JSON.parse(json);
-    }
-    log.error('Unsupported import file', filepath);
-    throw new Error('Unsupported file type');
-};
-
-
-// Exports an entry into string content (either yaml or json)
-Factory.prototype.export = function(entry) {
-    var extension = entry.getExtension();
-    if (extension === '.json') {
-        return JSON.stringify(entry.data(), true);
-    }
-
-    var data = entry.data();
-    var content = data.__content || '';
-    delete(data.__content);
-
-    if (data !== undefined) {
-        try {
-            var frontMatter = yaml.safeDump(data);
-
-            if (frontMatter) {
-                content = this.delimiter + frontMatter + this.delimiter + content;
-            }
-        } catch (e) {
-            log.error("Error dumping front matter for entry", entry.type, data);
-            throw e;
-        }
-    }
-
-    return content;
-};
-
-
 Factory.prototype.save = function(entry) {
-    var content = this.export(entry);
+    var content = io.export(entry.data(), entry.getFilename());
 
     var filepath = path.join(
         this.root, 

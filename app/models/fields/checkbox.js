@@ -3,10 +3,6 @@ var Field = plugin('models/fields/field');
 
 function Checkbox() {
     Field.apply(this, arguments);
-    Object.defineProperty(this, '_value', {
-        enumerable : false,
-        writable   : true
-    });
 
     function toBool(event) {
         event.value = !!event.value;
