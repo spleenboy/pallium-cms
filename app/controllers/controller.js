@@ -13,6 +13,7 @@ function Controller(req, res, next) {
     this.request  = req;
     this.response = res;
     this.next     = next;
+    this.viewBase = process.cwd() + '/app/views';
 };
 
 
@@ -25,6 +26,7 @@ util.inherits(Controller, events.EventEmitter);
 Controller.prototype.send = function(name, data) {
     data = this.populate(data);
     var view = new View(name, data);
+    view.base = this.viewBase;
 
     var event = {
         'view'       : view,

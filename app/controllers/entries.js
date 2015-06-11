@@ -130,12 +130,12 @@ Entries.prototype.save = function() {
 
 Entries.prototype.delete = function() {
     var id = this.request.params.id;
-    var item = this.factory.delete(id);
+    var entry = this.factory.delete(id);
 
-    if (item) {
-        this.request.flash('info', '"' + item.title + '" was deleted!');
+    if (entry) {
+        this.request.flash('info', '"' + entry.getTitle() + '" was deleted!');
     } else {
-        this.request.flash('error', '"' + item.title + '" could not be deleted!');
+        this.request.flash('error', '"' + entry.getTitle() + '" could not be deleted!');
     }
 
     this.redirect('list');

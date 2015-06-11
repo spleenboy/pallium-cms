@@ -54,7 +54,7 @@ plugins.load = function load(app, args) {
 
         var pluginPath = path.join(dir, list[i]);
 
-        if (pluginPath[0] === '.') {
+        if (list[i][0] === '.') {
             // Ignore dot-prefixed files and directories
             continue;
         }
@@ -67,10 +67,10 @@ plugins.load = function load(app, args) {
         }
 
         try {
-            var main = require(path.join(dir, list[i], 'register'))(hooks);
+            var main = require(path.join(dir, list[i]))(hooks);
             log.info("Registered plugin", list[i]);
         } catch (e) {
-            log.error("Plugin missing register.js file", list[i]);
+            log.error("Plugin missing index.js file", list[i]);
         }
     }
 };
