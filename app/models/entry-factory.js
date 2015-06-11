@@ -11,7 +11,7 @@ var io     = plugin('services/io');
 var Entry      = plugin('models/entry');
 var Definition = plugin('models/entry-definition');
 
-var indexFile = '_index.yaml';
+var indexFile = '.index.yaml';
 
 function Factory(type, definition) {
 
@@ -196,6 +196,7 @@ Factory.prototype.get = function(id) {
                 return false;
             }
 
+            log.debug('Populating entry with data', data);
             this.populate(entry, data);
         } else {
             log.warn("Entry file not found. Skipping population", item);

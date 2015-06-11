@@ -1,5 +1,7 @@
 module.exports = {
     checkbox : plugin('models/fields/checkbox'),
+    date     : plugin('models/fields/date'),
+    datetime : plugin('models/fields/datetime'),
     field    : plugin('models/fields/field'),
     file     : plugin('models/fields/file'),
     hidden   : plugin('models/fields/hidden'),

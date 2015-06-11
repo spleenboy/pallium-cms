@@ -2,6 +2,7 @@ var path  = require('path');
 var front = require('yaml-front-matter');
 var yaml  = require('js-yaml');
 var file  = plugin('services/file');
+var log   = plugin('services/log')(module);
 
 var exporters = {};
 
