@@ -15,7 +15,7 @@ describe('plugins', function() {
 
     describe('find', function() {
         it('should find a registered override', function() {
-            plugins.register('foo', 'bar');
+            plugins.override('foo', 'bar');
             assert.equal(plugins.find('foo'), 'bar');
         });
 

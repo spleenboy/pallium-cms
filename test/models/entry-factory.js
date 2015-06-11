@@ -1,15 +1,32 @@
 var assert = require('assert');
 
 describe('EntryFactory', function() {
-    var Factory, Definition, mockfile;
+    var Factory, Definition, mockfile, mockIo;
 
     before(function() {
+        function nope() {
+            return false;
+        }
+
+        function emptyA() {
+            return [];
+        }
+        
         mockfile = {
-            read: function() {return [];}
+            read: emptyA,
+            list: emptyA,
+            write: nope 
+        };
+        mockIo = {
+            import: nope,
+            export: nope
         };
         global.plugin = function(name) {
             if (name === 'services/file') {
                 return mockfile;
+            }
+            else if (name === 'services/io') {
+                return mockIo;
             }
             return require('../../app/' + name);
         };
@@ -112,23 +129,23 @@ describe('EntryFactory', function() {
             });
         });
 
-        it('should create and save a new index if needed', function() {
+        it('should use an existing index', function() {
             mockfile.read = function(fp) {
                 return false;
             };
 
-            mockfile.list = function(dir) {
-                var now = new Date();
-                return [
-                    {filepath: 'foo', mtime: now, birthtime: now},
-                    {filepath: 'foo', mtime: now, birthtime: now},
-                    {filepath: 'foo', mtime: now, birthtime: now},
-                    {filepath: 'foo', mtime: now, birthtime: now},
-                ];
-            };
-
             mockfile.write = function(path, content) {
                 return true;
+            };
+
+            mockIo.import = function(indexPath) {
+                var now = new Date();
+                return {
+                    'f1': {id: 'f1', filepath: 'foo', title: 'foo'},
+                    'f2': {id: 'f2', filepath: 'foo', title: 'foo'},
+                    'f3': {id: 'f3', filepath: 'foo', title: 'foo'},
+                    'f4': {id: 'f4', filepath: 'foo', title: 'foo'},
+                };
             };
 
             factory.loadIndex();
@@ -141,33 +158,45 @@ describe('EntryFactory', function() {
             }
         });
 
-        it('should use existing index if found', function() {
-            mockfile.read = function(fp) {
-                return "ID0:\n"
-+ "  id: ID0\n"
-+ "  title: Foo\n"
-+ "  subtitle: Bar\n"
-+ "  filepath: foo.md\n"
-+ "  created: 2015-01-01T00:00:00.000Z\n"
-+ "  modified: 2015-01-01T00:00:00.001Z\n"
-+ "ID1:\n"
-+ "  id: ID1\n"
-+ "  title: Baz\n"
-+ "  subtitle: Quz\n"
-+ "  filepath: baz.md\n"
-+ "  created: 2014-01-01T00:00:00.000Z\n"
-+ "  modified: 2014-01-01T00:00:00.001Z";
+        it('should ignore all but .md, .json, and .yaml when creating a new index ', function() {
+            mockIo.import = function(indexPath) {
+                return false;
             };
 
-            mockfile.write = function(path, content) {
+            mockfile.write = function(filepath, content) {
                 return true;
+            };
+
+            mockfile.list = function(filepath) {
+                return [{
+                    'filepath' : 'foo.md',
+                    'mtime' : 'now',
+                    'birthtime' : 'then'
+                },
+                {
+                    'filepath' : 'foo.json',
+                    'mtime' : 'now',
+                    'birthtime' : 'then'
+                },
+                {
+                    'filepath' : 'foo.yaml',
+                    'mtime' : 'now',
+                    'birthtime' : 'then'
+                },
+                {
+                    'filepath' : 'foo.bar',
+                    'mtime' : 'now',
+                    'birthtime' : 'then'
+                }];
             };
 
             factory.loadIndex();
 
-            assert.equal(Object.keys(factory.index).length, 2);
-            assert.equal(factory.index.ID0.id, 'ID0');
-            assert.equal(factory.index.ID1.id, 'ID1');
+            assert.equal(Object.keys(factory.index).length, 3);
+            for (var id in factory.index) {
+                assert.equal(factory.index[id].modified, 'now');
+                assert.equal(factory.index[id].created, 'then');
+            }
         });
     });
 
