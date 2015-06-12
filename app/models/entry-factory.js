@@ -390,17 +390,22 @@ Factory.prototype.delete = function(id) {
 
     // Delete the actual record
     var filepath = this.fullpath(item.filepath);
+    var saved    = true;
     if (file.delete(filepath)) {
         delete this.index[id];
         if (this.saveIndex()) {
             this.emit('deleted', entry);
-            return entry;
         } else {
-            return false;
+            saved = false;
         }
     }
 
-    return false;
+    file.prune(this.root);
+
+    if (!saved) {
+        return false;
+    }
+    return entry;
 };
 
 

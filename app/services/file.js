@@ -109,6 +109,36 @@ module.exports.delete = function(filepath) {
 };
 
 
+module.exports.prune = function prune(dirpath) {
+    log.debug('Pruning', dirpath);
+
+    var empty = true;
+    var list  = fs.readdirSync(dirpath);
+
+    for (var i=list.length - 1; i>=0; i--) {
+        var stats = fs.statSync(path.join(dirpath, list[i]));
+        if (stats.isFile()) {
+            empty = false;
+            list.splice(i, 1);
+        }
+    }
+
+    for (var i=list.length - 1; i>=0; i--) {
+        if (this.prune(path.join(dirpath, list[i]))) {
+            list.splice(i, 1);
+        }
+    }
+
+    if (!list.length && empty) {
+        fs.rmdirSync(dirpath);
+        log.debug('Deleted empty directory', dirpath);
+        return true;
+    }
+
+    return false;
+};
+
+
 module.exports.rename = function(oldpath, newpath) {
     try {
         this.mkdirs(newpath);
@@ -119,3 +149,5 @@ module.exports.rename = function(oldpath, newpath) {
         return false;
     }
 };
+
+
