@@ -1,5 +1,6 @@
 var jade = require('jade');
 var path = require('path');
+var log  = plugin('services/log')(module);
 
 
 var Views = {};
@@ -14,7 +15,8 @@ function View(name, data) {
 
 View.prototype.template = function() {
     var file = this.name + this.extension;
-    return path.join(this.base, file);
+    var tmpl = path.join(this.base, file);
+    return tmpl;
 };
 
 

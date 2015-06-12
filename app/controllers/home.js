@@ -3,7 +3,10 @@ var config  = plugin('config');
 var Controller = plugin('controllers/controller');
 
 
-function Home() {}
+function Home() {
+    Controller.call(this);
+}
+
 util.inherits(Home, Controller);
 
 
