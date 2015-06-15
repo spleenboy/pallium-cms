@@ -8,6 +8,7 @@ var hooks       = plugin('services/hooks');
 var file        = plugin('services/file');
 var object      = plugin('util/object');
 var log         = plugin('services/log')(module);
+var Locker      = plugin('services/locker');
 var Controller  = plugin('controllers/controller');
 var Entry       = plugin('models/entry');
 var Definition  = plugin('models/entry-definition');
@@ -104,7 +105,21 @@ Entries.prototype.edit = function() {
         log.error("Can't edit. Invalid entry id", id);
         this.response.redirect('back');
     }
+
+    if (this.request.query.unlock) {
+        
+    }
+
+    var locker = new Locker(this.request.session); 
+    if (entry.filepath && !locker.lock(entry.filepath)) {
+        this.request.flash('warn', '"' + entry.getTitle() + '" is locked.');
+        this.request.flash('locked', id);
+        return this.redirect('list');
+    }
+
+    locker.lock(entry.filepath);
     entry.prerender();
+
     this.send('entries/edit', {entry: entry});
 };
 
@@ -119,6 +134,9 @@ Entries.prototype.save = function() {
     var id = this.factory.save(entry);
 
     this.request.flash('info', '"' + entry.getTitle() + '" saved!');
+
+    var locker = new Locker(this.request.session); 
+    locker.clear();
 
     if (id) {
         this.redirect('edit', id);

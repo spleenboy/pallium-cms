@@ -183,6 +183,7 @@ Factory.prototype.get = function(id) {
 
         var entry = new Entry(this.type, this.definition);
         entry.id = id;
+        entry.filepath = filepath;
         entry.created  = item.created;
         entry.modified = item.modified;
 
@@ -334,6 +335,7 @@ Factory.prototype.save = function(entry) {
     }
 
     entry.id = entry.id || random.id();
+    entry.filepath = filepath;
     var index = {
         id       : entry.id,
         title    : entry.getTitle(),
@@ -400,7 +402,11 @@ Factory.prototype.delete = function(id) {
         }
     }
 
-    file.prune(this.root);
+    // Asynchronously prune the root directory
+    var root = this.root;
+    process.nextTick(function() {
+        file.prune(root);
+    });
 
     if (!saved) {
         return false;
