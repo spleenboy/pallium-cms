@@ -98,16 +98,27 @@ Entries.prototype.create = function() {
 };
 
 
+Entries.prototype.unlock = function() {
+    var id    = this.request.params.id;
+    var entry = this.factory.get(id);
+    if (!entry) {
+        log.error("Can't unlock. Invalid entry id", id);
+        this.response.redirect('back');
+    }
+
+    var locker = new Locker(this.request.session); 
+    locker.unlock(entry.filepath);
+
+    this.redirect('edit', id);
+};
+
+
 Entries.prototype.edit = function() {
     var id    = this.request.params.id;
     var entry = this.factory.get(id);
     if (!entry) {
         log.error("Can't edit. Invalid entry id", id);
         this.response.redirect('back');
-    }
-
-    if (this.request.query.unlock) {
-        
     }
 
     var locker = new Locker(this.request.session); 

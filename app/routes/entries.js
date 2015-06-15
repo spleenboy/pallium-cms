@@ -9,6 +9,7 @@ var header = '/:domain?/:type/';
 router.get(header + 'create', handle('create', Entries));
 router.post(header + 'create', handle('save', Entries));
 
+router.get(header + 'unlock/:id', handle('unlock', Entries));
 router.get(header + 'edit/:id', handle('edit', Entries));
 router.post(header + 'edit/:id', handle('save', Entries));
 

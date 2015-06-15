@@ -30,6 +30,14 @@ Locker.prototype.lock = function(filepath) {
     return true;
 };
 
+Locker.prototype.unlock = function(filepath) {
+    if (filepath === this.session.locked) {
+        return this.clear();
+    }
+    var lock = new Lock(filepath);
+    return lock.destroy();
+};
+
 Locker.prototype.clear = function() {
     if (!this.session.locked) {
         return false;

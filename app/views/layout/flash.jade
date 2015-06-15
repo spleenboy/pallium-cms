@@ -3,4 +3,4 @@ each value, key in flash
         .flash(data-type=key)= value
     if key === 'locked'
         .flash(data-type='action')
-            a.pure-button.button-unlock(href='edit/' + value + '/?unlock=1') Break lock and edit
+            a.pure-button.button-unlock(href='unlock/' + value) Break lock and edit
