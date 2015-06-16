@@ -13,8 +13,11 @@ function Router(app) {
 util.inherits(Router, events.EventEmitter);
 
 Router.prototype.register = function(app) {
-    app.use('/', plugin('routes/home'));
-    app.use('/entry', plugin('routes/entries'));
+    var home    = plugin('routes/home');
+    var entries = plugin('routes/entries');
+
+    app.use('/',      home(app));
+    app.use('/entry', entries(app));
 
     var event = {
         'express' : require('express'),

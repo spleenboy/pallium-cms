@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express.io');
 
 // Initializes the application with configuration and routes
 module.exports = function(app, args) {

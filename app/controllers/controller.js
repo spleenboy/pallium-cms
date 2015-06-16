@@ -7,12 +7,13 @@ var hooks      = plugin('services/hooks');
 var Definition = plugin('models/entry-definition');
 var View       = plugin('views/view');
 
-function Controller(req, res, next) {
+function Controller() {
     events.EventEmitter.call(this);
     hooks.bubble(module, this, ['sending', 'sent', 'populating']);
-    this.request  = req;
-    this.response = res;
-    this.next     = next;
+    this.request  = null;
+    this.response = null;
+    this.next     = null;
+    this.app      = null;
     this.viewBase = process.cwd() + '/app/views';
 };
 
@@ -84,18 +85,18 @@ Controller.prototype.notfound = function() {
 };
 
 
-Controller.handle = function(action, controllerClass, params) {
-    params = params || [];
+Controller.handle = function(action, controllerClass, app) {
     return function(req, res, next) {
         var controller = new controllerClass();
         controller.request  = req;
         controller.response = res;
         controller.next     = next;
+        controller.app      = app;
 
         if (typeof controller[action] === 'function') {
-            controller[action].apply(controller, params);
+            controller[action].call(controller);
         } else {
-            controller.notfound.apply(controller, params);
+            controller.notfound.call(controller);
         }
     }
 }

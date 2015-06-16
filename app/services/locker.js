@@ -65,6 +65,10 @@ function Lock(filepath) {
     Object.defineProperty(this, 'lockpath', {
         enumerable: true,
         get: function() {
+            if (!this.filepath) {
+                log.error('A lock requires a filepath');
+                return false;
+            }
             var dir  = path.dirname(this.filepath);
             var base = path.basename(this.filepath);
             return path.join(dir, '.' + base + '.lock');
@@ -83,7 +87,7 @@ Lock.prototype.expire = function() {
         clearTimeout(this.expiration);
     }
 
-    if (!this.timeout) {
+    if (!this.timeout || ! this.lockpath) {
         return false;
     }
 
@@ -108,6 +112,10 @@ Lock.prototype.expired = function() {
 
 
 Lock.prototype.create = function(force) {
+    if (!this.lockpath) {
+        return false;
+    }
+
     var flags = force ? 'w' : 'wx';
     try {
         fs.openSync(this.lockpath, flags);
@@ -126,6 +134,10 @@ Lock.prototype.create = function(force) {
 
 
 Lock.prototype.destroy = function() {
+    if (!this.lockpath) {
+        return false;
+    }
+
     try {
         fs.unlinkSync(this.lockpath);
         if (this.expiration) {
@@ -136,7 +148,7 @@ Lock.prototype.destroy = function() {
         return true;
     }
     catch (e) {
-        log.error('Could not destroy lock', this.lockapth, ':', e);
+        log.error('Could not destroy lock', this.lockpath, ':', e);
         var error = new LockError(this, 'destroy', e);
         this.emit('destroyed', error);
         return false;
@@ -146,7 +158,7 @@ Lock.prototype.destroy = function() {
 
 Lock.prototype.stats = function() {
     try {
-        return fs.statSync(this.lockpath);
+        return this.lockpath && fs.statSync(this.lockpath);
     }
     catch (e) {
         return false;

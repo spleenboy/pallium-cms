@@ -1,7 +1,11 @@
 var express = require('express');
-var router  = module.exports = express.Router();
+var router  = express.Router();
 
 var handle = plugin('controllers/controller').handle;
 var Home   = plugin('controllers/home');
 
-router.get('/', handle('list', Home));
+module.exports = function(app) {
+    router.get('/', handle('list', Home, app));
+
+    return router;
+};
