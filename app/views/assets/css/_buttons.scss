@@ -17,7 +17,7 @@
     @include pulse-shrink();
 }
 
-.button-edit, .button-view, .button-download {
+.button-edit, .button-view, .button-download, .button-unlock {
     @include grow();
 }
 
@@ -37,6 +37,10 @@
 
 .button-edit:before {
     @include icon-button($fa-var-pencil);
+}
+
+.button-unlock:before {
+    @include icon-button($fa-var-lock);
 }
 
 .button-view:before {

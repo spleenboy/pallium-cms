@@ -38,11 +38,15 @@ function Entries() {
     object.lazyGet(this, 'locker', function() {
         var locker = new Locker(this.request.session);
         var io     = this.app.io;
-        locker.on('locked', function(filepath) {
-            io.broadcast('entry locked', filepath);
+
+        locker.on('locked', function(lock) {
+            log.debug('Broadcasting entry locked', lock.data);
+            io.broadcast('entry locked', lock.data);
         });
-        locker.on('unlocked', function(filepath) {
-            io.broadcast('entry unlocked', filepath);
+
+        locker.on('unlocked', function(lock) {
+            log.debug('Broadcasting entry unlocked', lock.data);
+            io.broadcast('entry unlocked', lock.data);
         });
         return locker;
     });
@@ -52,6 +56,15 @@ function Entries() {
 
 
 util.inherits(Entries, Controller);
+
+
+Entries.prototype.broadcastData = function(entry) {
+    var data = this.factory.index[entry.id];
+    data.domain = entry.definition.domain;
+    data.type   = entry.type;
+
+    return data;
+};
 
 
 Entries.prototype.redirect = function() {
@@ -119,7 +132,10 @@ Entries.prototype.unlock = function() {
         this.response.redirect('back');
     }
 
-    this.locker.unlock(entry.filepath);
+    async.parallel([
+        this.locker.unlock.bind(this.locker, entry.filepath, true),
+        this.factory.unlock.bind(this.factory, id)
+    ]);
 
     this.redirect('edit', id);
 };
@@ -133,13 +149,15 @@ Entries.prototype.edit = function() {
         this.response.redirect('back');
     }
 
-    if (entry.filepath && !this.locker.lock(entry.filepath)) {
+    if (entry.filepath && !this.locker.lock(entry.filepath, this.broadcastData(entry))) {
         this.request.flash('warn', '"' + entry.getTitle() + '" is locked.');
         this.request.flash('locked', id);
         return this.redirect('list');
     }
 
-    this.locker.lock(entry.filepath);
+    // Have the factory update the index when it can
+    async.nextTick(this.factory.lock.bind(this.factory, id));
+
     entry.prerender();
 
     this.send('entries/edit', {entry: entry});
@@ -150,31 +168,44 @@ Entries.prototype.save = function() {
     var posted = this.request.body[this.type];
     var files  = this.request.files;
     var id     = this.request.params.id;
+    var action = id ? 'updated' : 'created';
     var entry  = id ? this.factory.get(id) : new Entry(this.type, this.definition);
 
     this.factory.populate(entry, posted, files);
 
     var id = this.factory.save(entry);
-    this.locker.clear();
 
-    this.request.flash('info', '"' + entry.getTitle() + '" saved!');
+    async.parallel([
+        this.locker.unlock.bind(this.locker, entry.filepath),
+        this.factory.unlock.bind(this.factory, id),
+        this.app.io.broadcast.bind(this.app.io.broadcast, 'entry ' + action, this.broadcastData(entry))
+    ]);
 
-    if (id) {
-        this.redirect('edit', id);
-    } else {
-        this.redirect('list');
-    }
+    this.request.flash('info', '"' + entry.getTitle() + '" ' + action + '!');
+    this.redirect('list');
 };
 
 
 Entries.prototype.delete = function() {
     var id = this.request.params.id;
-    var entry = this.factory.delete(id);
+    var entry = this.factory.get(id);
 
-    if (entry) {
-        this.request.flash('info', '"' + entry.getTitle() + '" was deleted!');
+    if (!entry) {
+        return this.sendError(404);
+    }
+
+    var data  = this.broadcastData(entry);
+
+    var deleted = this.factory.delete(entry);
+
+    if (deleted) {
+        async.parallel([
+            this.locker.unlock.bind(this.locker, entry.filepath),
+            this.app.io.broadcast.bind(this.app.io.broadcast, 'entry deleted', data)
+        ]);
+        this.request.flash('info', '"' + data.title + '" was deleted!');
     } else {
-        this.request.flash('error', '"' + entry.getTitle() + '" could not be deleted!');
+        this.request.flash('error', '"' + data.title + '" could not be deleted!');
     }
 
     this.redirect('list');
@@ -197,14 +228,14 @@ Entries.prototype.file = function() {
     var File  = plugin('models/fields/file');
     if (!(field instanceof File)) {
         this.request.flash('error', 'Field not found');
-        this.redirect('list');
+        return this.redirect('list');
     }
 
     var index     = fileNumber - 1;
     var filenames = Array.isArray(field.value) ? field.value : [field.value];
 
     if (index < 0 || fileNumber > filenames.length) {
-        this.sendError(404);
+        return this.sendError(404);
     }
 
     var filename = filenames[index];
@@ -213,7 +244,7 @@ Entries.prototype.file = function() {
     var stats = file.stats(filepath);
 
     if (!stats) {
-        this.sendError(404);
+        return this.sendError(404);
     }
 
     this.response.writeHead(200, {

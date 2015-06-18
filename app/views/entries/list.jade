@@ -22,9 +22,12 @@ block main
             button.sort.pure-button.button-sort(data-sort='created') Created
             button.sort.pure-button.button-sort(data-sort='modified') Updated
         
-        ul.list
+        ul.list.entry-list
             each item in list
-                li.item.button-edit
+                - var buttonStyle = 'button-edit'
+                if item.locked
+                    - buttonStyle = 'button-unlock'
+                li.item(id='entry-' + item.id)&attributes({'class': buttonStyle})
                     .hidden.filepath= item.filepath
                     .hidden.created= item.createdIso
                     .hidden.modified= item.modifiedIso

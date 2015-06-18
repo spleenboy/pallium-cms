@@ -9,15 +9,22 @@ var log = plugin('services/log')(module);
 
 function Locker(session) {
     this.session = session;
+    if (typeof this.session.locked !== 'object') {
+        this.session.locked = {};
+    }
     events.EventEmitter.call(this);
 }
 
 util.inherits(Locker, events.EventEmitter);
 
-Locker.prototype.lock = function(filepath) {
-    this.clear();
+Locker.prototype.lock = function(filepath, data) {
+    var lock = new Lock(filepath, data);
 
-    var lock = new Lock(filepath);
+    if (filepath in this.session.locked) {
+        log.debug('Already locked by user', filepath);
+        this.emit('locked', lock);
+        return true;
+    }
 
     if (lock.exists()) {
         log.debug('Lock already exists');
@@ -29,42 +36,41 @@ Locker.prototype.lock = function(filepath) {
         return false;
     }
 
-    this.emit('locked', filepath);
-    this.session.locked = filepath;
+    this.session.locked[filepath] = lock.data;
+    this.emit('locked', lock);
     return true;
 };
 
-Locker.prototype.unlock = function(filepath) {
-    if (filepath === this.session.locked) {
-        return this.clear();
-    }
-    var lock = new Lock(filepath);
-    var unlocked = lock.destroy();
-    if (unlocked) {
-        this.emit('unlocked', filepath);
-        return true;
+Locker.prototype.unlock = function(filepath, force) {
+    if (force || filepath in this.session.locked) {
+        var data = this.session.locked[filepath];
+        var lock = new Lock(filepath, data);
+        var unlocked = lock.destroy();
+        delete this.session.locked[filepath];
+        if (unlocked) {
+            this.emit('unlocked', lock);
+            return true;
+        }
     }
     return false;
 };
 
 Locker.prototype.clear = function() {
-    if (!this.session.locked) {
-        return false;
+    for (var filepath in this.session.locked) {
+        this.unlock(filepath);
     }
-
-    var lock = new Lock(this.session.locked);
-    lock.destroy();
     this.emit('cleared', this.session.locked);
-    delete this.session.locked;
-
     log.debug('Cleared locker for visitor');
     return true;
 };
 
 
-function Lock(filepath) {
+function Lock(filepath, data) {
     // The path to the file to lock
     this.filepath = filepath;
+
+    // Extra data about the file
+    this.data = data;
 
     // The duration a lock should last
     this.timeout = {'minutes': 15};

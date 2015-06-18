@@ -112,6 +112,7 @@ Factory.prototype.createIndex = function() {
         var item = {
             id       : id,
             title    : relpath,
+            subtitle : '',
             filepath : relpath,
             modified : stats.mtime || null,
             created  : stats.birthtime || null
@@ -136,6 +137,26 @@ Factory.prototype.saveIndex = function() {
         log.error("Error saving index to", this.indexPath, e, this.index);
         throw e;
     }
+};
+
+
+Factory.prototype.lock = function(id) {
+    if (!this.index[id]) {
+        log.error('Entry id not found in index', id);
+        return false;
+    }
+    this.index[id].locked = true;
+    this.saveIndex();
+};
+
+
+Factory.prototype.unlock = function(id) {
+    if (!this.index[id]) {
+        log.error('Entry id not found in index', id);
+        return false;
+    }
+    this.index[id].locked = false;
+    this.saveIndex();
 };
 
 
@@ -367,19 +388,7 @@ Factory.prototype.save = function(entry) {
 };
 
 
-Factory.prototype.delete = function(id) {
-    var item = this.index[id];
-    if (!item) {
-        return false;
-    }
-
-    var entry = this.get(id);
-
-    if (!entry) {
-        log.error('Entry not found for id', id);
-        throw new Error('Could not find entry');
-    }
-
+Factory.prototype.delete = function(entry) {
     this.emit('deleting', entry);
 
     // Delete all of the files
@@ -390,16 +399,11 @@ Factory.prototype.delete = function(id) {
         }
     }
 
-    // Delete the actual record
-    var filepath = this.fullpath(item.filepath);
-    var saved    = true;
-    if (file.delete(filepath)) {
-        delete this.index[id];
-        if (this.saveIndex()) {
-            this.emit('deleted', entry);
-        } else {
-            saved = false;
-        }
+    delete this.index[entry.id];
+    var deleted = file.delete(entry.filepath) && this.saveIndex();
+
+    if (deleted) {
+        this.emit('deleted', entry);
     }
 
     // Asynchronously prune the root directory
@@ -408,10 +412,7 @@ Factory.prototype.delete = function(id) {
         file.prune(root);
     });
 
-    if (!saved) {
-        return false;
-    }
-    return entry;
+    return deleted;
 };
 
 
