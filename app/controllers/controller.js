@@ -91,17 +91,22 @@ function ControllerFactory(model, app) {
 }
 
 
+ControllerFactory.prototype.create = function(req, res, next) {
+    var controller = new this.model();
+    controller.app      = this.app;
+    controller.request  = req;
+    controller.response = res;
+    controller.next     = next;
+
+    return controller;
+};
+
+
 ControllerFactory.prototype.handle = function(action) {
-    var cc  = this.model;
-    var app = this.app;
+    var create = this.create;
 
     return function(req, res, next) {
-        var controller = new cc();
-
-        controller.request  = req;
-        controller.response = res;
-        controller.next     = next;
-        controller.app      = app;
+        var controller = create();
 
         if (typeof controller[action] === 'function') {
             return controller[action].call(controller);

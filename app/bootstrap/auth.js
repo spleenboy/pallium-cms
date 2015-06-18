@@ -84,7 +84,8 @@ module.exports = function(app) {
 
     // Displays the login page
     app.get('/login', function(req, res, next) {
-        var ctrl = new Controller(req, res, next);
+        var factory = new Controller.Factory(Controller, app);
+        var ctrl = factory.create(req, res, next);
         ctrl.send('auth/login');
     }); 
 
