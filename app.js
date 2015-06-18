@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express.io');
 var path    = require('path');
 
 // Parse command line arguments

@@ -10,11 +10,11 @@ var View       = plugin('views/view');
 function Controller() {
     events.EventEmitter.call(this);
     hooks.bubble(module, this, ['sending', 'sent', 'populating']);
+    this.viewBase = process.cwd() + '/app/views';
     this.request  = null;
     this.response = null;
     this.next     = null;
     this.app      = null;
-    this.viewBase = process.cwd() + '/app/views';
 };
 
 
@@ -85,21 +85,38 @@ Controller.prototype.notfound = function() {
 };
 
 
-Controller.handle = function(action, controllerClass, app) {
+function ControllerFactory(model, app) {
+    this.model = model;
+    this.app = app;
+}
+
+
+ControllerFactory.prototype.handle = function(action) {
+    var cc  = this.model;
+    var app = this.app;
+
     return function(req, res, next) {
-        var controller = new controllerClass();
+        var controller = new cc();
+
         controller.request  = req;
         controller.response = res;
         controller.next     = next;
         controller.app      = app;
 
         if (typeof controller[action] === 'function') {
-            controller[action].call(controller);
-        } else {
-            controller.notfound.call(controller);
+            return controller[action].call(controller);
+        }
+        else if (controller.notfound) {
+            return controller.notfound.call(controller);
+        }
+        else {
+            log.error('Controller', controller, 'cannot handle action', action);
+            return next();
         }
     }
 }
+
+Controller.Factory = ControllerFactory;
 
 
 module.exports = Controller;

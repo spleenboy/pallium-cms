@@ -3,6 +3,7 @@ var moment      = require('moment');
 var fs          = require('fs');
 var path        = require('path');
 var mime        = require('mime-types');
+var async       = require('async');
 
 var hooks       = plugin('services/hooks');
 var file        = plugin('services/file');
@@ -32,6 +33,18 @@ function Entries() {
 
     object.lazyGet(this, 'factory', function() {
         return new Factory(this.type, this.definition);
+    });
+
+    object.lazyGet(this, 'locker', function() {
+        var locker = new Locker(this.request.session);
+        var io     = this.app.io;
+        locker.on('locked', function(filepath) {
+            io.broadcast('entry locked', filepath);
+        });
+        locker.on('unlocked', function(filepath) {
+            io.broadcast('entry unlocked', filepath);
+        });
+        return locker;
     });
 
     Controller.call(this);
@@ -106,8 +119,7 @@ Entries.prototype.unlock = function() {
         this.response.redirect('back');
     }
 
-    var locker = new Locker(this.request.session); 
-    locker.unlock(entry.filepath);
+    this.locker.unlock(entry.filepath);
 
     this.redirect('edit', id);
 };
@@ -121,14 +133,13 @@ Entries.prototype.edit = function() {
         this.response.redirect('back');
     }
 
-    var locker = new Locker(this.request.session); 
-    if (entry.filepath && !locker.lock(entry.filepath)) {
+    if (entry.filepath && !this.locker.lock(entry.filepath)) {
         this.request.flash('warn', '"' + entry.getTitle() + '" is locked.');
         this.request.flash('locked', id);
         return this.redirect('list');
     }
 
-    locker.lock(entry.filepath);
+    this.locker.lock(entry.filepath);
     entry.prerender();
 
     this.send('entries/edit', {entry: entry});
@@ -137,17 +148,16 @@ Entries.prototype.edit = function() {
 
 Entries.prototype.save = function() {
     var posted = this.request.body[this.type];
+    var files  = this.request.files;
     var id     = this.request.params.id;
     var entry  = id ? this.factory.get(id) : new Entry(this.type, this.definition);
 
-    this.factory.populate(entry, posted, this.request.files);
+    this.factory.populate(entry, posted, files);
 
     var id = this.factory.save(entry);
+    this.locker.clear();
 
     this.request.flash('info', '"' + entry.getTitle() + '" saved!');
-
-    var locker = new Locker(this.request.session); 
-    locker.clear();
 
     if (id) {
         this.redirect('edit', id);

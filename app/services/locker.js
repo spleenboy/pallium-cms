@@ -9,7 +9,10 @@ var log = plugin('services/log')(module);
 
 function Locker(session) {
     this.session = session;
+    events.EventEmitter.call(this);
 }
+
+util.inherits(Locker, events.EventEmitter);
 
 Locker.prototype.lock = function(filepath) {
     this.clear();
@@ -26,6 +29,7 @@ Locker.prototype.lock = function(filepath) {
         return false;
     }
 
+    this.emit('locked', filepath);
     this.session.locked = filepath;
     return true;
 };
@@ -35,7 +39,12 @@ Locker.prototype.unlock = function(filepath) {
         return this.clear();
     }
     var lock = new Lock(filepath);
-    return lock.destroy();
+    var unlocked = lock.destroy();
+    if (unlocked) {
+        this.emit('unlocked', filepath);
+        return true;
+    }
+    return false;
 };
 
 Locker.prototype.clear = function() {
@@ -45,6 +54,7 @@ Locker.prototype.clear = function() {
 
     var lock = new Lock(this.session.locked);
     lock.destroy();
+    this.emit('cleared', this.session.locked);
     delete this.session.locked;
 
     log.debug('Cleared locker for visitor');

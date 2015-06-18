@@ -4,6 +4,7 @@ var express = require('express.io');
 module.exports = function(app, args) {
     var plugins = require('./bootstrap/plugins');
 
+    app.http().io();
     app.use(express.static('public'));
 
     plugins.load();

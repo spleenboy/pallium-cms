@@ -1,11 +1,13 @@
 var express = require('express');
 var router  = express.Router();
 
-var handle = plugin('controllers/controller').handle;
-var Home   = plugin('controllers/home');
+var Controller = plugin('controllers/controller');
+var Home       = plugin('controllers/home');
 
 module.exports = function(app) {
-    router.get('/', handle('list', Home, app));
+    var factory = new Controller.Factory(Home, app);
+
+    router.get('/', factory.handle('list'));
 
     return router;
 };

@@ -21,10 +21,12 @@ Router.prototype.register = function(app) {
 
     var event = {
         'express' : require('express'),
+        'app'     : app,
         'routers' : {}
     };
 
     this.emit('registering', event);
+
     for (var key in event.routers) {
         var base = '/use/' + file.slug(key);
         app.use(base, event.routers[key]);
