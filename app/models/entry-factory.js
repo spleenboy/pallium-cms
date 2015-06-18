@@ -134,7 +134,7 @@ Factory.prototype.saveIndex = function() {
         var contents = io.export(this.index, this.indexPath);
         return file.write(this.indexPath, contents);
     } catch (e) {
-        log.error("Error saving index to", this.indexPath, e, this.index);
+        log.error("Error saving index", this.index, "to", this.indexPath, ":", e);
         throw e;
     }
 };

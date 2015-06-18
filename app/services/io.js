@@ -59,6 +59,18 @@ importers['.yaml'] = function(filepath) {
 };
 
 
+function cleanup(data) {
+    for (var key in data) {
+        if (data[key] === undefined) {
+            delete data[key];
+        }
+        else if (typeof data[key] === 'object') {
+            cleanup(data[key]);
+        }
+    }
+}
+
+
 module.exports.import = function(filepath) {
     var ext = path.extname(filepath);
     if (ext in importers) {
@@ -68,6 +80,7 @@ module.exports.import = function(filepath) {
 };
 
 module.exports.export = function(data, filepath) {
+    cleanup(data);
     var ext = path.extname(filepath);
     if (ext in exporters) {
         return exporters[ext](data);
