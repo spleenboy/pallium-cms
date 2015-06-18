@@ -92,7 +92,8 @@ function ControllerFactory(model, app) {
 
 
 ControllerFactory.prototype.create = function(req, res, next) {
-    var controller = new this.model();
+    var model = this.model;
+    var controller = new model();
     controller.app      = this.app;
     controller.request  = req;
     controller.response = res;
@@ -103,10 +104,10 @@ ControllerFactory.prototype.create = function(req, res, next) {
 
 
 ControllerFactory.prototype.handle = function(action) {
-    var create = this.create;
+    var create = this.create.bind(this);
 
     return function(req, res, next) {
-        var controller = create();
+        var controller = create(req, res, next);
 
         if (typeof controller[action] === 'function') {
             return controller[action].call(controller);
