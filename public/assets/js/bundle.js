@@ -15,21 +15,31 @@ module.exports = function() {
         flasher.append(item);
     }
 
+    function flashEntryAction(data, action) {
+        if (data.owner) {
+            flash(data.owner + ' ' + action + ' "' + data.title + '"');
+        }
+        else {
+            flash('"' + data.title + '" has been ' + action);
+        }
+
+    }
+
     io.on('flash', function(message) {
         flash(message);
     });
 
     io.on('entry updated', function(data) {
-        flash('"' + data.title + '" has been updated');
+        flashEntryAction(data, 'updated');
     });
 
     io.on('entry deleted', function(data) {
-        flash('"' + data.title + '" has been deleted');
+        flashEntryAction(data, 'deleted');
         $('#entry-' + data.id).remove();
     });
 
     io.on('entry created', function(data) {
-        flash('"' + data.title + '" has been created');
+        flashEntryAction(data, 'created');
         var item = $('<li class="item entry-new" id="entry-' + data.id + '"><strong class="title">' + data.title + '</strong></li>');
         $('.entry-list').prepend(item);
     });

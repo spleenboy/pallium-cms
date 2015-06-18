@@ -62,6 +62,7 @@ Entries.prototype.broadcastData = function(entry) {
     var data = this.factory.index[entry.id];
     data.domain = entry.definition.domain;
     data.type   = entry.type;
+    data.owner  = this.request.user && this.request.user.displayName;
 
     return data;
 };
