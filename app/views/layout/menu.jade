@@ -5,10 +5,10 @@ mixin listEntries(entries, domain)
         each type, key in entries.types
             if key === params.type && domain === params.domain
                 li.pure-menu-item.pure-menu-selected
-                    a.pure-menu-link(href=domainUrl + key + '/list')= type.plural
+                    a.pure-menu-link(href=domainUrl + key + '/list')= type.plural || type.name
             else
                 li.pure-menu-item
-                    a.pure-menu-link(href=domainUrl + key + '/list')= type.plural
+                    a.pure-menu-link(href=domainUrl + key + '/list')= type.plural || type.name
 
 nav.pure-menu
     .logo 
