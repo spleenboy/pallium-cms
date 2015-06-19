@@ -11,8 +11,8 @@ Pallium CMS provides you with a front-end for the administration of a static web
 
 ## Plugins
 ### Current
-* [Wintersmith](pallium-wintersmith)
-* [Grunt](pallium-grunt)
+* [Wintersmith](https://github.com/spleenboy/pallium-wintersmith)
+* [Grunt](https://github.com/spleenboy/pallium-grunt)
 
 ### Planned
 * Sculpin
