@@ -86,6 +86,14 @@ Controller.prototype.notfound = function() {
 
 
 function ControllerFactory(model, app) {
+    if (typeof model !== 'function') {
+        log.error("You're a bad model", typeof model);
+        throw new TypeError('Model should be a function');
+    }
+    if (typeof app !== 'function') {
+        log.error("You're a bad app", typeof app);
+        throw new TypeError('App should be a function');
+    }
     this.model = model;
     this.app = app;
 }
