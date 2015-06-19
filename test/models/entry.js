@@ -9,9 +9,7 @@ describe('Entry', function() {
         Entry = require('../../app/models/entry');
     });
 
-    describe('extension', function() {
-        it('should return .md', function() {
-            assert.equal('.md', Entry.extension);
-        });
+    it('should have more unit tests', function() {
+        assert(false);
     });
 });

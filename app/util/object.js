@@ -1,4 +1,5 @@
-var log = plugin('services/log');
+var events = require('events');
+var log = plugin('services/log')(module);
 
 /**
  * Recursively copy into an object.
@@ -58,8 +59,8 @@ module.exports.lazyGet = function lazyGet(obj, property, getter) {
 
 /**
  * Defines getters and setters for the specified property names.
- * These getters and setters are overridable in child classes by using
- * getX and setX methods on the class.
+ * Additionally, if the object is an instance of EventEmitter, this
+ * method will emit events for setting and getting values;
 **/
 module.exports.defineProperties = function defineProperties(obj, properties) {
     Object.defineProperty(obj, '_properties', {
@@ -68,32 +69,38 @@ module.exports.defineProperties = function defineProperties(obj, properties) {
         value        : {}
     });
 
-    function prop(key, value) {
-        if (value !== undefined) {
-            this._properties[key] = value;
+    function getValue(key) {
+        var value = this._properties[key];
+        var event = {
+            key   : key,
+            value : value
+        };
+        if (this instanceof events.EventEmitter) {
+            this.emit('getting', event);
+            this.emit('getting.' + key, event);
         }
-        return this._properties[key];
+        return event.value;
+    }
+
+    function setValue(key, value) {
+        var event = {
+            key   : key,
+            value : value
+        };
+        if (this instanceof events.EventEmitter) {
+            this.emit('setting', event);
+            this.emit('setting.' + key, event);
+        }
+        this._properties[key] = event.value;
     }
 
     for (var key in properties) {
         var def    = {
             configurable : true,
-            enumerable   : true
+            enumerable   : true,
+            get : getValue.bind(obj, key),
+            set : setValue.bind(obj, key)
         };
-
-        var name = key[0].toUpperCase() + key.slice(1);
-
-        if (typeof obj['get' + name] === 'function') {
-            def.get = obj['get' + name];
-        } else {
-            def.get = prop.bind(obj, key);
-        }
-
-        if (typeof obj['set' + name] === 'function') {
-            def.set = obj['set' + name];
-        } else {
-            def.set = prop.bind(obj, key);
-        }
 
         Object.defineProperty(obj, key, def);
 

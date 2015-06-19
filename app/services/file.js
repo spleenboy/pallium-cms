@@ -1,6 +1,6 @@
 var fs    = require('fs');
 var path  = require('path');
-var log   = plugin('services/log');
+var log   = plugin('services/log')(module);
 
 
 /**
@@ -107,3 +107,47 @@ module.exports.delete = function(filepath) {
         return false;
     }
 };
+
+
+module.exports.prune = function prune(dirpath) {
+    log.debug('Pruning', dirpath);
+
+    var empty = true;
+    var list  = fs.readdirSync(dirpath);
+
+    for (var i=list.length - 1; i>=0; i--) {
+        var stats = fs.statSync(path.join(dirpath, list[i]));
+        if (stats.isFile()) {
+            empty = false;
+            list.splice(i, 1);
+        }
+    }
+
+    for (var i=list.length - 1; i>=0; i--) {
+        if (this.prune(path.join(dirpath, list[i]))) {
+            list.splice(i, 1);
+        }
+    }
+
+    if (!list.length && empty) {
+        fs.rmdirSync(dirpath);
+        log.debug('Deleted empty directory', dirpath);
+        return true;
+    }
+
+    return false;
+};
+
+
+module.exports.rename = function(oldpath, newpath) {
+    try {
+        this.mkdirs(newpath);
+        fs.renameSync(oldpath, newpath);
+        return true;
+    } catch (e) {
+        log.error("Error renaming file", oldpath, "to", newpath, e);
+        return false;
+    }
+};
+
+

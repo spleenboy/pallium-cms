@@ -4,16 +4,20 @@
   border-radius: 1px;
 }
 
+.buttons > * {
+    display: inline-block;
+}
+
 /** Animations **/
-.button-add, .button-login, .button-save {
-    @include skew-forward();
+.button-add, .button-login, .button-save, .button-okay {
+    @include pulse-grow();
 }
 
-.button-list, .button-back, .button-delete {
-    @include skew-backward();
+.button-list, .button-back, .button-delete, .button-cancel {
+    @include pulse-shrink();
 }
 
-.button-edit, .button-view {
+.button-edit, .button-view, .button-download, .button-unlock {
     @include grow();
 }
 
@@ -27,8 +31,16 @@
 
 
 /** Icons **/
+.button-okay:before {
+    @include icon-button($fa-var-check);
+}
+
 .button-edit:before {
     @include icon-button($fa-var-pencil);
+}
+
+.button-unlock:before {
+    @include icon-button($fa-var-lock);
 }
 
 .button-view:before {
@@ -48,10 +60,18 @@
 }
 
 .button-delete {
+    background-color: $background-button-error;
+    color: $foreground-button-error;
+    &:before {
+        @include icon-button($fa-var-trash);
+    }
+}
+
+.button-cancel {
     background-color: $background-button-warning;
     color: $foreground-button-warning;
     &:before {
-        @include icon-button($fa-var-trash);
+        @include icon-button($fa-var-undo);
     }
 }
 
@@ -73,6 +93,10 @@
 
 .button-login:before {
     @include icon-button($fa-var-sign-in);
+}
+
+.button-download:before {
+    @include icon-button($fa-var-download);
 }
 
 .list .item {

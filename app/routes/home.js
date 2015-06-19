@@ -1,9 +1,13 @@
 var express = require('express');
-var router  = module.exports = express.Router();
+var router  = express.Router();
 
-var handle = plugin('controllers/controller').handle;
-var Home   = plugin('controllers/home');
+var Controller = plugin('controllers/controller');
+var Home       = plugin('controllers/home');
 
-router.get('/', handle('list', Home));
-router.post('/login', handle('login', Home));
-router.post('/logout', handle('logout', Home));
+module.exports = function(app) {
+    var factory = new Controller.Factory(Home, app);
+
+    router.get('/', factory.handle('list'));
+
+    return router;
+};

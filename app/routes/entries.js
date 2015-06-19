@@ -1,15 +1,26 @@
 var express = require('express');
-var router  = module.exports = express.Router();
+var router  = express.Router();
 
-var handle = plugin('controllers/controller').handle;
-var Entries = plugin('controllers/entries');
+var Controller = plugin('controllers/controller');
+var Entries    = plugin('controllers/entries');
 
-router.get('/:type/create', handle('create', Entries));
-router.post('/:type/create', handle('save', Entries));
+module.exports = function(app) {
+    var header = '/:domain?/:type/';
+    var factory = new Controller.Factory(Entries, app);
 
-router.get('/:type/edit/:id', handle('edit', Entries));
-router.post('/:type/edit/:id', handle('save', Entries));
+    router.get( header + 'list', factory.handle('list'));
 
-router.post('/:type/delete/:id', handle('delete', Entries));
+    router.get( header + 'create', factory.handle('create'));
+    router.post(header + 'create', factory.handle('save'));
 
-router.get('/:type/list', handle('list', Entries));
+    router.get( header + 'unlock/:id', factory.handle('unlock'));
+
+    router.get( header + 'edit/:id',   factory.handle('edit'));
+    router.post(header + 'edit/:id',   factory.handle('save'));
+
+    router.post(header + 'delete/:id', factory.handle('delete'));
+
+    router.get( header + 'file/:id/:field/:number?', factory.handle('file'));
+
+    return router;
+};

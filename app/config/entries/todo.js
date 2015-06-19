@@ -14,9 +14,15 @@ module.exports = {
     },
     fields: [
         {
-            type         : 'checkbox',
-            name         : 'done',
-            label        : 'Done!'
+            type         : 'switch',
+            name         : 'status',
+            label        : 'Status',
+            onState : {
+                label: 'Done!'
+            },
+            offState : {
+                label: 'In progress'
+            },
         },
         {
             type         : 'text',

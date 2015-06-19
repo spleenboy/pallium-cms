@@ -2,7 +2,7 @@ var passport = require('passport');
 
 var Controller = plugin('controllers/controller');
 var config = plugin('config');
-var log = plugin('services/log');
+var log = plugin('services/log')(module);
 
 var unprotected = ['/login', '/auth', '/verified', '/logout'];
 
@@ -24,7 +24,11 @@ function protection(req, res, next) {
         return next();
     }
 
-    log.warn("Unauthorized URL requested", req.user, req.originalUrl);
+    if (allowed !== undefined) {
+        log.warn("User is not allowed", req.originalUrl, req.user);
+    } else {
+        log.warn("Unauthorized URL requested", req.originalUrl, req.user);
+    }
     return res.redirect('/login');
 }
 
@@ -33,14 +37,18 @@ function createStrategy() {
     var settings = config.get('auth.settings');
     settings.callbackURL = '/verified';
 
-    if (name === 'auth0') {
+    if (name === 'none') {
+        return false;
+    }
+    else if (name === 'auth0') {
         var Strategy = require('passport-auth0');
         return new Strategy(settings,
             function verified(access, refresh, extra, profile, done) {
                 return done(null, profile);
             }
         );
-    } else if (name === 'google') {
+    } 
+    else if (name === 'google') {
         var Strategy = require('passport-google-oauth').OAuth2Strategy;
         return new Strategy(settings,
             function verified(access, refresh, profile, done) {
@@ -67,6 +75,11 @@ function getAuthenticate() {
 module.exports = function(app) {
     var strategy = createStrategy();
 
+    if (!strategy) {
+        log.info("No authentication strategy specified");
+        return;
+    }
+
     passport.use(strategy);
     passport.serializeUser(function(user, done) {done(null, user);});
     passport.deserializeUser(function(user, done) {done(null, user);});
@@ -80,7 +93,8 @@ module.exports = function(app) {
 
     // Displays the login page
     app.get('/login', function(req, res, next) {
-        var ctrl = new Controller(req, res, next);
+        var factory = new Controller.Factory(Controller, app);
+        var ctrl = factory.create(req, res, next);
         ctrl.send('auth/login');
     }); 
 

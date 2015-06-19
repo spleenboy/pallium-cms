@@ -1,2 +1,7 @@
-each value, key in flash
-    .flash(data-type=key)= value
+#flasher
+    each value, key in flash
+        if ['info', 'warn', 'error'].indexOf(key) >= 0
+            .flash(data-type=key)= value
+        if key === 'locked'
+            .flash(data-type='action')
+                a.pure-button.button-unlock(href='unlock/' + value) Break lock and edit

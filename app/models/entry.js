@@ -1,48 +1,59 @@
 var path   = require('path');
+var util   = require('util');
+var events = require('events');
 var file   = plugin('services/file');
-var log    = plugin('services/log');
+var log    = plugin('services/log')(module);
 var config = plugin('config');
 var fieldFactory = plugin('models/fields/field-factory');
 
-function Entry(type) {
-    this.configure(type);
+function Entry(type, definition) {
     this.id = null;
+    this.multipart = false;
+    this.markdown  = false;
+    this.configure(type, definition);
+    events.EventEmitter.call(this);
 }
 
-Entry.extension = '.md';
+util.inherits(Entry, events.EventEmitter);
 
 
-Entry.prototype.configure = function(type) {
-    this.type    = type;
-    this.basekey = 'entry.types.' + type;
-    var settings = config.get(this.basekey, this);
+Entry.prototype.configure = function(type, definition) {
+    this.type       = type;
+    this.definition = definition;
+
+    if (!definition || !definition.types) {
+        log.error('Invalid definition for entry', type, definition);
+        throw new TypeError('Invalid definition');
+    }
+
+    var settings = definition.types[type];
 
     if (!settings) {
-        log.error("No configuration file for type", this.basekey);
+        log.error('No definition found for type', type, definition);
         throw new Error("No configuration");
     }
+
+    this.emit('configuring', settings);
 
     this.loadFields();
 
     for (var key in settings) {
         if (key !== 'fields') {
-            this[key] = this.get(key);
+            this[key] = settings[key];
         }
     }
+
+    this.emit('configured');
 };
 
 
 // Gets the configuration setting for the specified key
-Entry.prototype.get = function(key) {
-    var fullkey = this.basekey + '.' + key;
-    for (var i=1; i<arguments.length; i++) {
-        fullkey += '.' + arguments[i];
-    }
-    var value = config.get(fullkey, this);
-    if (value === undefined) {
-        log.error("Could not find value for key", fullkey);
-    }
-    return value;
+Entry.prototype.get = function() {
+
+    var keys = Array.prototype.slice.call(arguments);
+    keys.unshift('types', this.type);
+
+    return this.definition.get(keys, this);
 };
 
 
@@ -50,35 +61,32 @@ Entry.prototype.loadFields = function() {
     var fieldConfigs = this.get('fields');
 
     if (!fieldConfigs) {
-        log.error("No field configuration for type", this.basekey);
+        log.error("No field configuration for type", this.type);
         throw new Error("No fields in configuration");
     }
 
     this.fields = {};
 
     for (var i=0; i<fieldConfigs.length; i++) {
-        var field = fieldFactory.create(fieldConfigs[i]);
-
-        field.id        = file.slug(this.type + '-' + field.name);
-        field.entryType = this.type;
-        field.fieldName = this.type + '[' + field.name + ']';
+        var field = fieldFactory.create(fieldConfigs[i], this);
 
         this.fields[field.name] = field;
+
+        if (field.multipart) {
+            this.multipart = true;
+        }
+
+        if (field.type === 'md') {
+            this.markdown = true;
+        }
     }
+
 };
 
 
 // Gets the relative path from this entrys directory, based on its config
 Entry.prototype.getRelativePath = function() {
-
-    var title = this.getTitle();
-
-    if (!title) {
-        log.error("Config for entry type is missing a title key", this.type);
-        throw new Error("Configuration file missing title key");
-    }
-
-    var name = file.slug(title) + Entry.extension;
+    var name = this.getFilename();
     var sub  = this.get('subdirectory');
 
     if (sub === undefined) {
@@ -86,6 +94,32 @@ Entry.prototype.getRelativePath = function() {
     }
 
     return path.join(sub, name);
+};
+
+
+Entry.prototype.getExtension = function() {
+    var ext = this.get('extension');
+    if (ext !== undefined) {
+        return ext;
+    }
+    return this.markdown ? '.md' : '.yaml';
+};
+
+
+// Get this entry's generated filename
+Entry.prototype.getFilename = function() {
+    var filename = this.get('filename');
+
+    if (filename === undefined) {
+        filename = file.slug(this.getTitle());
+    }
+
+    if (!filename) {
+        log.error("Cannot generate filename for type:", this.type);
+        throw new Error("Cannot generate filename");
+    }
+
+    return filename + this.getExtension();
 };
 
 
@@ -99,25 +133,6 @@ Entry.prototype.getTitle = function() {
 Entry.prototype.getSubtitle = function() {
     var st = this.get('subtitle');
     return st !== undefined ? st : '';
-};
-
-
-/**
- * Populates the values in the fields from a data dictionary
-**/
-Entry.prototype.populate = function(data) {
-    for (var key in this.fields) {
-        if (key in data) {
-            this.fields[key].value = data[key];
-        } else {
-            var defaultValue = this.fields[key].defaultValue;
-            if (typeof defaultValue === 'function') {
-                this.fields[key].value = defaultValue.call(this);
-            } else {
-                this.fields[key].value = defaultValue;
-            }
-        }
-    }
 };
 
 
@@ -142,7 +157,7 @@ Entry.prototype.data = function(name, value) {
     }
 
     if (!this.fields[name]) {
-        log.info("Key doesn't exist in fields", name);
+        log.info("Key doesn't exist in fields:", name);
         return undefined;
     }
 

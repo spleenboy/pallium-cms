@@ -10,6 +10,16 @@ $heading: 'heading', 'sans-serif';
     src: url('../fonts/Exo-Bold.otf');
 }
 
+$logo: 'logo', 'serif';
+@font-face {
+    font-family: 'logo';
+    src: url('../fonts/heavy_data-webfont.eot');
+    src: url('../fonts/heavy_data-webfont.eot?iefix') format('eot'),
+         url('../fonts/heavy_data-webfont.woff') format('woff'),
+         url('../fonts/heavy_data-webfont.ttf') format('truetype'),
+         url('../fonts/heavy_data-webfont.svg#webfont') format('svg');
+ }
+
 html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
     font-family: $paragraph;
 }

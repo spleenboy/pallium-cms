@@ -21,10 +21,16 @@ describe('FieldFactory', function() {
         describe('settings', function() {
             it('should default to factory settings', function() {
                 var field = factory.create();
-                var defaults = factory.defaults;
+                var defaults = factory.defaults();
                 for (var key in defaults) {
-                    assert(field[key] === defaults[key]);
+                    assert.deepEqual(field[key], defaults[key], key + ' not equal');
                 }
+            });
+
+            it('should not overwrite defaults', function() {
+                var oldType = factory.defaults().type;
+                var field = factory.create({type: 'date'});
+                assert.deepEqual(oldType, factory.defaults().type);
             });
 
             it('should allow setting overrides', function() {
@@ -39,7 +45,7 @@ describe('FieldFactory', function() {
                 }
                 var field = factory.create(settings);
                 for (var key in settings) {
-                    assert(field[key] === settings[key]);
+                    assert.deepEqual(field[key], settings[key]);
                 }
             });
 
@@ -49,13 +55,18 @@ describe('FieldFactory', function() {
                     bar  : 'baz'
                 }
                 var field = factory.create(settings);
-                var defaults = factory.defaults;
+                var defaults = factory.defaults();
 
                 for (var key in defaults) {
-                    assert(field[key] === defaults[key]);
+                    if (!(key in settings)) {
+                        assert.deepEqual(field[key], defaults[key], key + ' not equal');
+                    } else {
+                        assert.notEqual(field[key], defaults[key]);
+                    }
                 }
+
                 for (var key in settings) {
-                    assert(field[key] === settings[key]);
+                    assert.deepEqual(field[key], settings[key], key + ' not equal');
                 }
             });
         });
@@ -67,8 +78,8 @@ describe('FieldFactory', function() {
                 it('should return a "' + subclass + '" subclass of "Field"', function() {
                     var settings = {type: subclass};
                     var field = factory.create(settings);
-                    assert(field instanceof fields[subclass]);
-                    assert(field instanceof fields.field);
+                    assert(field instanceof fields[subclass], 'not an instance of ' + subclass);
+                    assert(field instanceof fields.field, 'not an instance of Field');
                 });
             });
         });
@@ -76,7 +87,7 @@ describe('FieldFactory', function() {
         describe('plugin fields', function() {
             it('should use a "source" override', function() {
                 var field = factory.create({source: 'mockField'});
-                assert(field.isMock);
+                assert(field.isMock, 'not the expected mock field');
             });
         });
     });

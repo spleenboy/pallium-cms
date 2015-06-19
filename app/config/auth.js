@@ -1,5 +1,8 @@
 module.exports = {
-    name: null,
-    settings: null,
-    allow: null
+    name: 'none',
+    settings: {},
+    scope: [],
+    allow: function() {
+        return true;
+    }
 };

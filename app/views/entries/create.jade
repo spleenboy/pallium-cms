@@ -2,7 +2,10 @@ extends ../layout/site
 
 block main
     - var definition = entries.types[params.type]
-    h1 Add a New #{definition.name}
+    .entry-type
+        .title Create a New #{definition.name}
+        if definition.description
+            .description= definition.description
 
     if definition.maximum !== 1
         a.pure-button.button-list(href='list') All #{definition.plural}

@@ -1,12 +1,13 @@
-var express = require('express');
+var express = require('express.io');
 
 // Initializes the application with configuration and routes
 module.exports = function(app, args) {
     var plugins = require('./bootstrap/plugins');
 
+    app.http().io();
     app.use(express.static('public'));
 
-    plugins.load();
+    plugins.load(app, args);
 
     plugin('bootstrap/forms')(app);
     plugin('bootstrap/session')(app);

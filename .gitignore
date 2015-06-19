@@ -1,3 +1,6 @@
+*.diff
+*.log
+*.lock
 .sass-cache
 node_modules
 sessions/*

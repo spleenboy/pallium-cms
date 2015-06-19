@@ -1,0 +1,8 @@
+- var fieldAttributes = field.attributes || {}
+if field.value
+    - fieldAttributes.checked = true;
+.switch.on-off
+    input(id=field.id, type='checkbox', name=field.fieldName, value=field.value)&attributes(fieldAttributes)
+    label(for=field.id)
+        .off&attributes(field.offState.attributes || {})= field.offState.label
+        .on&attributes(field.onState.attributes || {})= field.onState.label

@@ -1,0 +1,5 @@
+- var fieldAttributes = {};
+if field.attributes
+    - fieldAttributes = field.attributes
+
+input(id=field.id, name=field.fieldName, value=field.value, type='hidden')&attributes(fieldAttributes)
