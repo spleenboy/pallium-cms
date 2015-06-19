@@ -156,8 +156,10 @@ Entries.prototype.edit = function() {
         return this.redirect('list');
     }
 
+    var owner = this.request.user && this.request.user.displayName;
+
     // Have the factory update the index when it can
-    async.nextTick(this.factory.lock.bind(this.factory, id));
+    async.nextTick(this.factory.lock.bind(this.factory, id, owner || 'someone'));
 
     entry.prerender();
 

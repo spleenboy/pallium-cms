@@ -35,5 +35,7 @@ block main
                         strong.title= item.title
                         if item.subtitle
                             em.subtitle= item.subtitle
+                        if item.locked
+                            em.lock Locked by #{item.locked}
                         em Created #{item.createdFromNow}
                         em Updated #{item.modifiedFromNow}

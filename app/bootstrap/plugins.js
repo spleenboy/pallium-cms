@@ -67,10 +67,10 @@ plugins.load = function load(app, args) {
         }
 
         try {
-            var main = require(path.join(dir, list[i]))(hooks);
+            var main = require(path.join(dir, list[i]))(hooks, app);
             log.info("Registered plugin", list[i]);
         } catch (e) {
-            log.error("Plugin missing index.js file", list[i]);
+            log.error("Plugin missing index.js file", list[i], e);
         }
     }
 };

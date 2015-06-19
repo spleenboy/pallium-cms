@@ -140,12 +140,12 @@ Factory.prototype.saveIndex = function() {
 };
 
 
-Factory.prototype.lock = function(id) {
+Factory.prototype.lock = function(id, data) {
     if (!this.index[id]) {
         log.error('Entry id not found in index', id);
         return false;
     }
-    this.index[id].locked = true;
+    this.index[id].locked = data;
     this.saveIndex();
 };
 
