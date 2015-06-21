@@ -254,7 +254,7 @@ Factory.prototype.populate = function(entry, data, files) {
 
         if (files && field.fieldName in files) {
             // A file was added for the field
-            this.uploadFieldFile(field, files[field.fieldName]);
+            this.uploadFieldFile(entry, field, files[field.fieldName]);
         } else if (field.name in data) {
             if (field.multipart && data[field.name] && data[field.name].deleted) {
                 this.deleteFieldFiles(field, data[field.name].deleted);
@@ -310,7 +310,7 @@ Factory.prototype.deleteFieldFiles = function(field, files) {
 };
 
 
-Factory.prototype.uploadFieldFile = function(field, upload) {
+Factory.prototype.uploadFieldFile = function(entry, field, upload) {
     if (field.value && !field.multiple) {
         var oldpath = this.fullpath(field.value);
         log.debug("Removing old file for field", oldpath);
@@ -319,7 +319,7 @@ Factory.prototype.uploadFieldFile = function(field, upload) {
 
     var filename = upload.originalname;
     if (typeof field.rename === 'function') {
-        filename = field.rename.call(field, upload);
+        filename = field.rename.call(entry, upload);
     }
 
     var newpath = this.fullpath(filename);

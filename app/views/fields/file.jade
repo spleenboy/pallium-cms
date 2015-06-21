@@ -9,8 +9,8 @@ mixin existing(filename, index)
         .buttons
             a.pure-button.button-view(href=parts.join('/'), target='_blank')= filename
             .switch.on-off
-                input(id=field.id + '-deleted', type='checkbox', name=field.fieldName + '[deleted][]', value=filename)
-                label(for=field.id + '-deleted')
+                input(id=field.id + '-deleted-' + index, type='checkbox', name=field.fieldName + '[deleted][]', value=filename)
+                label(for=field.id + '-deleted-' + index)
                     .off.button-okay Keep File
                     .on.button-delete Delete File
 
