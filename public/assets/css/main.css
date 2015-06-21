@@ -5895,6 +5895,9 @@ label.md-label:before {
     background-color: none;
     padding: 6px 25px; }
 
+.entry-form .option-list {
+  margin-left: 2em; }
+
 body, html, div#layout, .pure-g {
   height: 100%; }
 

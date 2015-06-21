@@ -1,0 +1,11 @@
+label= field.label
+.option-list
+    each optionLabel, optionValue in field.options
+        - var optionAttrs = {}
+        if field.value === optionValue 
+            - optionAttrs.checked = true
+        else if field.value && field.value.indexOf(optionValue) >= 0
+            - optionAttrs.checked = true
+        label.pure-checkbox
+            input(type='checkbox', name=field.fieldName + '[]', value=optionValue)&attributes(optionAttrs)
+            | #{optionLabel}
