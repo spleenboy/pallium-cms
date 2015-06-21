@@ -85,6 +85,12 @@ Entries.prototype.redirect = function() {
 };
 
 
+Entries.prototype.landing = function() {
+    var data = {};
+    this.send('entries/landing', data);
+};
+
+
 Entries.prototype.list = function() {
     var all = this.factory.all();
     var items = [];
@@ -114,7 +120,14 @@ Entries.prototype.list = function() {
         return b.modified - a.modified;
     });
 
-    this.send('entries/list', {list: items});
+    var data = {
+        list: items,
+        scripts: [
+            '//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js'
+        ]
+    };
+
+    this.send('entries/list', data);
 };
 
 
@@ -153,6 +166,11 @@ Entries.prototype.edit = function() {
     if (entry.filepath && !this.locker.lock(entry.filepath, this.broadcastData(entry))) {
         this.request.flash('warn', '"' + entry.getTitle() + '" is locked.');
         this.request.flash('locked', id);
+
+        // Special case for single entries to avoid a redirect loop
+        if (entry.maximum === 1) {
+            return this.response.redirect('/entry/' + this.entryDomain);
+        }
         return this.redirect('list');
     }
 

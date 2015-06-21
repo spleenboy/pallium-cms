@@ -1,0 +1,10 @@
+extends ../layout/site
+
+block main
+    h1= entries.name
+
+    ul.list.type-list.js-masonry(data-masonry-options='{"itemSelector":".item"}')
+        each def, abbr in entries.types
+            li.item
+                a(href=[entries.domain, abbr, 'list'].join('/'))
+                    strong.title= def.plural || def.name

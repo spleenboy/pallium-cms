@@ -22,7 +22,7 @@ block main
             button.sort.pure-button.button-sort(data-sort='created') Created
             button.sort.pure-button.button-sort(data-sort='modified') Updated
         
-        ul.list.entry-list
+        ul.list.entry-list.js-masonry(data-masonry-options='{"itemSelector":".item"}')
             each item in list
                 - var buttonStyle = 'button-edit'
                 if item.locked

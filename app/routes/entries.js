@@ -5,8 +5,10 @@ var Controller = plugin('controllers/controller');
 var Entries    = plugin('controllers/entries');
 
 module.exports = function(app) {
-    var header = '/:domain?/:type/';
+    var header = '/:domain/:type/';
     var factory = new Controller.Factory(Entries, app);
+
+    router.get( '/:domain/', factory.handle('landing'));
 
     router.get( header + 'list', factory.handle('list'));
 
