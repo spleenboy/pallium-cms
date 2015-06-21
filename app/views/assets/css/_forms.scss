@@ -39,6 +39,10 @@ input[type='checkbox'] {
     margin-top: 12px;
 }
 
+.pure-control-group.field-group-datetime input {
+    display: inline;
+}
+
 label.url-label:before {
     @include icon-button($fa-var-link);
 }

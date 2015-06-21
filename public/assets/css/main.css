@@ -5856,6 +5856,9 @@ input[type='checkbox'] {
 .pure-form-stacked label {
   margin-top: 12px; }
 
+.pure-control-group.field-group-datetime input {
+  display: inline; }
+
 label.url-label:before {
   font-family: 'FontAwesome';
   margin-right: 10px;

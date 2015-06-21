@@ -4,5 +4,5 @@ mixin entry-form(btnText)
         fieldset
             button.pure-button.pure-button-primary.button-save(type='submit')= btnText
             each field in entry.fields
-                | !{field.html}
+                .pure-control-group(class='field-group-' + field.type) !{field.html}
         button.pure-button.pure-button-primary.button-save(type='submit')= btnText
