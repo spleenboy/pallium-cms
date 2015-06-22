@@ -4,7 +4,8 @@ var path   = require('path');
 var events = require('events');
 var moment = require('moment');
 
-var log = plugin('services/log')(module);
+var log    = plugin('services/log')(module);
+var config = plugin('config');
 
 
 function Locker(session) {
@@ -73,7 +74,7 @@ function Lock(filepath, data) {
     this.data = data;
 
     // The duration a lock should last
-    this.timeout = {'minutes': 15};
+    this.timeout = config.get('entry.lockTimeout');
 
     // Holds a reference to the expiration timer
     this.expiration = null;

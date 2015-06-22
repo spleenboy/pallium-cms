@@ -1,6 +1,7 @@
 var path = require('path');
 
 module.exports = {
+    lockTimeout: {'minutes': 5},
     domains: {
         'website': {
             name: 'Website',

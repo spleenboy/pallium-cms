@@ -165,7 +165,7 @@ Entries.prototype.edit = function() {
 
     if (entry.filepath && !this.locker.lock(entry.filepath, this.broadcastData(entry))) {
         this.request.flash('warn', '"' + entry.getTitle() + '" is locked.');
-        this.request.flash('locked', id);
+        this.request.flash('locked', ['/entry', this.entryDomain, entry.type, 'unlock', id].join('/'));
 
         // Special case for single entries to avoid a redirect loop
         if (entry.maximum === 1) {
