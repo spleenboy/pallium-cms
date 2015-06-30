@@ -4,6 +4,7 @@
 .sass-cache
 node_modules
 sessions/*
+coverage
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

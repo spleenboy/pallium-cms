@@ -4,6 +4,7 @@ var log  = plugin('services/log')(module);
 
 module.exports = {
 
+debug: false,
 
 localPath: function(name) {
     return path.join(process.cwd(), 'config', name);
@@ -18,7 +19,9 @@ local: function(name) {
         var localConf = require(localPath);
         return localConf;
     } catch (e) {
-        log.debug('No local config override at', localPath, e);
+        if (this.debug) {
+            log.debug('No local config override at', localPath, e);
+        }
         return undefined;
     }
 },

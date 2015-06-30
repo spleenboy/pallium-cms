@@ -7,11 +7,11 @@ var config = plugin('config');
 var fieldFactory = plugin('models/fields/field-factory');
 
 function Entry(type, definition) {
+    events.EventEmitter.call(this);
     this.id = null;
     this.multipart = false;
     this.markdown  = false;
     this.configure(type, definition);
-    events.EventEmitter.call(this);
 }
 
 util.inherits(Entry, events.EventEmitter);

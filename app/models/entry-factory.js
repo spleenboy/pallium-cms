@@ -146,7 +146,7 @@ Factory.prototype.lock = function(id, data) {
         return false;
     }
     this.index[id].locked = data;
-    this.saveIndex();
+    return this.saveIndex();
 };
 
 
@@ -156,7 +156,7 @@ Factory.prototype.unlock = function(id) {
         return false;
     }
     this.index[id].locked = false;
-    this.saveIndex();
+    return this.saveIndex();
 };
 
 

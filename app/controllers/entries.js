@@ -45,7 +45,13 @@ function Entries() {
         });
 
         locker.on('unlocked', function(lock) {
+            if (!lock.data) {
+                log.debug('Lock has no data', lock);
+                return;
+            }
             log.debug('Broadcasting entry unlocked', lock.data);
+            var factory = new Factory(lock.data.type, new Definition(lock.data.domain));
+            factory.unlock(lock.data.id);
             io.broadcast('entry unlocked', lock.data);
         });
         return locker;
@@ -147,8 +153,7 @@ Entries.prototype.unlock = function() {
     }
 
     async.parallel([
-        this.locker.unlock.bind(this.locker, entry.filepath, true),
-        this.factory.unlock.bind(this.factory, id)
+        this.locker.unlock.bind(this.locker, entry.filepath, true)
     ]);
 
     this.redirect('edit', id);
@@ -198,7 +203,6 @@ Entries.prototype.save = function() {
 
     async.parallel([
         this.locker.unlock.bind(this.locker, entry.filepath),
-        this.factory.unlock.bind(this.factory, id),
         this.app.io.broadcast.bind(this.app.io.broadcast, 'entry ' + action, this.broadcastData(entry))
     ]);
 
