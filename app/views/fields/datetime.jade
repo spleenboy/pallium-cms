@@ -1,5 +1,3 @@
-- var fieldDate = moment(field.value)
-
 label(for=field.id + '-date', class='datetime-label') #{field.label}
-input(id=field.id + '-date', name=field.fieldName + '[date]', value=fieldDate.format('YYYY-MM-DD'), type='date')
-input(id=field.id + '-time', name=field.fieldName + '[time]', value=fieldDate.format('h:mm:ss A'), type='time')
+input(id=field.id + '-date', name=field.fieldName + '[date]', value=field.date, type='date')
+input(id=field.id + '-time', name=field.fieldName + '[time]', value=field.time, type='time')

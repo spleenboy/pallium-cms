@@ -1,6 +1,7 @@
 var util   = require('util');
 var moment = require('moment');
 var Field  = plugin('models/fields/field');
+var log    = plugin('services/log')(module);
 
 function DateTimeField() {
     Field.apply(this, arguments);
@@ -17,6 +18,17 @@ function DateTimeField() {
     this.on('getting.value', function(evt) {
         if (evt.value) {
             evt.value = moment(evt.value).format();
+        }
+    });
+
+    this.on('rendering', function(view) {
+        if (view.data.field.value) {
+            var fieldDate = moment(view.data.field.value);
+
+            view.data.field.moment = fieldDate;
+            view.data.field.date   = fieldDate.format('YYYY-MM-DD');
+            view.data.field.time   = fieldDate.format('HH:mm:ss');
+            log.debug('view.data.field', view.data.field.date, view.data.field.time);
         }
     });
 }
