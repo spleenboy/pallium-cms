@@ -1,11 +1,12 @@
 var util = require('util');
 var path = require('path');
+
 var plugins = require('./services/plugins');
 var log     = plugins.require('services/log')(module);
 
 module.exports = {
 
-debug: false,
+debug: true,
 
 localPath: function(name) {
     return path.join(process.cwd(), 'config', name);
