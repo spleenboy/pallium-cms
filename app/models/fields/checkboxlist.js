@@ -1,6 +1,6 @@
-var util   = require('util');
-var assert = require('assert');
-var Parent = plugin('models/fields/select');
+var util    = require('util');
+var plugins = require('../../services/plugins');
+var Parent  = plugins.require('models/fields/select');
 
 function Checkboxlist() {
     Parent.call(this);

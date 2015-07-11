@@ -4,15 +4,8 @@ describe('FieldFactory', function() {
     var factory, fields;
 
     before(function() {
-        global.plugin = function(name) {
-            if (name === 'mockField') {
-                function MockField() {
-                    this.isMock = true;
-                }
-                return MockField;
-            }
-            return require('../../../app/' + name);
-        };
+        var plugins = require('../../../app/services/plugins');
+        plugins.override('mockField', {isMock: true});
         factory = require('../../../app/models/fields/field-factory');
         fields  = require('../../../app/models/fields/');
     });
@@ -20,7 +13,7 @@ describe('FieldFactory', function() {
     describe('create', function() {
         describe('settings', function() {
             it('should default to factory settings', function() {
-                var field = factory.create();
+                var field = factory.create({}, {type: 'nonesuch'});
                 var defaults = factory.defaults();
                 for (var key in defaults) {
                     assert.deepEqual(field[key], defaults[key], key + ' not equal');

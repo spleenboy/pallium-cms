@@ -1,6 +1,7 @@
 var util = require('util');
-var config  = plugin('config');
-var Controller = plugin('controllers/controller');
+var plugins    = require('../services/plugins');
+var config     = plugins.require('config');
+var Controller = plugins.require('controllers/controller');
 
 
 function Home() {

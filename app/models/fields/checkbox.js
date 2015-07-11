@@ -1,5 +1,6 @@
 var util  = require('util');
-var Field = plugin('models/fields/field');
+var plugins = require('../../services/plugins');
+var Field = plugins.require('models/fields/field');
 
 function Checkbox() {
     Field.apply(this, arguments);

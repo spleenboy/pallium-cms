@@ -1,6 +1,7 @@
 var util = require('util');
 var path = require('path');
-var log  = plugin('services/log')(module);
+var plugins = require('./services/plugins');
+var log     = plugins.require('services/log')(module);
 
 module.exports = {
 
@@ -53,7 +54,7 @@ get: function(namespacedKey, context, args) {
 
     // Now think globally
     if (value === undefined) {
-        source = plugin(path.join('config', file));
+        source = plugins.require(path.join('config', file));
         value = this.resolve(source, keys, context, args);
     }
 

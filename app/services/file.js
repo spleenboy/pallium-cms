@@ -1,6 +1,7 @@
 var fs    = require('fs');
 var path  = require('path');
-var log   = plugin('services/log')(module);
+var plugins = require('./plugins');
+var log   = plugins.require('services/log')(module);
 
 
 /**

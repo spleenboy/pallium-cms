@@ -1,6 +1,7 @@
 var util   = require('util');
 var assert = require('assert');
-var Field  = plugin('models/fields/field');
+var plugins = require('../../services/plugins');
+var Field  = plugins.require('models/fields/field');
 
 function Select() {
     Field.call(this);

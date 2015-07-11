@@ -1,4 +1,5 @@
 var path = require('path');
+var plugins = require('../services/plugins');
 
 module.exports = {
     lockTimeout: {'minutes': 5},
@@ -9,9 +10,9 @@ module.exports = {
                 return path.join(process.cwd(), 'content')
             },
             types: {
-                'home': plugin('config/entries/home'),
-                'page': plugin('config/entries/page'),
-                'event': plugin('config/entries/event')
+                'home': plugins.require('config/entries/home'),
+                'page': plugins.require('config/entries/page'),
+                'event': plugins.require('config/entries/event')
             }
         },
         'notes': {
@@ -20,8 +21,8 @@ module.exports = {
                 return path.join(process.cwd(), 'content/planning')
             },
             types: {
-                'note': plugin('config/entries/note'),
-                'todo': plugin('config/entries/todo')
+                'note': plugins.require('config/entries/note'),
+                'todo': plugins.require('config/entries/todo')
             }
         }
     }

@@ -1,6 +1,7 @@
 var jade = require('jade');
 var path = require('path');
-var log  = plugin('services/log')(module);
+var plugins = require('../services/plugins');
+var log  = plugins.require('services/log')(module);
 
 
 var Views = {};

@@ -1,7 +1,8 @@
 var util = require('util');
-var Field = plugin('models/fields/field');
-var log   = plugin('services/log')(module);
-var file  = plugin('services/file');
+var plugins = require('../../services/plugins');
+var Field = plugins.require('models/fields/field');
+var log   = plugins.require('services/log')(module);
+var file  = plugins.require('services/file');
 
 function File() {
     this.multipart = true;

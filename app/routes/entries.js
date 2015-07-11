@@ -1,8 +1,9 @@
 var express = require('express');
 var router  = express.Router();
 
-var Controller = plugin('controllers/controller');
-var Entries    = plugin('controllers/entries');
+var plugins = require('../services/plugins');
+var Controller = plugins.require('controllers/controller');
+var Entries    = plugins.require('controllers/entries');
 
 module.exports = function(app) {
     var header = '/:domain/:type/';

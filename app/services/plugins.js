@@ -17,16 +17,30 @@ plugins.find = function find(name) {
 
 
 plugins.require = function (name) {
+    var found = plugins.find(name);
+    if (typeof found === 'function') {
+        found = found();
+    }
+    if (typeof found === 'object') {
+        return found;
+    }
+    if (typeof found !== 'string') {
+        throw new Error('Invalid require for ' + name);
+    }
     return require(plugins.find(name));
 };
 
 
-plugins.override = function overrride(name, path) {
+plugins.override = function overrride(name, pathOrFunction) {
     var log = plugins.require('services/log')(module);
     if (name in plugins.overrides) {
         log.warn("Plugin override already exists for", name);
     }
-    plugins.overrides[name] = path;
+    var overrideType = typeof pathOrFunction;
+    if (['function', 'string', 'object'].indexOf(overrideType) < 0) {
+        throw new TypeError('Invalid override type for ' + name);
+    }
+    plugins.overrides[name] = pathOrFunction;
 };
 
 
@@ -76,5 +90,3 @@ plugins.load = function load(app, args) {
 };
 
 module.exports = plugins;
-global.plugin  = plugins.require;
-

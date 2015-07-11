@@ -2,14 +2,15 @@ var util   = require('util');
 var events = require('events');
 var path   = require('path');
 
-var object = plugin('util/object');
-var random = plugin('util/random');
-var log    = plugin('services/log')(module);
-var file   = plugin('services/file');
-var io     = plugin('services/io');
+var plugins = require('../services/plugins');
+var object  = plugins.require('util/object');
+var random  = plugins.require('util/random');
+var log     = plugins.require('services/log')(module);
+var file    = plugins.require('services/file');
+var io      = plugins.require('services/io');
 
-var Entry      = plugin('models/entry');
-var Definition = plugin('models/entry-definition');
+var Entry      = plugins.require('models/entry');
+var Definition = plugins.require('models/entry-definition');
 
 var indexFile = '.index.yaml';
 

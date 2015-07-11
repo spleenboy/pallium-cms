@@ -2,9 +2,10 @@ var assert = require('assert');
 var events = require('events');
 var util   = require('util');
 
-var object = plugin('util/object');
-var log    = plugin('services/log')(module);
-var View   = plugin('views/view');
+var plugins = require('../../services/plugins');
+var object = plugins.require('util/object');
+var log    = plugins.require('services/log')(module);
+var View   = plugins.require('views/view');
 
 function Field() {
     this.id = null;

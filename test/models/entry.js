@@ -3,9 +3,6 @@ var assert = require('assert');
 describe('Entry', function() {
     var Entry, EntryDefinition;
     before(function() {
-        global.plugin = function(name) {
-            return require('../../app/' + name);
-        };
         Entry = require('../../app/models/entry');
         EntryDefinition = require('../../app/models/entry-definition');
     });

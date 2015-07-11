@@ -4,8 +4,9 @@ var path   = require('path');
 var events = require('events');
 var moment = require('moment');
 
-var log    = plugin('services/log')(module);
-var config = plugin('config');
+var plugins = require('./plugins');
+var log    = plugins.require('services/log')(module);
+var config = plugins.require('config');
 
 
 function Locker(session) {

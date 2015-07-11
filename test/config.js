@@ -4,13 +4,10 @@ describe('config', function() {
     var config, mockSource;
 
     before(function() {
-        global.plugin = function(name) {
-            mockSource = {mock: 'duck'};
-            if (name === 'config/mockSource') {
-                return mockSource;
-            }
-            return require('../app/' + name);
-        };
+        var plugins = require('../app/services/plugins');
+        plugins.override('config/mockSource', function() {
+            return {mock: 'duck'};
+        });
         config = require('../app/config');
     });
 

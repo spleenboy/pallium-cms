@@ -1,7 +1,8 @@
 var events = require('events');
 var path   = require('path');
 var util   = require('util');
-var log    = plugin('services/log')(module);
+var plugins = require('./plugins');
+var log    = plugins.require('services/log')(module);
 
 // Singleton hooks instance used for application-level events
 function Hooks() {

@@ -9,12 +9,8 @@ describe('Field', function() {
                  // stub!
             }
         };
-        global.plugin = function(name) {
-            if (name === 'views/View') {
-                return mockView;
-            }
-            return require('../../../app/' + name);
-        };
+        var plugins = require('../../../app/services/plugins');
+        plugins.override('views/View', mockView);
         Field = require('../../../app/models/fields/field');
     });
 

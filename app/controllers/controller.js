@@ -1,11 +1,12 @@
 var util       = require('util');
 var events     = require('events');
 
-var config     = plugin('config');
-var log        = plugin('services/log')(module);
-var hooks      = plugin('services/hooks');
-var Definition = plugin('models/entry-definition');
-var View       = plugin('views/view');
+var plugins    = require('../services/plugins');
+var config     = plugins.require('config');
+var log        = plugins.require('services/log')(module);
+var hooks      = plugins.require('services/hooks');
+var Definition = plugins.require('models/entry-definition');
+var View       = plugins.require('views/view');
 
 function Controller() {
     events.EventEmitter.call(this);

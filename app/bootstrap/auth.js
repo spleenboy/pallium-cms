@@ -1,8 +1,9 @@
 var passport = require('passport');
 
-var Controller = plugin('controllers/controller');
-var config = plugin('config');
-var log = plugin('services/log')(module);
+var plugins    = require('../services/plugins');
+var Controller = plugins.require('controllers/controller');
+var config     = plugins.require('config');
+var log        = plugins.require('services/log')(module);
 
 var unprotected = ['/login', '/auth', '/verified', '/logout'];
 

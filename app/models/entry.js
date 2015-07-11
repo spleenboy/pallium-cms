@@ -1,10 +1,11 @@
-var path   = require('path');
-var util   = require('util');
-var events = require('events');
-var file   = plugin('services/file');
-var log    = plugin('services/log')(module);
-var config = plugin('config');
-var fieldFactory = plugin('models/fields/field-factory');
+var path    = require('path');
+var util    = require('util');
+var events  = require('events');
+var plugins = require('../services/plugins');
+var file    = plugins.require('services/file');
+var log     = plugins.require('services/log')(module);
+var config  = plugins.require('config');
+var fieldFactory = plugins.require('models/fields/field-factory');
 
 function Entry(type, definition) {
     events.EventEmitter.call(this);

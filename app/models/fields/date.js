@@ -1,6 +1,7 @@
 var util   = require('util');
 var moment = require('moment');
-var Field  = plugin('models/fields/field');
+var plugins = require('../../services/plugins');
+var Field  = plugins.require('models/fields/field');
 
 function DateField() {
     Field.apply(this, arguments);

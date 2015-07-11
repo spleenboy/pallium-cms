@@ -1,3 +1,5 @@
+var plugin = require('../../services/plugins').require;
+
 module.exports = {
     checkbox     : plugin('models/fields/checkbox'),
     checkboxlist : plugin('models/fields/checkboxlist'),

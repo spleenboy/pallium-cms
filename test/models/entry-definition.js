@@ -2,9 +2,6 @@ var assert = require('assert');
 
 describe('EntryDefinition', function() {
     function makeDefinition(domain, data) {
-        global.plugin = function(name) {
-            return require('../../app/' + name);
-        };
         var Definition = require('../../app/models/entry-definition');
         return new Definition(domain, data);
     }

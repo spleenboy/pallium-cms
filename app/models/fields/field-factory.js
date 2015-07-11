@@ -1,9 +1,10 @@
 var util   = require('util');
 var events = require('events');
-var log    = plugin('services/log')(module);
-var file   = plugin('services/file');
-var object = plugin('util/object');
-var fields = plugin('models/fields/');
+var plugins = require('../../services/plugins');
+var log    = plugins.require('services/log')(module);
+var file   = plugins.require('services/file');
+var object = plugins.require('util/object');
+var fields = plugins.require('models/fields/');
 
 function FieldFactory() {
     events.EventEmitter.call(this);
@@ -29,7 +30,11 @@ FieldFactory.prototype.defaults = function() {
 **/
 FieldFactory.prototype.create = function create(settings, entry) {
 
-    settings = object.assign(this.defaults(), settings || {});
+    if (!settings || !entry) {
+        throw new Error('Invalid parameters');
+    }
+
+    settings = object.assign(this.defaults(), settings);
 
     var event = {
         'settings' : settings,
@@ -40,7 +45,7 @@ FieldFactory.prototype.create = function create(settings, entry) {
     this.emit('creating', event);
 
     if (settings.source) {
-        var PluginField = plugin(settings.source);
+        var PluginField = plugins.require(settings.source);
         event.field = new PluginField();
     } else if (settings.type in fields) {
         var CustomField = fields[settings.type];

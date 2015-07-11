@@ -21,15 +21,9 @@ describe('EntryFactory', function() {
             import: nope,
             export: nope
         };
-        global.plugin = function(name) {
-            if (name === 'services/file') {
-                return mockfile;
-            }
-            else if (name === 'services/io') {
-                return mockIo;
-            }
-            return require('../../app/' + name);
-        };
+        var plugins = require('../../app/services/plugins');
+        plugins.override('services/file', mockfile);
+        plugins.override('services/io', mockIo);
         Factory = require('../../app/models/entry-factory');
         Definition = require('../../app/models/entry-definition');
     });

@@ -5,16 +5,17 @@ var path        = require('path');
 var mime        = require('mime-types');
 var async       = require('async');
 
-var hooks       = plugin('services/hooks');
-var file        = plugin('services/file');
-var object      = plugin('util/object');
-var log         = plugin('services/log')(module);
-var Locker      = plugin('services/locker');
-var Controller  = plugin('controllers/controller');
-var Entry       = plugin('models/entry');
-var Definition  = plugin('models/entry-definition');
-var Factory     = plugin('models/entry-factory');
-var View        = plugin('views/view');
+var plugins     = require('../services/plugins');
+var hooks       = plugins.require('services/hooks');
+var file        = plugins.require('services/file');
+var object      = plugins.require('util/object');
+var log         = plugins.require('services/log')(module);
+var Locker      = plugins.require('services/locker');
+var Controller  = plugins.require('controllers/controller');
+var Entry       = plugins.require('models/entry');
+var Definition  = plugins.require('models/entry-definition');
+var Factory     = plugins.require('models/entry-factory');
+var View        = plugins.require('views/view');
 
 
 function Entries() {
@@ -250,7 +251,7 @@ Entries.prototype.file = function() {
     }
 
     var field = entry.fields[fieldName];
-    var File  = plugin('models/fields/file');
+    var File  = plugins.require('models/fields/file');
     if (!(field instanceof File)) {
         this.request.flash('error', 'Field not found');
         return this.redirect('list');

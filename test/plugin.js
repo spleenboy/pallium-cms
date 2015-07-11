@@ -1,7 +1,7 @@
 var assert  = require('assert');
 var path    = require('path');
 
-var pluginsModule = '../app/bootstrap/plugins';
+var pluginsModule = '../app/services/plugins';
 
 describe('plugins', function() {
     var plugins;

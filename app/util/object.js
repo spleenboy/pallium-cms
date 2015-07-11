@@ -1,5 +1,6 @@
 var events = require('events');
-var log = plugin('services/log')(module);
+var plugins = require('../services/plugins');
+var log = plugins.require('services/log')(module);
 
 /**
  * Recursively copy into an object.

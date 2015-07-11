@@ -1,7 +1,8 @@
 var session = require('express-session');
 var flash   = require('connect-flash');
 var FileStore = require('session-file-store')(session);
-var log = plugin('services/log')(module);
+var plugins = require('../services/plugins');
+var log     = plugins.require('services/log')(module);
 
 module.exports = function(app, args) {
     app.use(session({

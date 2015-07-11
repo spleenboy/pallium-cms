@@ -1,6 +1,7 @@
-var config = plugin('config');
-var log    = plugin('services/log')(module);
-var object = plugin('util/object');
+var plugins = require('../services/plugins');
+var config  = plugins.require('config');
+var log     = plugins.require('services/log')(module);
+var object  = plugins.require('util/object');
 
 function Definition(domain, data) {
     this.domain = domain;

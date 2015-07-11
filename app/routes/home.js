@@ -1,8 +1,9 @@
 var express = require('express');
 var router  = express.Router();
 
-var Controller = plugin('controllers/controller');
-var Home       = plugin('controllers/home');
+var plugins    = require('../services/plugins');
+var Controller = plugins.require('controllers/controller');
+var Home       = plugins.require('controllers/home');
 
 module.exports = function(app) {
     var factory = new Controller.Factory(Home, app);
