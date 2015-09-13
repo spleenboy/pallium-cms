@@ -10,11 +10,11 @@ Many popular static site generators have been built to consume markdown files wi
 Pallium CMS provides you with a front-end for the administration of a static website. This makes it a great choice when you want to allow non-technical people access to edit content for your site.
 
 ## Getting Started
-`git clone git@github.com:spleenboy/pallium-cms.git`
-`cd pallium-cms`
-`npm install`
-`npm start`
-`open http://localhost:4000`
+- `git clone git@github.com:spleenboy/pallium-cms.git`
+- `cd pallium-cms`
+- `npm install`
+- `npm start`
+- `open http://localhost:4000`
 
 ## Plugins
 ### Current
