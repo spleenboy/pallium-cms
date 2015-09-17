@@ -50,6 +50,11 @@ plugins.load = function load(app, args) {
     var log    = plugins.require('services/log')(module);
     var hooks  = plugins.require('services/hooks');
 
+    if (args.config) {
+        config.setLocalRoot(args.config);
+        log.debug('Set config root', args.config);
+    }
+
     var dir   = config.get('site.pluginDirectory');
     var stats = file.stats(dir);
 

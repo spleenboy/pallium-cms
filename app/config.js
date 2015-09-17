@@ -8,8 +8,17 @@ module.exports = {
 
 debug: true,
 
+localRoot: null,
+
+setLocalRoot: function(rootDir) {
+    this.localRoot = rootDir;
+},
+
 localPath: function(name) {
-    return path.join(process.cwd(), 'config', name);
+    if (!this.localRoot) {
+        this.localRoot = path.join(process.cwd(), 'config');
+    }
+    return path.join(this.localRoot, name);
 },
 
 /**
