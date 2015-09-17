@@ -55,7 +55,7 @@ plugins.load = function load(app, args) {
         log.debug('Set config root', args.config);
     }
 
-    var dir   = config.get('site.pluginDirectory');
+    var dir   = config.get('site.plugins.directory');
     var stats = file.stats(dir);
 
     if (!stats || !stats.isDirectory) {
@@ -63,7 +63,7 @@ plugins.load = function load(app, args) {
         return;
     }
 
-    var list = fs.readdirSync(dir);
+    var list = config.get('site.plugins.enabled');
 
     if (!list) {
         return;
