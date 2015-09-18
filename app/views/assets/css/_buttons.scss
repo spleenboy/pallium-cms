@@ -75,6 +75,10 @@
     }
 }
 
+.button-refresh:before {
+    @include icon-button($fa-var-refresh);
+}
+
 .button-back:before {
     @include icon-button($fa-var-arrow-left);
 }
