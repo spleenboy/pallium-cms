@@ -12,7 +12,6 @@ var io      = plugins.require('services/io');
 var Entry      = plugins.require('models/entry');
 var Definition = plugins.require('models/entry-definition');
 
-var indexFile = '.index.yaml';
 
 function Factory(type, definition) {
 
@@ -37,7 +36,7 @@ function Factory(type, definition) {
     this.model     = new Entry(type, definition);
     this.directory = this.model.get('directory') || '';
     this.root      = path.join(this.output, this.directory || '');
-    this.indexPath = path.join(this.root, indexFile);
+    this.indexPath = path.join(this.root, '.' + type + '.index.yaml');
 
     this.loadIndex();
 
