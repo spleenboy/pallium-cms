@@ -61,7 +61,7 @@ This is where most of your settings will live. This config file is the entry poi
 Because so much is set up in the `entry.js` file, it's probably a good idea to break apart the configuration for a complicated site into multiple files. All of the examples below will show you what that would look like.
 
 ### Domains
-Domains are the top-level organization for the entries.js file. Each domain should have the following keys.
+Domains are the top-level organization for the entry.js file. Each domain should have the following keys.
 
  - *name*: The string is the name displays in the Pallium interface
  - *output*: This string is the full path to the top-level directory where all content within the domain will be managed.
