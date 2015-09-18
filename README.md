@@ -154,9 +154,9 @@ module.exports = {
             value: 'index.jade'
         },
         {
-            type         : 'md',
-            name         : '__content',
-            label        : 'Description'
+            type: 'md',
+            name: '__content',
+            label: 'Description'
         }    }]
 };
 ```
@@ -168,26 +168,89 @@ Each entry screen in Pallium will display a form with editable fields. The value
 - *name*: This is the internal name of the field, used as the key when saving an entry.
 - *label*: This is a human-friendly version of the name. It usually gets displays on the entry edit page as the label for a form field.
 - *attributes*: This is javascript object with keys and values. Anything set here usually gets added to the input field as HTML attributes.
+- *defaultValue*: The default value to use for the field. Some fields don't support this option.
+- *placeHolder*: This is used as a placeholder attribute (if applicable.)
 
 If you're curious how a particular field will be rendered on the edit page, check out the `app/views/fields/` folder. The `type` value will map directly to a template in that directory.
 
+**Neat Trick**
+Some fields have an `option` attribute that allows the field to display a list of options. Because config values can be functions, you can use this field to display a dynamic list of items!
+
 #### Checkbox
+This renders out a single checkbox and label. When checked, the value of this field is set to the boolean _true_. Unchecked, and the value is set to the boolean _false_. 
+
 #### Checkbox List
+This renders out a list of checkbox items. The value of this field is saved as a serialize array of the values for each checked item. This field type requires one additional key.
+
+- *options*: This is a javascript object. In this object, the key becomes the checkbox input value and the value is used as the label for the checkbox.
+
 #### Color
+Renders as `<input type="color">`
+
 #### Date
+Renders as `<input type="date">`
+
 #### Date Time
+This field renders as a two-part input, with both a `date` and `time` input field.
+
+#### Email
+Renders as `<input type="email">`
+
 #### File
+This field allows you to upload files into the entry's directory. You can limit the allowed files using an `accept` key in the `attributes` field.
+
+- *rename*: This can be a callback that takes one parameter, the upload object. It should return a valid filename. The full path for the file will be determined using the same rules as how an entry gets saved.
+- *multiple*: If set to true, this field will allow multiple file uploads.
+
 #### Hidden
+Renders as `<input type="hidden">`. Use the `defaultValue` key to specify the value for this field. Or, you may use a `value` key if you'd like to allow the field to change on the form.
+
 #### Markdown
+This displays a markdown editor field using [catdown](https://github.com/zuren/catdown).
+
+- *full*: If set to _true_, the markdown editor will display on the full width of the page. Otherwise, the editor will show a side-by-side view.
+
 #### Month
+Renders as `<input type="month">`
+
 #### Number
+Renders as `<input type="number">`
+
 #### Range
+Renders as `<input type="range">`
+
+- *min*: The minimum value allowed.
+- *max*: The maximum value allowed.
+- *step*: The increment to use for values.
+
 #### Select
+Displays a `<select>` dropdown.
+
+- *options*: This is a javascript object. In this object, the key becomes the option value value and the value is used as the option label.
+
 #### Switch
+This displays an on/off switch that works like a fancy checkbox.
+
+- *offState*: A javascript object
+- *onState*: A javascript object
+
+Both `offState` and `onState` are objects that can include both a `label` key and an `attributes` key.
+
 #### Telephone
+Renders as `<input type="tel">`
+
 #### Text
+Renders as `<input type="text">`
+
 #### Textarea
+Renders as `<textarea>`
+
 #### Time
+Renders as `<input type="time">`
+
 #### URL
+Renders as `<input type="url">`
+
 #### Week
+Renders as `<input type="week">`
 
