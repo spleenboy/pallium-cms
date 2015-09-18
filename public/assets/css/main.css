@@ -6077,6 +6077,9 @@ input[type='time'], input[type='date'], input[type='datetime'], input[type='mont
 input[type='checkbox'] {
   margin-right: 0.5em; }
 
+.search-form select {
+  width: 100%; }
+
 .search-field {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;

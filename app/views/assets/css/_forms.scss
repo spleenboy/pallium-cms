@@ -35,6 +35,10 @@ input[type='checkbox'] {
     margin-right: 0.5em;
 }
 
+.search-form select {
+    width: 100%;
+}
+
 .search-field {
     @include border-top-radius(4px);
     @include border-bottom-radius(4px);
