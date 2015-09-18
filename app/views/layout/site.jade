@@ -8,23 +8,18 @@ html(lang="en")
             link(rel='stylesheet', href='/assets/css/catdown.css')
             link(rel='stylesheet', href='/assets/css/main.css')
     body
-        #layout
-            .pure-g
-                section.menu.pure-u-1-8
-                    .content
-                        block menu 
-                            include menu
-                section.main.pure-u-3-4
-                    include header
-                    .content
-                        include flash
-                        block main
-                section.sidebar.pure-u-1-8
-                    .content
+        #layout.content.pure-g
+            #nav.pure-u
+                .nav-inner
+                    block menu
+                        include menu
+                    block sidebar
                         include sidebar
-            footer
-                block footer
-                    include footer
+            #list.pure-u-1
+                block list
+            #main.pure-u-1
+                include flash
+                block main
         block scripts
             each src in scripts || []
                 script(type='text/javascript', src=src)

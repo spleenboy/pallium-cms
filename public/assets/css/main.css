@@ -4008,15 +4008,15 @@
     height: 25px; }
 
 /*!
- *  Font Awesome 4.3.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 /* FONT PATH
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url("../fonts/fontawesome-webfont.eot?v=4.3.0");
-  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.3.0") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.3.0") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.3.0") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.3.0") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular") format("svg");
+  src: url("../fonts/fontawesome-webfont.eot?v=4.4.0");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.4.0") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.4.0") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.4.0") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.4.0") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular") format("svg");
   font-weight: normal;
   font-style: normal; }
 .fa {
@@ -4025,8 +4025,7 @@
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transform: translate(0, 0); }
+  -moz-osx-font-smoothing: grayscale; }
 
 /* makes the font 33% larger relative to the icon container */
 .fa-lg {
@@ -4071,6 +4070,18 @@
   border: solid 0.08em #eee;
   border-radius: .1em; }
 
+.fa-pull-left {
+  float: left; }
+
+.fa-pull-right {
+  float: right; }
+
+.fa.fa-pull-left {
+  margin-right: .3em; }
+.fa.fa-pull-right {
+  margin-left: .3em; }
+
+/* Deprecated as of 4.4.0 */
 .pull-right {
   float: right; }
 
@@ -4626,6 +4637,7 @@
 .fa-credit-card:before {
   content: ""; }
 
+.fa-feed:before,
 .fa-rss:before {
   content: ""; }
 
@@ -5507,6 +5519,8 @@
 .fa-git:before {
   content: ""; }
 
+.fa-y-combinator-square:before,
+.fa-yc-square:before,
 .fa-hacker-news:before {
   content: ""; }
 
@@ -5531,7 +5545,6 @@
 .fa-history:before {
   content: ""; }
 
-.fa-genderless:before,
 .fa-circle-thin:before {
   content: ""; }
 
@@ -5736,6 +5749,7 @@
 .fa-mercury:before {
   content: ""; }
 
+.fa-intersex:before,
 .fa-transgender:before {
   content: ""; }
 
@@ -5762,6 +5776,9 @@
 
 .fa-neuter:before {
   content: ""; }
+
+.fa-genderless:before {
+  content: ""; }
 
 .fa-facebook-official:before {
   content: ""; }
@@ -5796,6 +5813,213 @@
 
 .fa-medium:before {
   content: ""; }
+
+.fa-yc:before,
+.fa-y-combinator:before {
+  content: ""; }
+
+.fa-optin-monster:before {
+  content: ""; }
+
+.fa-opencart:before {
+  content: ""; }
+
+.fa-expeditedssl:before {
+  content: ""; }
+
+.fa-battery-4:before,
+.fa-battery-full:before {
+  content: ""; }
+
+.fa-battery-3:before,
+.fa-battery-three-quarters:before {
+  content: ""; }
+
+.fa-battery-2:before,
+.fa-battery-half:before {
+  content: ""; }
+
+.fa-battery-1:before,
+.fa-battery-quarter:before {
+  content: ""; }
+
+.fa-battery-0:before,
+.fa-battery-empty:before {
+  content: ""; }
+
+.fa-mouse-pointer:before {
+  content: ""; }
+
+.fa-i-cursor:before {
+  content: ""; }
+
+.fa-object-group:before {
+  content: ""; }
+
+.fa-object-ungroup:before {
+  content: ""; }
+
+.fa-sticky-note:before {
+  content: ""; }
+
+.fa-sticky-note-o:before {
+  content: ""; }
+
+.fa-cc-jcb:before {
+  content: ""; }
+
+.fa-cc-diners-club:before {
+  content: ""; }
+
+.fa-clone:before {
+  content: ""; }
+
+.fa-balance-scale:before {
+  content: ""; }
+
+.fa-hourglass-o:before {
+  content: ""; }
+
+.fa-hourglass-1:before,
+.fa-hourglass-start:before {
+  content: ""; }
+
+.fa-hourglass-2:before,
+.fa-hourglass-half:before {
+  content: ""; }
+
+.fa-hourglass-3:before,
+.fa-hourglass-end:before {
+  content: ""; }
+
+.fa-hourglass:before {
+  content: ""; }
+
+.fa-hand-grab-o:before,
+.fa-hand-rock-o:before {
+  content: ""; }
+
+.fa-hand-stop-o:before,
+.fa-hand-paper-o:before {
+  content: ""; }
+
+.fa-hand-scissors-o:before {
+  content: ""; }
+
+.fa-hand-lizard-o:before {
+  content: ""; }
+
+.fa-hand-spock-o:before {
+  content: ""; }
+
+.fa-hand-pointer-o:before {
+  content: ""; }
+
+.fa-hand-peace-o:before {
+  content: ""; }
+
+.fa-trademark:before {
+  content: ""; }
+
+.fa-registered:before {
+  content: ""; }
+
+.fa-creative-commons:before {
+  content: ""; }
+
+.fa-gg:before {
+  content: ""; }
+
+.fa-gg-circle:before {
+  content: ""; }
+
+.fa-tripadvisor:before {
+  content: ""; }
+
+.fa-odnoklassniki:before {
+  content: ""; }
+
+.fa-odnoklassniki-square:before {
+  content: ""; }
+
+.fa-get-pocket:before {
+  content: ""; }
+
+.fa-wikipedia-w:before {
+  content: ""; }
+
+.fa-safari:before {
+  content: ""; }
+
+.fa-chrome:before {
+  content: ""; }
+
+.fa-firefox:before {
+  content: ""; }
+
+.fa-opera:before {
+  content: ""; }
+
+.fa-internet-explorer:before {
+  content: ""; }
+
+.fa-tv:before,
+.fa-television:before {
+  content: ""; }
+
+.fa-contao:before {
+  content: ""; }
+
+.fa-500px:before {
+  content: ""; }
+
+.fa-amazon:before {
+  content: ""; }
+
+.fa-calendar-plus-o:before {
+  content: ""; }
+
+.fa-calendar-minus-o:before {
+  content: ""; }
+
+.fa-calendar-times-o:before {
+  content: ""; }
+
+.fa-calendar-check-o:before {
+  content: ""; }
+
+.fa-industry:before {
+  content: ""; }
+
+.fa-map-pin:before {
+  content: ""; }
+
+.fa-map-signs:before {
+  content: ""; }
+
+.fa-map-o:before {
+  content: ""; }
+
+.fa-map:before {
+  content: ""; }
+
+.fa-commenting:before {
+  content: ""; }
+
+.fa-commenting-o:before {
+  content: ""; }
+
+.fa-houzz:before {
+  content: ""; }
+
+.fa-vimeo:before {
+  content: ""; }
+
+.fa-black-tie:before {
+  content: ""; }
+
+.fa-fonticons:before {
+  content: ""; }
 
 @font-face {
   font-family: 'paragraph';
@@ -5901,11 +6125,7 @@ label.md-label:before {
 .entry-form .option-list {
   margin-left: 2em; }
 
-body, html, div#layout, .pure-g {
-  height: 100%; }
-
-div#layout {
-  height: 100%;
+#layout, #nav, #list, #main {
   margin: 0;
   padding: 0; }
 
@@ -5952,21 +6172,109 @@ div#layout {
   .logo a {
     text-decoration: none; }
 
-section.menu .content {
-  position: fixed;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  color: #636363;
-  background-color: rgba(35, 142, 81, 0.5);
-  background-image: -webkit-linear-gradient(left, rgba(35, 142, 81, 0.5), 100%, #191919, 0%);
-  background-image: linear-gradient(to right,rgba(35, 142, 81, 0.5), 100%, #191919, 0%); }
+/* Make the navigation 100% width on phones */
+#nav {
+  width: 100%;
+  height: 40px;
+  position: relative;
+  background: rgba(35, 142, 81, 0.5); }
 
-nav li.pure-menu-selected {
+/* Show the "Menu" button on phones */
+#nav .nav-menu-button {
+  display: block;
+  top: 0.5em;
+  right: 0.5em;
+  position: absolute; }
+
+/* When "Menu" is clicked, the navbar should be 80% height */
+#nav.active {
+  height: 80%; }
+
+/* Don't show the navigation items... */
+.nav-inner {
+  display: none; }
+
+/* ...until the "Menu" button is clicked */
+#nav.active .nav-inner {
+  display: block;
+  padding: 2em 0; }
+
+/*
+ * -- TABLET (AND UP) MEDIA QUERIES --
+ * On tablets and other medium-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+@media (min-width: 40em) {
+  /* Move the layout over so we can fit the nav + list in on the left */
+  #layout {
+    padding-left: 500px;
+    /* "left col (nav + list)" width */
+    position: relative; }
+
+  /* These are position:fixed; elements that will be in the left 500px of the screen */
+  #nav, #list {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    overflow: auto; }
+
+  #nav {
+    margin-left: -500px;
+    /* "left col (nav + list)" width */
+    width: 150px;
+    height: 100%; }
+
+  /* Show the menu items on the larger screen */
+  .nav-inner {
+    display: block;
+    padding: 2em 0; }
+
+  /* Hide the "Menu" button on larger screens */
+  #nav .nav-menu-button {
+    display: none; }
+
+  #list {
+    margin-left: -350px;
+    width: 100%;
+    height: 33%;
+    border-bottom: 1px solid #ddd; }
+
+  #main {
+    position: fixed;
+    top: 33%;
+    right: 0;
+    bottom: 0;
+    left: 150px;
+    overflow: auto;
+    width: auto;
+    /* so that it's not 100% */ } }
+/*
+ * -- DESKTOP (AND UP) MEDIA QUERIES --
+ * On desktops and other large-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+@media (min-width: 60em) {
+  /* This will take up the entire height, and be a little thinner */
+  #list {
+    margin-left: -350px;
+    width: 350px;
+    height: 100%;
+    border-right: 1px solid #ddd; }
+
+  /* This will now take up it's own column, so don't need position: fixed; */
+  #main {
+    position: static;
+    margin: 0;
+    padding: 0; } }
+#nav .pure-button {
+  width: 100%;
+  border-radius: 0;
+  margin: 0; }
+
+#nav li.pure-menu-selected {
   background: white; }
 
-nav li.pure-menu-item a {
+#nav li.pure-menu-item a {
   display: inline-block;
   vertical-align: middle;
   -webkit-transform: translateZ(0);
@@ -5981,7 +6289,7 @@ nav li.pure-menu-item a {
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
   display: block; }
-  nav li.pure-menu-item a:before {
+  #nav li.pure-menu-item a:before {
     content: "";
     position: absolute;
     z-index: -1;
@@ -6000,56 +6308,68 @@ nav li.pure-menu-item a {
     transition-duration: 0.3s;
     -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out; }
-  nav li.pure-menu-item a:hover, nav li.pure-menu-item a:focus, nav li.pure-menu-item a:active {
+  #nav li.pure-menu-item a:hover, #nav li.pure-menu-item a:focus, #nav li.pure-menu-item a:active {
     color: white; }
-    nav li.pure-menu-item a:hover:before, nav li.pure-menu-item a:focus:before, nav li.pure-menu-item a:active:before {
+    #nav li.pure-menu-item a:hover:before, #nav li.pure-menu-item a:focus:before, #nav li.pure-menu-item a:active:before {
       -webkit-transform: scaleX(1);
       transform: scaleX(1); }
 
-section.main .content {
-  padding: 0 40px 100px 40px; }
-
-section.sidebar .content {
-  position: fixed;
-  height: 100%;
-  right: 0;
-  top: 0;
-  background-color: rgba(210, 211, 211, 0.5);
-  background-image: -webkit-linear-gradient(right, rgba(210, 211, 211, 0.5), 100%, #191919, 0%);
-  background-image: linear-gradient(to left,rgba(210, 211, 211, 0.5), 100%, #191919, 0%); }
-  section.sidebar .content .pure-button {
-    width: 100%;
-    background-color: rgba(210, 211, 211, 0.5); }
-
-.header {
-  float: right; }
-
-.entry-type {
-  width: 100%;
+#list .entry-type {
   text-align: center;
-  margin: 0 -50% 10px -50%;
-  padding: 10px 50%;
   background-color: rgba(243, 241, 249, 0.87);
   background-image: -webkit-linear-gradient(top, rgba(243, 241, 249, 0.87), 100%, #191919, 0%);
   background-image: linear-gradient(to bottom,rgba(243, 241, 249, 0.87), 100%, #191919, 0%); }
-  .entry-type .title {
+  #list .entry-type .title {
     font-family: "heading", "sans-serif";
     font-size: 34px;
     font-weight: bold; }
-  .entry-type .description {
+  #list .entry-type .description {
     color: #838383; }
 
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  height: 40px;
-  padding-top: 15px;
-  border-top: 1px solid #191919;
-  background-color: rgba(55, 55, 33, 0.46);
-  background-image: -webkit-linear-gradient(bottom, rgba(55, 55, 33, 0.46), 100%, #191919, 0%);
-  background-image: linear-gradient(to top,rgba(55, 55, 33, 0.46), 100%, #191919, 0%); }
+.search-form {
+  margin: 10px 0; }
+
+.list {
+  margin: 0;
+  margin-top: 20px;
+  padding: 0;
+  list-style: none; }
+
+.list .item {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 5px;
+  margin: 0;
+  width: 100%; }
+  .list .item.active {
+    border: 1px solid #c8c8c8;
+    background: rgba(220, 220, 220, 0.5); }
+  .list .item:hover {
+    border: 1px solid #c8c8c8;
+    background: rgba(220, 220, 220, 0.5); }
+  .list .item a {
+    color: black;
+    text-decoration: none; }
+  .list .item .title {
+    color: #238e51;
+    font-size: 18px; }
+  .list .item .subtitle {
+    color: black;
+    font-size: 15px;
+    display: block; }
+  .list .item em {
+    display: block; }
+
+#main .entry-type {
+  font-size: 18px;
+  padding: 10px; }
+
+#main form {
+  padding: 10px; }
 
 .pure-button {
   padding: 15px 25px;
@@ -6182,6 +6502,47 @@ footer {
     .button-logout:hover:before, .button-logout:focus:before, .button-logout:active:before {
       -webkit-transform: scaleX(1);
       transform: scaleX(1); }
+
+#list .button-edit, #list .button-unlock {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow: hidden; }
+  #list .button-edit:before, #list .button-unlock:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-color: rgba(69, 161, 108, 0.87);
+    border-style: solid;
+    border-width: 0;
+    -webkit-transition-property: border-width;
+    transition-property: border-width;
+    -webkit-transition-duration: 0.1s;
+    transition-duration: 0.1s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out; }
+  #list .button-edit:hover:before, #list .button-edit:focus:before, #list .button-edit:active:before, #list .button-unlock:hover:before, #list .button-unlock:focus:before, #list .button-unlock:active:before {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    border-width: 4px; }
+#list .button-edit .title:before {
+  font-family: 'FontAwesome';
+  margin-right: 10px;
+  content: ""; }
+#list .button-unlock .title:before {
+  font-family: 'FontAwesome';
+  margin-right: 10px;
+  content: ""; }
 
 /** Icons **/
 .button-okay:before {
@@ -6383,40 +6744,5 @@ input.toggle-checkbox:checked + label > .pure-button {
 input.toggle-checkbox:checked + label > .pure-button:after {
   margin-left: 60px;
   background-color: #8ce196; }
-
-.search-form {
-  margin: 10px 0; }
-
-.list {
-  margin: 0;
-  margin-top: 20px;
-  padding: 0;
-  list-style: none; }
-
-.list .item {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border: 1px solid transparent;
-  background: transparent;
-  padding: 5px;
-  margin: 2px;
-  display: block; }
-  .list .item:hover {
-    border: 1px solid #c8c8c8;
-    background: rgba(220, 220, 220, 0.5); }
-  .list .item a {
-    color: black;
-    text-decoration: none; }
-  .list .item .title {
-    color: #238e51;
-    font-size: 1.5em; }
-  .list .item .subtitle {
-    color: black;
-    font-size: 1.2em;
-    display: block; }
-  .list .item em {
-    display: block; }
 
 /*# sourceMappingURL=main.css.map */

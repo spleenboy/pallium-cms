@@ -5,6 +5,7 @@
 node_modules
 sessions/*
 coverage
+config-*
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

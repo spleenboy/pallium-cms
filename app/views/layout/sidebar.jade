@@ -1,6 +1,3 @@
 .content
-if user
-    form.pure-form(method='post', action='/logout')
-        button.pure-button.button-logout(type='submit') Sign Off
 each content, id in sidebar
     div(class='sidebar sidebar-' + id) !{content}

@@ -4,6 +4,7 @@ var fs          = require('fs');
 var path        = require('path');
 var mime        = require('mime-types');
 var async       = require('async');
+var _           = require('underscore');
 
 var plugins     = require('../services/plugins');
 var hooks       = plugins.require('services/hooks');
@@ -98,11 +99,11 @@ Entries.prototype.landing = function() {
 };
 
 
-Entries.prototype.list = function() {
+Entries.prototype.items = function() {
     var all = this.factory.all();
     var items = [];
     for (var id in all) {
-        var item = all[id];
+        var item = _.clone(all[id]);
         item.createdMoment  = moment(item.created);
         item.createdFromNow = item.createdMoment.fromNow();
         item.createdIso     = item.createdMoment.format();
@@ -113,7 +114,29 @@ Entries.prototype.list = function() {
         items.push(item);
     }
 
-    // Handle single entry types
+    items = _.sortBy(items, 'title');
+
+    return items;
+};
+
+
+Entries.prototype.itemData = function(items) {
+    items = items || this.items();
+    var baseUrl = '/entry/' + this.entryDomain + '/' + this.type + '/';
+    return {
+        list: items,
+        baseUrl: baseUrl,
+        scripts: [
+            '//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js'
+        ]
+    };
+
+};
+
+
+Entries.prototype.list = function() {
+    var items = this.items();
+
     if (this.factory.model.maximum === 1) {
         var item = items.shift();
         if (item) {
@@ -123,25 +146,18 @@ Entries.prototype.list = function() {
         }
     }
 
-    items.sort(function(a, b) {
-        return b.modified - a.modified;
-    });
-
-    var data = {
-        list: items,
-        scripts: [
-            '//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js'
-        ]
-    };
-
-    this.send('entries/list', data);
+    this.send('entries/list', this.itemData(items));
 };
 
 
 Entries.prototype.create = function() {
     var entry = this.factory.create();
     entry.prerender();
-    this.send('entries/create', {entry: entry});
+
+    var data = this.itemData();
+    data.entry = entry;
+
+    this.send('entries/create', data);
 };
 
 
@@ -186,8 +202,13 @@ Entries.prototype.edit = function() {
     async.nextTick(this.factory.lock.bind(this.factory, id, owner || 'someone'));
 
     entry.prerender();
+    var data = this.itemData();
+    data.entry = entry;
 
-    this.send('entries/edit', {entry: entry});
+
+    console.log(data);
+
+    this.send('entries/edit', data);
 };
 
 

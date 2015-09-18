@@ -29,6 +29,20 @@
     @include sweep-to-left();
 }
 
+#list {
+    .button-edit, .button-unlock {
+        @include reveal();
+    }
+
+    .button-edit .title:before {
+        @include icon-button($fa-var-pencil);
+    }
+
+    .button-unlock .title:before {
+        @include icon-button($fa-var-lock);
+    }
+}
+
 
 /** Icons **/
 .button-okay:before {

@@ -11,6 +11,10 @@ debug: true,
 localRoot: null,
 
 setLocalRoot: function(rootDir) {
+    rootDir = path.normalize(rootDir);
+    if (path.resolve(rootDir) !== rootDir) {
+        rootDir = path.join(process.cwd(), rootDir);
+    }
     this.localRoot = rootDir;
 },
 

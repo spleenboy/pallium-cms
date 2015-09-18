@@ -1,9 +1,4 @@
-body, html, div#layout, .pure-g {
-    height: 100%;
-}
-
-div#layout {
-    height: 100%;
+#layout, #nav, #list, #main {
     margin: 0;
     padding: 0;
 }
@@ -28,71 +23,113 @@ div#layout {
     }
 }
 
-section.menu .content {
-    position: fixed;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    color: $foreground-light;
-    @include linear-gradient(to right, $background-menu, 100%, $line-dark, 0%);
+/* Make the navigation 100% width on phones */
+#nav {
+    width: 100%;
+    height: 40px;
+    position: relative;
+    background: $background-menu;
 }
-
-nav li.pure-menu-selected {
-    background: $background;
-}
-
-nav li.pure-menu-item a {
-    @include sweep-to-right();
+/* Show the "Menu" button on phones */
+#nav .nav-menu-button {
     display: block;
+    top: 0.5em;
+    right: 0.5em;
+    position: absolute;
 }
 
-section.main .content {
-    padding: 0 40px 100px 40px;
+/* When "Menu" is clicked, the navbar should be 80% height */
+#nav.active {
+    height: 80%;
 }
 
-section.sidebar .content {
-    position: fixed;
-    height: 100%;
-    right: 0;
-    top: 0;
-    @include linear-gradient(to left, $background-sidebar, 100%, $line-dark, 0%);
+/* Don't show the navigation items... */
+.nav-inner {
+    display: none;
+}
 
-    .pure-button {
+/* ...until the "Menu" button is clicked */
+#nav.active .nav-inner {
+    display: block;
+    padding: 2em 0;
+}
+
+/*
+ * -- TABLET (AND UP) MEDIA QUERIES --
+ * On tablets and other medium-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+@media (min-width: 40em) {
+
+    /* Move the layout over so we can fit the nav + list in on the left */
+    #layout {
+        padding-left:500px; /* "left col (nav + list)" width */
+        position: relative;
+    }
+
+    /* These are position:fixed; elements that will be in the left 500px of the screen */
+    #nav, #list {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        overflow: auto;
+    }
+    #nav {
+        margin-left:-500px; /* "left col (nav + list)" width */
+        width:150px;
+        height: 100%;
+    }
+
+    /* Show the menu items on the larger screen */
+    .nav-inner {
+        display: block;
+        padding: 2em 0;
+    }
+
+    /* Hide the "Menu" button on larger screens */
+    #nav .nav-menu-button {
+        display: none;
+    }
+
+    #list {
+        margin-left: -350px;
         width: 100%;
-        background-color: $background-sidebar;
+        height: 33%;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #main {
+        position: fixed;
+        top: 33%;
+        right: 0;
+        bottom: 0;
+        left: 150px;
+        overflow: auto;
+        width: auto; /* so that it's not 100% */
+    }
+
+}
+
+/*
+ * -- DESKTOP (AND UP) MEDIA QUERIES --
+ * On desktops and other large-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+@media (min-width: 60em) {
+
+    /* This will take up the entire height, and be a little thinner */
+    #list {
+        margin-left: -350px;
+        width:350px;
+        height: 100%;
+        border-right: 1px solid #ddd;
+    }
+
+    /* This will now take up it's own column, so don't need position: fixed; */
+    #main {
+        position: static;
+        margin: 0;
+        padding: 0;
     }
 }
 
-.header {
-    float: right;
-}
-
-.entry-type {
-    width: 100%;
-    text-align: center;
-    margin: 0 -50% 10px -50%;
-    padding: 10px 50%;
-    @include linear-gradient(to bottom, $background-callout, 100%, $line-dark, 0%);
-
-   .title {
-       font-family: $heading;
-       font-size: 34px;
-       font-weight: bold;
-   }
-
-   .description {
-       color: $foreground-callout;
-   }
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    height: 40px;
-    padding-top: 15px;
-    border-top: 1px solid $line-dark;
-    @include linear-gradient(to top, $background-footer, 100%, $line-dark, 0%);
-}

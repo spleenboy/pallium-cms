@@ -1,3 +1,18 @@
+#list .entry-type {
+    text-align: center;
+    @include linear-gradient(to bottom, $background-callout, 100%, $line-dark, 0%);
+
+   .title {
+       font-family: $heading;
+       font-size: 34px;
+       font-weight: bold;
+   }
+
+   .description {
+       color: $foreground-callout;
+   }
+}
+
 .search-form {
     margin: 10px 0;
 }
@@ -16,8 +31,13 @@
     border: 1px solid transparent;
     background: transparent;
     padding: 5px;
-    margin: 2px; 
-    display: block;
+    margin: 0; 
+    width: 100%;
+
+    &.active {
+        border: 1px solid $line-light;
+        background: $background-light;
+    }
 
     &:hover {
         border: 1px solid $line-light;
@@ -31,12 +51,12 @@
 
     .title {
         color: $foreground-bold;
-        font-size: 1.5em;
+        font-size: 18px;
     }
 
     .subtitle {
         color: $foreground-dark;
-        font-size: 1.2em;
+        font-size: 15px;
         display: block;
     }
 

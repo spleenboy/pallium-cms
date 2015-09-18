@@ -1,0 +1,14 @@
+#nav .pure-button {
+    width: 100%;
+    border-radius: 0;
+    margin: 0;
+}
+
+#nav li.pure-menu-selected {
+    background: $background;
+}
+
+#nav li.pure-menu-item a {
+    @include sweep-to-right();
+    display: block;
+}

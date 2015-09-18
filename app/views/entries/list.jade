@@ -1,6 +1,6 @@
 extends ../layout/site
 
-block main
+block list
     - var definition = entries.types[params.type]
 
     .entry-type
@@ -10,29 +10,34 @@ block main
             .title= definition.name
         if definition.description
             .description= definition.description
-        
-    a.pure-button.button-add(href='create')
-        | Add a New #{definition.name}
 
     .fancy-list(data-list-value-names="title,filepath,created,modified")
-        .pure-form.search-form
-            input.search(placeholder='Search ' + definition.plural, type='search')
-            button.sort.pure-button.button-sort(data-sort='title') Title
-            button.sort.pure-button.button-sort(data-sort='subtitle') Subtitle
-            button.sort.pure-button.button-sort(data-sort='filepath') File Name 
-            button.sort.pure-button.button-sort(data-sort='created') Created
-            button.sort.pure-button.button-sort(data-sort='modified') Updated
+        if list.length > 1
+            .pure-form.search-form
+                input.search(placeholder='Search ' + definition.plural, type='search')
+                select.sort
+                    option(value="title") Sort by Title
+                    option(value="subtitle") Sort by Subtitle
+                    option(value="filepath") Sort by File Name 
+                    option(value="created") Sort by Created
+                    option(value="modified") Sort by Updated
         
+        if !definition.maximum || definition.maximum > list.length
+            a.pure-button.button-add(href='create')
+                | Add a New #{definition.name}
+
         ul.list.entry-list
             each item in list
                 - var buttonStyle = 'button-edit'
                 if item.locked
                     - buttonStyle = 'button-unlock'
+                if entry && entry.id == item.id
+                    - buttonStyle += ' active'
                 li.item(id='entry-' + item.id)&attributes({'class': buttonStyle})
                     .hidden.filepath= item.filepath
                     .hidden.created= item.createdIso
                     .hidden.modified= item.modifiedIso
-                    a(href='edit/' + item.id)
+                    a(href=baseUrl + 'edit/' + item.id)
                         strong.title= item.title
                         if item.subtitle
                             em.subtitle= item.subtitle
