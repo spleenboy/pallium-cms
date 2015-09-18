@@ -14,7 +14,10 @@ block list
     .fancy-list
         if list.length > 1
             .pure-form.search-form
-                input.search(placeholder='Search ' + definition.plural, type='search')
+                .search-field
+                    label(for="list-search")
+                        i.fa.fa-search
+                    input.search(placeholder='Search ' + definition.plural, type='search')
                 select.sort
                     option(value=".title asc") Title (A-Z)
                     option(value=".title desc") Title (Z-A)
