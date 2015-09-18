@@ -116,7 +116,3 @@
 .button-download:before {
     @include icon-button($fa-var-download);
 }
-
-.list .item {
-    margin: 5px 0;
-}

@@ -22,16 +22,16 @@
     margin-top: 20px;
     padding:0;
     list-style: none;
-
+    background: $background-light;
 }
 
 .list .item {
     @include border-top-radius(4px);
     @include border-bottom-radius(4px);
     border: 1px solid transparent;
-    background: transparent;
-    padding: 5px;
-    margin: 0; 
+    background: $background;
+    padding: 0;
+    margin: 1px;
     width: 100%;
 
     &.active {
@@ -39,9 +39,8 @@
         background: $background-light;
     }
 
-    &:hover {
-        border: 1px solid $line-light;
-        background: $background-light;
+    .inner-item {
+        padding: 10px;
     }
 
     a {

@@ -40,15 +40,16 @@ block list
                 if entry && entry.id == item.id
                     - buttonStyle += ' active'
                 li.item(id='entry-' + item.id)&attributes({'class': buttonStyle})
-                    .searchable.hidden.filepath= item.filepath
-                    .hidden.created= item.createdIso
-                    .hidden.modified= item.modifiedIso
+                    .inner-item
+                        .searchable.hidden.filepath= item.filepath
+                        .hidden.created= item.createdIso
+                        .hidden.modified= item.modifiedIso
 
-                    a(href=baseUrl + 'edit/' + item.id)
-                        strong.searchable.title= item.title
-                        if item.subtitle
-                            em.searchable.subtitle= item.subtitle
-                        if item.locked
-                            em.lock Locked by #{item.locked}
-                        em Created #{item.createdFromNow}
-                        em Updated #{item.modifiedFromNow}
+                        a(href=baseUrl + 'edit/' + item.id)
+                            strong.searchable.title= item.title
+                            if item.subtitle
+                                em.searchable.subtitle= item.subtitle
+                            if item.locked
+                                em.lock Locked by #{item.locked}
+                            em Created #{item.createdFromNow}
+                            em Updated #{item.modifiedFromNow}
