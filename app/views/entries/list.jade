@@ -11,16 +11,22 @@ block list
         if definition.description
             .description= definition.description
 
-    .fancy-list(data-list-value-names="title,filepath,created,modified")
+    .fancy-list
         if list.length > 1
             .pure-form.search-form
                 input.search(placeholder='Search ' + definition.plural, type='search')
                 select.sort
-                    option(value="title") Sort by Title
-                    option(value="subtitle") Sort by Subtitle
-                    option(value="filepath") Sort by File Name 
-                    option(value="created") Sort by Created
-                    option(value="modified") Sort by Updated
+                    option(value=".title asc") Title (A-Z)
+                    option(value=".title desc") Title (Z-A)
+
+                    option(value=".subtitle asc") Subtitle (A-Z)
+                    option(value=".subtitle desc") Subtitle (Z-A)
+
+                    option(value=".created desc") Created (new-old)
+                    option(value=".created asc") Created (old-new)
+
+                    option(value=".updated desc") Updated (new-old)
+                    option(value=".updated asc") Updated (old-new)
         
         if !definition.maximum || definition.maximum > list.length
             a.pure-button.button-add(href='create')
@@ -34,13 +40,14 @@ block list
                 if entry && entry.id == item.id
                     - buttonStyle += ' active'
                 li.item(id='entry-' + item.id)&attributes({'class': buttonStyle})
-                    .hidden.filepath= item.filepath
+                    .searchable.hidden.filepath= item.filepath
                     .hidden.created= item.createdIso
                     .hidden.modified= item.modifiedIso
+
                     a(href=baseUrl + 'edit/' + item.id)
-                        strong.title= item.title
+                        strong.searchable.title= item.title
                         if item.subtitle
-                            em.subtitle= item.subtitle
+                            em.searchable.subtitle= item.subtitle
                         if item.locked
                             em.lock Locked by #{item.locked}
                         em Created #{item.createdFromNow}

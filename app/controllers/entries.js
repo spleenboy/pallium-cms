@@ -120,17 +120,29 @@ Entries.prototype.items = function() {
 };
 
 
-Entries.prototype.itemData = function(items) {
-    items = items || this.items();
-    var baseUrl = '/entry/' + this.entryDomain + '/' + this.type + '/';
-    return {
-        list: items,
-        baseUrl: baseUrl,
-        scripts: [
-            '//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js'
-        ]
-    };
+Entries.prototype.viewData = function(entry, items) {
 
+    var data = {};
+
+    data.scripts = [ '//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js' ];
+    data.baseUrl = '/entry/' + this.entryDomain + '/' + this.type + '/';
+
+    if (entry) {
+        entry.prerender();
+        data.entry = entry;
+
+        var matched = _.findWhere(items, {id: entry.id});
+        if (matched) {
+            items = _.filter(items, function(item) {
+                return item.id !== entry.id;
+            });
+            items.unshift(matched);
+        }
+    }
+
+    data.list = items;
+
+    return data;
 };
 
 
@@ -146,16 +158,13 @@ Entries.prototype.list = function() {
         }
     }
 
-    this.send('entries/list', this.itemData(items));
+    this.send('entries/list', this.viewData(null, items));
 };
 
 
 Entries.prototype.create = function() {
     var entry = this.factory.create();
-    entry.prerender();
-
-    var data = this.itemData();
-    data.entry = entry;
+    var data = this.viewData(entry, this.items());
 
     this.send('entries/create', data);
 };
@@ -201,12 +210,7 @@ Entries.prototype.edit = function() {
     // Have the factory update the index when it can
     async.nextTick(this.factory.lock.bind(this.factory, id, owner || 'someone'));
 
-    entry.prerender();
-    var data = this.itemData();
-    data.entry = entry;
-
-
-    console.log(data);
+    var data = this.viewData(entry, this.items());
 
     this.send('entries/edit', data);
 };
