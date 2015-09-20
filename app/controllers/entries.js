@@ -124,7 +124,7 @@ Entries.prototype.viewData = function(entry, items) {
 
     var data = {};
 
-    data.scripts = [ '//cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js' ];
+    data.scripts = [ ];
     data.baseUrl = '/entry/' + this.entryDomain + '/' + this.type + '/';
 
     if (entry) {

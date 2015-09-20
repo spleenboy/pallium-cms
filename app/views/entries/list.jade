@@ -1,5 +1,10 @@
 extends ../layout/site
 
+block main
+    .jumbotron
+        i.fa.fa-hand-o-left
+        | Edit #{definition.plural}
+
 block list
     - var definition = entries.types[params.type]
 

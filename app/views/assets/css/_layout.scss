@@ -3,26 +3,6 @@
     padding: 0;
 }
 
-.logo {
-    text-align: center;
-    background: $background-logo;
-    border-bottom: 4px solid $line-dark;
-    @include radial-gradient(circle at 50% 50%, $background-logo 100%, $background-menu 0%);
-    @include underline-from-center();
-
-    .logo-header, .logo-title, .logo-footer {
-        color: $foreground-logo;
-        font-family: $logo;
-        display: block;
-        font-size: 34px;
-        padding: 0 10px;
-    }
-
-    a {
-        text-decoration: none;
-    }
-}
-
 /* Make the navigation 100% width on phones */
 #nav {
     width: 100%;
@@ -82,7 +62,7 @@
     /* Show the menu items on the larger screen */
     .nav-inner {
         display: block;
-        padding: 2em 0;
+        padding: 0;
     }
 
     /* Hide the "Menu" button on larger screens */

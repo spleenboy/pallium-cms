@@ -6151,49 +6151,6 @@ label.md-label:before {
   margin: 0;
   padding: 0; }
 
-.logo {
-  text-align: center;
-  background: #c8c8c8;
-  border-bottom: 4px solid #191919;
-  background-image: -webkit-radial-gradient(50% 50%, circle, #c8c8c8 100%, rgba(35, 142, 81, 0.5) 0%);
-  background-image: radial-gradient(  circle at 50% 50%, #c8c8c8 100%, rgba(35, 142, 81, 0.5) 0%);
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  box-shadow: 0 0 1px transparent;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-  position: relative;
-  overflow: hidden; }
-  .logo:before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: 50%;
-    right: 50%;
-    bottom: 0;
-    background: rgba(69, 161, 108, 0.87);
-    height: 4px;
-    -webkit-transition-property: left, right;
-    transition-property: left, right;
-    -webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    -webkit-transition-timing-function: ease-out;
-    transition-timing-function: ease-out; }
-  .logo:hover:before, .logo:focus:before, .logo:active:before {
-    left: 0;
-    right: 0; }
-  .logo .logo-header, .logo .logo-title, .logo .logo-footer {
-    color: #0e640e;
-    font-family: "logo", "serif";
-    display: block;
-    font-size: 34px;
-    padding: 0 10px; }
-  .logo a {
-    text-decoration: none; }
-
 /* Make the navigation 100% width on phones */
 #nav {
   width: 100%;
@@ -6248,7 +6205,7 @@ label.md-label:before {
   /* Show the menu items on the larger screen */
   .nav-inner {
     display: block;
-    padding: 2em 0; }
+    padding: 0; }
 
   /* Hide the "Menu" button on larger screens */
   #nav .nav-menu-button {
@@ -6287,10 +6244,68 @@ label.md-label:before {
     position: static;
     margin: 0;
     padding: 0; } }
+#nav .logo {
+  position: fixed;
+  bottom: 0;
+  text-align: left;
+  background: #c8c8c8;
+  border-bottom: 4px solid #191919;
+  line-height: 18px;
+  background-image: -webkit-radial-gradient(50% 50%, circle, #c8c8c8 100%, rgba(35, 142, 81, 0.5) 0%);
+  background-image: radial-gradient(  circle at 50% 50%, #c8c8c8 100%, rgba(35, 142, 81, 0.5) 0%);
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  background: rgba(69, 161, 108, 0.87);
+  -webkit-transition-property: color;
+  transition-property: color;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s; }
+  #nav .logo:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(190, 170, 170, 0.8);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out; }
+  #nav .logo:hover, #nav .logo:focus, #nav .logo:active {
+    color: white; }
+    #nav .logo:hover:before, #nav .logo:focus:before, #nav .logo:active:before {
+      -webkit-transform: scale(0);
+      transform: scale(0); }
+  #nav .logo .logo-header, #nav .logo .logo-title, #nav .logo .logo-footer {
+    color: #0e640e;
+    font-family: "logo", "serif";
+    display: block;
+    font-size: 34px;
+    padding: 0 10px; }
+  #nav .logo a {
+    text-decoration: none;
+    background: transparent; }
+
 #nav .pure-button {
   width: 100%;
   border-radius: 0;
   margin: 0; }
+
+#nav .pure-menu-heading {
+  font-weight: bold; }
 
 #nav li.pure-menu-selected {
   background: white; }
@@ -6391,6 +6406,15 @@ label.md-label:before {
 
 #main form {
   padding: 10px; }
+
+#main .jumbotron {
+  font-size: 5em;
+  padding: 10%;
+  width: 100%;
+  text-align: center;
+  display: block; }
+  #main .jumbotron .fa {
+    margin-right: 1em; }
 
 .pure-button {
   padding: 15px 25px;

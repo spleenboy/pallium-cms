@@ -3,7 +3,9 @@ extends ./layout/site.jade
 block list
     if entries.domains
         each domain in entries.domains
-            h2= domain.name
+            .entry-type
+                .title= domain.name
+                .description= domain.description
 
 block main 
     if user

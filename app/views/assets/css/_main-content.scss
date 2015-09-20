@@ -6,3 +6,16 @@
 #main form {
     padding: 10px;
 }
+
+#main .jumbotron {
+    font-size: 5em;
+    padding: 10%;
+    width: 100%;
+    text-align: center;
+    display: block;
+
+    .fa {
+        margin-right: 1em;
+    }
+}
+
