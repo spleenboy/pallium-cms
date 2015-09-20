@@ -6302,7 +6302,9 @@ label.md-label:before {
 #nav .pure-button {
   width: 100%;
   border-radius: 0;
-  margin: 0; }
+  margin: 0;
+  padding: 10px;
+  text-align: left; }
 
 #nav .pure-menu-heading {
   font-weight: bold; }
@@ -6423,6 +6425,9 @@ label.md-label:before {
 
 .buttons > * {
   display: inline-block; }
+
+.fa {
+  padding: 0 0.5em; }
 
 /** Animations **/
 .button-add, .button-login, .button-save, .button-okay {

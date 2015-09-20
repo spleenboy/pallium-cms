@@ -17,7 +17,9 @@ nav.pure-menu
         a.logo-footer(href='/') ---
     if user
         form.pure-form(method='post', action='/logout')
-            button.pure-button.button-logout(type='submit') Sign Off
+            button.pure-button.button-logout(type='submit')
+                i.fa.fa-sign-out.fa-flip-horizontal
+                | Sign Off
     ul.pure-menu-list
         if entries.domains
             each domain, key in entries.domains

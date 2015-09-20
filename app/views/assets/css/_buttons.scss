@@ -8,6 +8,10 @@
     display: inline-block;
 }
 
+.fa {
+    padding: 0 0.5em;
+}
+
 /** Animations **/
 .button-add, .button-login, .button-save, .button-okay {
     @include pulse-grow();
