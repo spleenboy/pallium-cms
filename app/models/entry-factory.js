@@ -218,7 +218,6 @@ Factory.prototype.get = function(id) {
                 return false;
             }
 
-            log.debug('Populating entry with data', data);
             this.populate(entry, data);
         } else {
             log.warn("Entry file not found. Skipping population", item);

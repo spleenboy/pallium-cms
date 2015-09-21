@@ -3,6 +3,7 @@ var util   = require('util');
 var path   = require('path');
 var events = require('events');
 var moment = require('moment');
+var _      = require('underscore');
 
 var plugins = require('./plugins');
 var log    = plugins.require('services/log')(module);
@@ -11,6 +12,7 @@ var config = plugins.require('config');
 
 function Locker(session) {
     this.session = session;
+    this.max = 1; 
     if (typeof this.session.locked !== 'object') {
         this.session.locked = {};
     }
@@ -20,6 +22,7 @@ function Locker(session) {
 util.inherits(Locker, events.EventEmitter);
 
 Locker.prototype.lock = function(filepath, data) {
+    this.limit();
     var lock = new Lock(filepath, data);
 
     if (filepath in this.session.locked) {
@@ -57,6 +60,24 @@ Locker.prototype.unlock = function(filepath, force) {
     return false;
 };
 
+Locker.prototype.limit = function() {
+    var paths = Object.keys(this.session.locked);
+    if (!paths || paths.length < this.max) {
+        return;
+    }
+
+    var sorted = _.sortBy(this.session.locked, function(lock) {
+        return lock.created;
+    });
+
+    log.debug(sorted.length + " is too many locks! Applying limit.");
+
+    while (this.max < sorted.length) {
+        var lock = sorted.pop();
+        this.unlock(lock.filepath, true);
+    }
+};
+
 Locker.prototype.clear = function() {
     for (var filepath in this.session.locked) {
         this.unlock(filepath);
@@ -79,6 +100,9 @@ function Lock(filepath, data) {
 
     // Holds a reference to the expiration timer
     this.expiration = null;
+
+    // When it was made
+    this.created = new Date();
 
     Object.defineProperty(this, 'lockpath', {
         enumerable: true,

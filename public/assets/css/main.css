@@ -6236,8 +6236,7 @@ label.md-label:before {
   #list {
     margin-left: -350px;
     width: 350px;
-    height: 100%;
-    border-right: 1px solid #ddd; }
+    height: 100%; }
 
   /* This will now take up it's own column, so don't need position: fixed; */
   #main {
