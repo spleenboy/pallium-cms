@@ -2,7 +2,6 @@ var util = require('util');
 var path = require('path');
 
 var plugins = require('./services/plugins');
-var log     = plugins.require('services/log')(module);
 
 module.exports = {
 
@@ -35,7 +34,8 @@ local: function(name) {
         return localConf;
     } catch (e) {
         if (this.debug) {
-            log.debug('No local config override at', localPath, e);
+            // Using console instead of log utility to avoid require recursion
+            console.log('No local config override at', localPath, e);
         }
         return undefined;
     }

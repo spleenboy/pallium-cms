@@ -170,6 +170,23 @@ Entries.prototype.create = function() {
 };
 
 
+/**
+ * Renews a lock on an entry¬
+**/
+Entries.prototype.lock = function() {
+    var id    = this.request.params.id;
+    var entry = this.factory.get(id);
+
+    if (!entry) {
+        log.error("Can't lock. Invalid entry id", id);
+        return this.notfound();
+    }
+
+    var locked = this.locker.lock(entry.filepath, this.broadcastData(entry));
+    return this.response.send(locked);
+}
+
+
 Entries.prototype.unlock = function() {
     var id    = this.request.params.id;
     var entry = this.factory.get(id);

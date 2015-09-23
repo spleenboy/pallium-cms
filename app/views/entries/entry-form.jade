@@ -1,4 +1,5 @@
 mixin entry-form(btnText)
+    a#renew-lock.hidden.button.pure-button(href=baseUrl + 'lock/' + entry.id) Renew Lock
     - var formAttributes = entry.multipart ? {enctype: 'multipart/form-data'} : {}
     form.pure-form.pure-form-stacked.entry-form(method='post')&attributes(formAttributes)
         fieldset

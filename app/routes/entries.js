@@ -21,6 +21,8 @@ module.exports = function(app) {
     router.get( header + 'edit/:id',   factory.handle('edit'));
     router.post(header + 'edit/:id',   factory.handle('save'));
 
+    router.post(header + 'lock/:id',   factory.handle('lock'));
+
     router.post(header + 'delete/:id', factory.handle('delete'));
 
     router.get( header + 'file/:id/:field/:number?', factory.handle('file'));

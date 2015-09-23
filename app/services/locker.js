@@ -12,7 +12,6 @@ var config = plugins.require('config');
 
 function Locker(session) {
     this.session = session;
-    this.max = 1; 
     if (typeof this.session.locked !== 'object') {
         this.session.locked = {};
     }
@@ -22,11 +21,11 @@ function Locker(session) {
 util.inherits(Locker, events.EventEmitter);
 
 Locker.prototype.lock = function(filepath, data) {
-    this.limit();
     var lock = new Lock(filepath, data);
 
     if (filepath in this.session.locked) {
-        log.debug('Already locked by user', filepath);
+        log.debug('Already locked by user. Renewing expiration', filepath);
+        lock.expire();
         this.emit('locked', lock);
         return true;
     }
@@ -58,24 +57,6 @@ Locker.prototype.unlock = function(filepath, force) {
         }
     }
     return false;
-};
-
-Locker.prototype.limit = function() {
-    var paths = Object.keys(this.session.locked);
-    if (!paths || paths.length < this.max) {
-        return;
-    }
-
-    var sorted = _.sortBy(this.session.locked, function(lock) {
-        return lock.created;
-    });
-
-    log.debug(sorted.length + " is too many locks! Applying limit.");
-
-    while (this.max < sorted.length) {
-        var lock = sorted.pop();
-        this.unlock(lock.filepath, true);
-    }
 };
 
 Locker.prototype.clear = function() {
@@ -149,6 +130,7 @@ Lock.prototype.expired = function() {
     }
     else {
         log.debug('Lock not found for', this.filepath);
+        this.emit('expired');
     }
 };
 
