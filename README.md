@@ -178,8 +178,7 @@ Some fields also allow the following optional keys.
 
 If you're curious how a particular field will be rendered on the edit page, check out the `app/views/fields/` folder. The `type` value will map directly to a template in that directory.
 
-**Neat Trick**
-Some fields have an `option` attribute that allows the field to display a list of options. Because config values can be functions, you can use this field to display a dynamic list of items!
+ **Neat Trick** Some fields have an `option` attribute that allows the field to display a list of options. Because config values can be functions, you can use this field to display a dynamic list of items!
 
 #### Checkbox
 This renders out a single checkbox and label. When checked, the value of this field is set to the boolean _true_. Unchecked, and the value is set to the boolean _false_. 
@@ -212,6 +211,8 @@ Renders as `<input type="hidden">`. Use the `defaultValue` key to specify the va
 
 #### Markdown
 This displays a markdown editor field using [catdown](https://github.com/zuren/catdown).
+
+**Note**: In order to have a content section in a front-matter Markdown file, the field name should be `__content`.
 
 - *full*: If set to _true_, the markdown editor will display on the full width of the page. Otherwise, the editor will show a side-by-side view.
 
