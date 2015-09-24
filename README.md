@@ -21,10 +21,7 @@ Pallium CMS provides you with a front-end for the administration of a static web
 * [Wintersmith](https://github.com/spleenboy/pallium-wintersmith)
 * [Grunt](https://github.com/spleenboy/pallium-grunt)
 
-### Planned
-* Sculpin
-* S3 File integration
-* Git integration
+[Planned Features](https://github.com/spleenboy/pallium-cms/labels/enhancement)
 
 ## Configuration
 The most you may ever need to do to get this tool to work for you is to set up a couple of configuration files. Pallium uses two main files to decide what to present to you in the console, `site.js` and `entry.js`
