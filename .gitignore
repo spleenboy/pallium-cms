@@ -1,6 +1,7 @@
 *.diff
 *.log
 *.lock
+*.vim
 .sass-cache
 node_modules
 sessions/*
