@@ -27,8 +27,8 @@ $('body').on('click', '[data-clone]', function(e) {
 
         var $input = $(input);
         var iname  = $input.attr('name');
-        var pos    = iname.lastIndexOf('0');
-        $input.attr('name', iname.substr(0, pos) + $items.length + iname.substr(pos+1));
+        var pos    = iname.lastIndexOf('clone');
+        $input.attr('name', iname.substr(0, pos) + $items.length + iname.substr(pos+5));
     });
     $target.append($clone.slideDown('fast'));
 });
