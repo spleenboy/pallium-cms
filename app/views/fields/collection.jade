@@ -4,13 +4,13 @@ fieldset.field-collection(id='collection-' + field.id)
     //- List out the item values
     each fieldItem in field.items
         .field-collection-item
-            a.pure-button.button-delete(data-delete='.field-collection-item')
             each subfield in fieldItem
                 .field-collection-item-field!= subfield.output
+            a.pure-button.button-delete(data-delete='.field-collection-item') Remove
 
 //- List out the clonable object
 a.pure-button.button-add(data-clone='#clone-' + field.id, data-target='#collection-' + field.id, data-item='.field-collection-item') Add #{field.label}
 .field-collection-item.hidden(id='clone-' + field.id)
-    a.pure-button.button-delete(data-delete='.field-collection-item')
     each subfield in field.fields
         .field-collection-item-field!= subfield.output
+    a.pure-button.button-delete(data-delete='.field-collection-item') Remove
