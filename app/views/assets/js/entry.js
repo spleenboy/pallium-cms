@@ -1,6 +1,11 @@
 module.exports = function() {
     var $ = require('jQuery');
     var _ = require('underscore');
+
+    // Provide the jquery-validation with access to jQuery
+    global.jQuery = $;
+    var validate = require('jquery-validation');
+
     var frequency = 5000;
     var $form = $('form.entry-form');
 
@@ -13,4 +18,6 @@ module.exports = function() {
         }
         setInterval(renewLock, frequency);
     }
+
+    $form.validate();
 };
