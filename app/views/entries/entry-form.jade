@@ -3,7 +3,7 @@ mixin entry-form(btnText)
     - var formAttributes = entry.multipart ? {enctype: 'multipart/form-data'} : {}
     form.pure-form.pure-form-stacked.entry-form(method='post')&attributes(formAttributes)
         fieldset
-            button.pure-button.pure-button-primary.button-save(type='submit')= btnText
+            button.pure-button.pure-button-primary.button-save(type='submit', formnovalidate)= btnText
             each field in entry.fields
                 .pure-control-group(class='field-group-' + field.type) !{field.html}
-        button.pure-button.pure-button-primary.button-save(type='submit')= btnText
+        button.pure-button.pure-button-primary.button-save(type='submit', formnovalidate)= btnText

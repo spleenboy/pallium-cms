@@ -21,9 +21,7 @@ config.copy = {
         files: [{
             expand: true,
             flatten: true,
-            src: [
-                'node_modules/list.js/dist/list.min.js'
-            ], 
+            src: [], 
             dest: 'public/assets/js/', 
             filter: 'isFile'
         }]

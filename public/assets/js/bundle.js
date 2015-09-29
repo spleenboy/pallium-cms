@@ -1,7 +1,49 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var $ = require('jQuery');
+
+$('body').on('click', '[data-delete]', function(e) {
+    e.preventDefault();
+    var $el = $(e.currentTarget);
+    var $target = $el.closest($el.data('delete'));
+    $target.slideUp(function() {
+        $target.remove();
+    });
+});
+
+$('body').on('click', '[data-clone]', function(e) {
+    e.preventDefault();
+    var $el     = $(e.currentTarget);
+    var $clone  = $($el.data('clone')).clone();
+    var $target = $($el.data('target'));
+    var $items  = $target.find($el.data('item'));
+
+    // Prepare the clone for placement
+    $clone.removeClass('hidden').hide();
+    $clone.attr('id', $clone.attr('id') + '-' + $items.length);
+    $clone.find(':input').each(function(i, input) {
+        // Hacky! Find the last zero-index in the input name and
+        // replace it with the next highest available index based
+        // on the number of existing items.
+
+        var $input = $(input);
+        var iname  = $input.attr('name');
+        var pos    = iname.lastIndexOf('0');
+        $input.attr('name', iname.substr(0, pos) + $items.length + iname.substr(pos+1));
+        $input.removeAttr('formnovalidate');
+    });
+    $target.append($clone.slideDown('fast'));
+});
+
+$('[data-clone]').each(function(i, el) {
+    var clone = $($(el).data('clone'));
+    clone.find(':input').attr('formnovalidate', 'formnovalidate');
+});
+
+},{"jQuery":23}],2:[function(require,module,exports){
 module.exports = function() {
-    var frequency = 5000;
     var $ = require('jQuery');
+    var _ = require('underscore');
+    var frequency = 5000;
     var $form = $('form.entry-form');
 
     if ($form.length) {
@@ -15,7 +57,7 @@ module.exports = function() {
     }
 };
 
-},{"jQuery":22}],2:[function(require,module,exports){
+},{"jQuery":23,"underscore":24}],3:[function(require,module,exports){
 module.exports = function() {
     if (!io) {
         console.warn('socket.io is not loaded');
@@ -74,7 +116,7 @@ module.exports = function() {
     });
 };
 
-},{"jQuery":22}],3:[function(require,module,exports){
+},{"jQuery":23}],4:[function(require,module,exports){
 module.exports = function() {
     var $ = require('jQuery');
     var _ = require('underscore');
@@ -129,7 +171,7 @@ module.exports = function() {
     });
 };
 
-},{"jQuery":22,"underscore":23}],4:[function(require,module,exports){
+},{"jQuery":23,"underscore":24}],5:[function(require,module,exports){
 (function() {
     require('./markdown')();
     require('./lists')();
@@ -137,7 +179,7 @@ module.exports = function() {
     require('./entry')();
 })();
 
-},{"./entry":1,"./flash":2,"./lists":3,"./markdown":5}],5:[function(require,module,exports){
+},{"./entry":2,"./flash":3,"./lists":4,"./markdown":6}],6:[function(require,module,exports){
 module.exports = function() {
     var Catdown = require('catdown');
     var editors = document.getElementsByClassName('md-editor');
@@ -176,7 +218,7 @@ module.exports = function() {
     }
 };
 
-},{"catdown":6}],6:[function(require,module,exports){
+},{"catdown":7}],7:[function(require,module,exports){
 "use strict";
 
 var utils = require("./lib/utils.js"),
@@ -287,7 +329,7 @@ Catdown.prototype.focus = function(tail){
 
 // Export the constructor
 module.exports = Catdown;
-},{"./lib/codemirror":8,"./lib/utils.js":12,"catdown-core":13,"marked":21}],7:[function(require,module,exports){
+},{"./lib/codemirror":9,"./lib/utils.js":13,"catdown-core":14,"marked":22}],8:[function(require,module,exports){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -367,7 +409,7 @@ module.exports = function(CodeMirror) {
 
 	return CodeMirror;
 };
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 // Import and export Codemirror
 var CodeMirror = module.exports = require("codemirror");
 
@@ -376,7 +418,7 @@ require("./addons/overlay")(CodeMirror);
 require("./modes/markdown")(CodeMirror);
 require("./modes/gfm")(CodeMirror);
 require("./modes/javascript")(CodeMirror);
-},{"./addons/overlay":7,"./modes/gfm":9,"./modes/javascript":10,"./modes/markdown":11,"codemirror":20}],9:[function(require,module,exports){
+},{"./addons/overlay":8,"./modes/gfm":10,"./modes/javascript":11,"./modes/markdown":12,"codemirror":21}],10:[function(require,module,exports){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -496,7 +538,7 @@ module.exports = function(CodeMirror) {
   return CodeMirror;
 
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1184,7 +1226,7 @@ module.exports = function(CodeMirror) {
   return CodeMirror;
 
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1669,7 +1711,7 @@ module.exports = function(CodeMirror){
   return CodeMirror;
 
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 // Clone an object
 exports.clone = function(obj){
     return Object.keys(obj).reduce(function(res, key){
@@ -1692,7 +1734,7 @@ exports.defaults = function(defs, settings){
 exports.unwrapElement = function(elem){
     return elem.nodeType ? elem : elem[0];
 }
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 // Catdown is designed to be super modular, so most of
 // the functionality is in plugins. Import and use all
 // the core plugins.
@@ -1712,7 +1754,7 @@ module.exports = function(opts){
     this.use(require("./lib/keys"));
 
 }
-},{"./lib/controls":14,"./lib/events":15,"./lib/keys":17,"./lib/render":18}],14:[function(require,module,exports){
+},{"./lib/controls":15,"./lib/events":16,"./lib/keys":18,"./lib/render":19}],15:[function(require,module,exports){
 // Add some extra editor functions to Catdown instance
 module.exports = function(opts, editor){
 
@@ -1754,7 +1796,7 @@ module.exports = function(opts, editor){
 
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 var CodeMirror = require("codemirror");
 
 module.exports = function(){
@@ -1780,7 +1822,7 @@ module.exports = function(){
     }.bind(this));
 
 };
-},{"codemirror":19}],16:[function(require,module,exports){
+},{"codemirror":20}],17:[function(require,module,exports){
 // Define and export default keys
 var keymap = module.exports = {
 	// Bold
@@ -1823,7 +1865,7 @@ var keymap = module.exports = {
 		this.controls.wrapSelections("![", "](http://)");
 	}
 }
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = function(opts, editor){
 	// Get default keys and bind their functions
 	// to Catdown instance.
@@ -1840,7 +1882,7 @@ module.exports = function(opts, editor){
 	// Set default keys on editor.
 	this.setKeys(this.keymap);
 }
-},{"./keymap":16}],18:[function(require,module,exports){
+},{"./keymap":17}],19:[function(require,module,exports){
 // Compile Markdown to HTML and set preview element HTML.
 var render = function(){
 	var html = this.toHTML();
@@ -1859,7 +1901,7 @@ module.exports = function(opts, editor, utils){
 		this.on("ready change", this.render);
 	}
 }
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -9929,9 +9971,9 @@ module.exports = function(opts, editor, utils){
   return CodeMirror;
 });
 
-},{}],20:[function(require,module,exports){
-arguments[4][19][0].apply(exports,arguments)
-},{"dup":19}],21:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20}],22:[function(require,module,exports){
 (function (global){
 /**
  * marked - a markdown parser
@@ -11220,7 +11262,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 }());
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -20432,7 +20474,7 @@ return jQuery;
 
 }));
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -21982,4 +22024,4 @@ return jQuery;
   }
 }.call(this));
 
-},{}]},{},[1,2,3,4,5]);
+},{}]},{},[1,2,3,4,5,6]);

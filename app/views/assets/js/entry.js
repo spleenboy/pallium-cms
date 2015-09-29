@@ -1,6 +1,7 @@
 module.exports = function() {
-    var frequency = 5000;
     var $ = require('jQuery');
+    var _ = require('underscore');
+    var frequency = 5000;
     var $form = $('form.entry-form');
 
     if ($form.length) {

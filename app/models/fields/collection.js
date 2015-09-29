@@ -38,7 +38,7 @@ function Collection() {
             var subfield = factory.create(dfn, entry);
 
             // Overwrite the default field name to include the collection hierarchy
-            subfield.fieldName = entry.type + '[' + field.name + '][' + field.value.length + '][' + name + ']';
+            subfield.fieldName = entry.type + '[' + field.name + '][0][' + name + ']';
 
             subfield.output = subfield.render();
             fields[name] = subfield;
@@ -60,8 +60,6 @@ function Collection() {
 
         view.data.field.fields = _.values(fields);
         view.data.field.items  = items;
-
-        log.debug(view.data.field.items);
     });
 }
 

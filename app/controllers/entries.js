@@ -124,7 +124,7 @@ Entries.prototype.viewData = function(entry, items) {
 
     var data = {};
 
-    data.scripts = [ ];
+    data.scripts = [];
     data.baseUrl = '/entry/' + this.entryDomain + '/' + this.type + '/';
 
     if (entry) {
