@@ -124,7 +124,7 @@ Entries.prototype.viewData = function(entry, items) {
 
     var data = {};
 
-    data.scripts = [ ];
+    data.scripts = [];
     data.baseUrl = '/entry/' + this.entryDomain + '/' + this.type + '/';
 
     if (entry) {
@@ -168,6 +168,23 @@ Entries.prototype.create = function() {
 
     this.send('entries/create', data);
 };
+
+
+/**
+ * Renews a lock on an entry¬
+**/
+Entries.prototype.lock = function() {
+    var id    = this.request.params.id;
+    var entry = this.factory.get(id);
+
+    if (!entry) {
+        log.error("Can't lock. Invalid entry id", id);
+        return this.notfound();
+    }
+
+    var locked = this.locker.lock(entry.filepath, this.broadcastData(entry));
+    return this.response.send(locked);
+}
 
 
 Entries.prototype.unlock = function() {
@@ -233,7 +250,7 @@ Entries.prototype.save = function() {
     ]);
 
     this.request.flash('info', '"' + entry.getTitle() + '" ' + action + '!');
-    this.redirect('list');
+    this.redirect('edit', id);
 };
 
 

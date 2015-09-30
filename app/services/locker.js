@@ -3,6 +3,7 @@ var util   = require('util');
 var path   = require('path');
 var events = require('events');
 var moment = require('moment');
+var _      = require('underscore');
 
 var plugins = require('./plugins');
 var log    = plugins.require('services/log')(module);
@@ -23,7 +24,8 @@ Locker.prototype.lock = function(filepath, data) {
     var lock = new Lock(filepath, data);
 
     if (filepath in this.session.locked) {
-        log.debug('Already locked by user', filepath);
+        log.debug('Already locked by user. Renewing expiration', filepath);
+        lock.expire();
         this.emit('locked', lock);
         return true;
     }
@@ -80,6 +82,9 @@ function Lock(filepath, data) {
     // Holds a reference to the expiration timer
     this.expiration = null;
 
+    // When it was made
+    this.created = new Date();
+
     Object.defineProperty(this, 'lockpath', {
         enumerable: true,
         get: function() {
@@ -125,6 +130,7 @@ Lock.prototype.expired = function() {
     }
     else {
         log.debug('Lock not found for', this.filepath);
+        this.emit('expired');
     }
 };
 

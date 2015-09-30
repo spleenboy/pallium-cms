@@ -185,6 +185,10 @@ This renders out a list of checkbox items. The value of this field is saved as a
 
 - *options*: This is a javascript object. In this object, the key becomes the checkbox input value and the value is used as the label for the checkbox.
 
+#### Colllection
+This field allows you to save an array of javascript objects. The properties of each object are defined by the `fields` key. 
+- *fields*: This should include an array of field definitions.
+
 #### Color
 Renders as `<input type="color">`
 

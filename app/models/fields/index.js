@@ -3,6 +3,7 @@ var plugin = require('../../services/plugins').require;
 module.exports = {
     checkbox     : plugin('models/fields/checkbox'),
     checkboxlist : plugin('models/fields/checkboxlist'),
+    collection   : plugin('models/fields/collection'),
     date         : plugin('models/fields/date'),
     datetime     : plugin('models/fields/datetime'),
     field        : plugin('models/fields/field'),

@@ -218,7 +218,6 @@ Factory.prototype.get = function(id) {
                 return false;
             }
 
-            log.debug('Populating entry with data', data);
             this.populate(entry, data);
         } else {
             log.warn("Entry file not found. Skipping population", item);
@@ -255,7 +254,7 @@ Factory.prototype.populate = function(entry, data, files) {
         if (files && field.fieldName in files) {
             // A file was added for the field
             this.uploadFieldFile(entry, field, files[field.fieldName]);
-        } else if (field.name in data) {
+        } else if (data && field.name in data) {
             if (field.multipart && data[field.name] && data[field.name].deleted) {
                 this.deleteFieldFiles(field, data[field.name].deleted);
             } else {

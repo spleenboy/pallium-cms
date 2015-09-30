@@ -3,6 +3,7 @@ var path = require('path');
 module.exports = {
     title: 'Pallium CMS',
     description: 'Static Site CMS',
+    logLevel: 'debug',
     plugins: {
         // Return the directory where plugins can be found
         directory: function() {

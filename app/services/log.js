@@ -1,4 +1,6 @@
 var winston = require('winston');
+var plugins = require('./plugins');
+var config  = plugins.require('config');
 
 
 module.exports = function(caller) {
@@ -11,7 +13,7 @@ module.exports = function(caller) {
             new winston.transports.Console({
                 colorize: true, 
                 label: label(),
-                level: 'debug'
+                level: config.get('site.logLevel')
             })
         ]
     });

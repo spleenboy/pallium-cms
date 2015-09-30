@@ -120,3 +120,11 @@ input.toggle-checkbox:checked + label > .pure-button:after {
     margin-left: 60px;
     background-color: #8ce196;
 }
+
+.field-collection-item {
+    border-left: 3px solid white;
+    margin-left: 10px;
+    padding-left: 20px;
+    margin-bottom: 40px;
+    cursor: move;
+}

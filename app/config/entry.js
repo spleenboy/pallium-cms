@@ -2,7 +2,7 @@ var path = require('path');
 var plugins = require('../services/plugins');
 
 module.exports = {
-    lockTimeout: {'minutes': 5},
+    lockTimeout: {'seconds': 10},
     domains: {
         'website': {
             name: 'Website',
