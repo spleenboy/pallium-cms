@@ -1,4 +1,5 @@
-var $ = require('jQuery');
+var $ = require('jquery');
+require('jquery-ui/sortable');
 
 $('body').on('click', '[data-delete]', function(e) {
     e.preventDefault();
@@ -30,4 +31,22 @@ $('body').on('click', '[data-clone]', function(e) {
         $input.attr('name', iname.substr(0, pos) + $items.length + iname.substr(pos+5));
     });
     $target.append($clone.slideDown('fast'));
+});
+
+$('.field-collection').sortable({
+    items: '> .field-collection-item',
+    axis: 'y',
+    update: function(e, ui) {
+        var $list = ui.item.closest('.field-collection');
+        var $items = $list.find('.field-collection-item');
+        $items.each(function(i, el) {
+            var $inputs = $(el).find(':input');
+            $inputs.each(function(y, input) {
+                var $input = $(input);
+                var iname  = $input.attr('name');
+                var nname  = iname.replace(/\[(\d+)\](?!\[\d+\])/i, '[' + i + ']');
+                $input.attr('name', nname);
+            });
+        });
+    }
 });

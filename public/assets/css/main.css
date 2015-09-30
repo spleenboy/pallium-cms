@@ -6792,6 +6792,7 @@ input.toggle-checkbox:checked + label > .pure-button:after {
   border-left: 3px solid white;
   margin-left: 10px;
   padding-left: 20px;
-  margin-bottom: 40px; }
+  margin-bottom: 40px;
+  cursor: move; }
 
 /*# sourceMappingURL=main.css.map */

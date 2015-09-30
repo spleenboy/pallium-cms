@@ -250,7 +250,7 @@ Entries.prototype.save = function() {
     ]);
 
     this.request.flash('info', '"' + entry.getTitle() + '" ' + action + '!');
-    this.redirect('list');
+    this.redirect('edit', id);
 };
 
 
