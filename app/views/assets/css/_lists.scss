@@ -1,6 +1,5 @@
 #list .entry-type {
     text-align: center;
-    @include linear-gradient(to bottom, $background-callout, 100%, $line-dark, 0%);
 
    .title {
        font-family: $heading;

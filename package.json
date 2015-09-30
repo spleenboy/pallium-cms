@@ -55,6 +55,8 @@
     "bourbon": "^4.2.3",
     "font-awesome": "^4.4.0",
     "napa": "^1.2.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "jquery-validation": "^1.14.0",
+    "jquery-ui": "^1.10.5"
   }
 }

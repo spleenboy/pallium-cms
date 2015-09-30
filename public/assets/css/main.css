@@ -6352,10 +6352,7 @@ label.md-label:before {
       transform: scaleX(1); }
 
 #list .entry-type {
-  text-align: center;
-  background-color: rgba(243, 241, 249, 0.87);
-  background-image: -webkit-linear-gradient(top, rgba(243, 241, 249, 0.87), 100%, #191919, 0%);
-  background-image: linear-gradient(to bottom,rgba(243, 241, 249, 0.87), 100%, #191919, 0%); }
+  text-align: center; }
   #list .entry-type .title {
     font-family: "heading", "sans-serif";
     font-size: 34px;
@@ -6790,5 +6787,12 @@ input.toggle-checkbox:checked + label > .pure-button {
 input.toggle-checkbox:checked + label > .pure-button:after {
   margin-left: 60px;
   background-color: #8ce196; }
+
+.field-collection-item {
+  border-left: 3px solid white;
+  margin-left: 10px;
+  padding-left: 20px;
+  margin-bottom: 40px;
+  cursor: move; }
 
 /*# sourceMappingURL=main.css.map */

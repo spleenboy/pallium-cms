@@ -22,6 +22,25 @@ module.exports = {
             attributes   : {autofocus: true, required: true}
         },
         {
+            type         : 'collection',
+            name         : 'categories',
+            label        : 'Categories',
+            fields       : [
+                {
+                    type         : 'text',
+                    name         : 'title',
+                    label        : 'Title',
+                    placeholder  : 'Enter title',
+                    attributes   : {required: true}
+                },
+                {
+                    type         : 'textarea',
+                    name         : 'description',
+                    label        : 'Description'
+                },
+            ]
+        },
+        {
             type         : 'md',
             name         : '__content',
             label        : 'Content',
