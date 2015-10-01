@@ -20,6 +20,8 @@ var View        = plugins.require('views/view');
 
 
 function Entries() {
+    Controller.call(this);
+
     object.lazyGet(this, 'type', function() {
         return this.request.params.type;
     });
@@ -38,29 +40,26 @@ function Entries() {
     });
 
     object.lazyGet(this, 'locker', function() {
-        var locker = new Locker(this.request.session);
-        var io     = this.app.io;
-
-        locker.on('locked', function(lock) {
-            log.debug('Broadcasting entry locked', lock.data);
-            io.broadcast('entry locked', lock.data);
-        });
-
-        locker.on('unlocked', function(lock) {
-            if (!lock.data) {
-                log.debug('Lock has no data', lock);
-                return;
-            }
-            log.debug('Broadcasting entry unlocked', lock.data);
-            var factory = new Factory(lock.data.type, new Definition(lock.data.domain));
-            factory.unlock(lock.data.id);
-            io.broadcast('entry unlocked', lock.data);
-        });
-
-        return locker;
+        return new Locker(this.request.session);
     });
 
-    Controller.call(this);
+    var self = this;
+
+    hooks.on('app/services/locker/locked', function(lock) {
+        log.debug('Broadcasting entry LOCKED', lock.data);
+        self.app.io.broadcast('entry locked', lock.data);
+    });
+
+    hooks.on('app/services/locker/unlocked', function(lock) {
+        if (!lock.data) {
+            log.debug('Lock has no data', lock);
+            return;
+        }
+        log.debug('Broadcasting entry UNLOCKED', lock.data);
+        var factory = new Factory(lock.data.type, new Definition(lock.data.domain));
+        factory.unlock(lock.data.id);
+        self.app.io.broadcast('entry unlocked', lock.data);
+    });
 }
 
 

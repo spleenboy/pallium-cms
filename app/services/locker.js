@@ -5,6 +5,7 @@ var _      = require('underscore');
 
 var plugins = require('./plugins');
 var log     = plugins.require('services/log')(module);
+var hooks   = plugins.require('services/hooks');
 var config  = plugins.require('config');
 var future  = plugins.require('services/future');
 var fs      = plugins.require('services/file');
@@ -16,22 +17,24 @@ function Locker(session) {
         this.session.locked = {};
     }
     events.EventEmitter.call(this);
+    hooks.bubble(module, this, ['locked', 'unlocked']);
 }
 
 util.inherits(Locker, events.EventEmitter);
 
 Locker.prototype.lock = function(filepath, data) {
     var lock = new Lock(filepath, data);
+    var emit = this.emit.bind(this);
 
     lock.on('expired', function() {
         log.debug('Bubbling up unlocked event for expired lock.', lock);
-        this.emit('unlocked', lock);
+        emit('unlocked', lock);
     });
 
     if (filepath in this.session.locked) {
         log.debug('Already locked by user. Renewing expiration', filepath);
         lock.create(true);
-        this.emit('locked', lock);
+        emit('locked', lock);
         return true;
     }
 
@@ -46,7 +49,7 @@ Locker.prototype.lock = function(filepath, data) {
     }
 
     this.session.locked[filepath] = lock.data;
-    this.emit('locked', lock);
+    emit('locked', lock);
     return true;
 };
 
