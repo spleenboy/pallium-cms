@@ -12,6 +12,21 @@ module.exports.slug = function(value) {
 };
 
 
+/**
+ * Opens a file for writing¬
+**/
+module.exports.open = function(filepath, force) {
+    var flags = force ? 'w' : 'wx';
+    try {
+        return fs.openSync(filepath, flags);
+    }
+    catch (e) {
+        log.error('Could not open file', filepath, ':', e);
+        return false;
+    }
+}
+
+
 module.exports.stats = function(filepath) {
     try {
         var stats = fs.statSync(filepath);
@@ -150,5 +165,3 @@ module.exports.rename = function(oldpath, newpath) {
         return false;
     }
 };
-
-

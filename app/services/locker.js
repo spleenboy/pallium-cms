@@ -1,13 +1,13 @@
-var fs     = require('fs');
 var util   = require('util');
 var path   = require('path');
 var events = require('events');
-var moment = require('moment');
 var _      = require('underscore');
 
 var plugins = require('./plugins');
-var log    = plugins.require('services/log')(module);
-var config = plugins.require('config');
+var log     = plugins.require('services/log')(module);
+var config  = plugins.require('config');
+var future  = plugins.require('services/future');
+var fs      = plugins.require('services/file');
 
 
 function Locker(session) {
@@ -23,9 +23,14 @@ util.inherits(Locker, events.EventEmitter);
 Locker.prototype.lock = function(filepath, data) {
     var lock = new Lock(filepath, data);
 
+    lock.on('expired', function() {
+        log.debug('Bubbling up unlocked event for expired lock.', lock);
+        this.emit('unlocked', lock);
+    });
+
     if (filepath in this.session.locked) {
         log.debug('Already locked by user. Renewing expiration', filepath);
-        lock.expire();
+        lock.create(true);
         this.emit('locked', lock);
         return true;
     }
@@ -51,8 +56,9 @@ Locker.prototype.unlock = function(filepath, force) {
         var lock = new Lock(filepath, data);
         var unlocked = lock.destroy();
         delete this.session.locked[filepath];
+        this.emit('unlocked', lock);
+
         if (unlocked) {
-            this.emit('unlocked', lock);
             return true;
         }
     }
@@ -105,52 +111,45 @@ util.inherits(Lock, events.EventEmitter);
 
 
 Lock.prototype.expire = function() {
-
-    if (this.expiration) {
-        clearTimeout(this.expiration);
-    }
-
     if (!this.timeout || ! this.lockpath) {
         return false;
     }
 
-    var future  = moment().add(this.timeout);
-    var delay   = future.diff(moment(), 'seconds') * 1000;
-    var expired = this.expired.bind(this);
+    log.debug('Setting expiration for', this.lockpath, 'in', this.timeout, 'seconds');
+    future.schedule(this.lockpath, this.expired.bind(this), this.timeout * 1000);
 
-    log.debug('Setting expiration for', this.lockpath, 'to', future.format());
-    this.expiration = setTimeout(expired, delay);
+    return true;
 };
 
 
 Lock.prototype.expired = function() {
     if (this.destroy()) {
         log.debug('Expired lock on', this.filepath);
-        this.emit('expired');
     }
     else {
         log.debug('Lock not found for', this.filepath);
-        this.emit('expired');
     }
+    this.emit('expired', this);
 };
 
 
 Lock.prototype.create = function(force) {
     if (!this.lockpath) {
+        log.debug('No lockpath found. Could not create lock');
         return false;
     }
 
-    var flags = force ? 'w' : 'wx';
-    try {
-        fs.openSync(this.lockpath, flags);
+    var touched = fs.open(this.lockpath, force);
+
+    if (touched) {
         this.expire();
         log.debug('Created lock', this.lockpath);
         this.emit('created');
         return true;
     }
-    catch (e) {
-        log.error('Could not create lock', this.lockpath, ':', e);
-        var error = new LockError(this, 'create', e);
+    else {
+        log.error('Could not create lock', this.lockpath);
+        var error = new LockError(this, 'create');
         this.emit('created', error);
         return false;
     }
@@ -162,27 +161,17 @@ Lock.prototype.destroy = function() {
         return false;
     }
 
-    try {
-        fs.unlinkSync(this.lockpath);
-        if (this.expiration) {
-            clearTimeout(this.expiration);
-        }
-        this.emit('destroyed');
-        log.debug('Destroyed lock', this.lockpath);
-        return true;
-    }
-    catch (e) {
-        log.error('Could not destroy lock', this.lockpath, ':', e);
-        var error = new LockError(this, 'destroy', e);
-        this.emit('destroyed', error);
-        return false;
-    }
+    var deleted = fs.delete(this.lockpath);
+    future.cancel(this.lockpath);
+    this.emit('destroyed');
+    log.debug('Destroyed lock', this.lockpath);
+    return deleted;
 };
 
 
 Lock.prototype.stats = function() {
     try {
-        return this.lockpath && fs.statSync(this.lockpath);
+        return this.lockpath && fs.stats(this.lockpath);
     }
     catch (e) {
         return false;

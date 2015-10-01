@@ -56,6 +56,7 @@ function Entries() {
             factory.unlock(lock.data.id);
             io.broadcast('entry unlocked', lock.data);
         });
+
         return locker;
     });
 

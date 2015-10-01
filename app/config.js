@@ -5,9 +5,11 @@ var plugins = require('./services/plugins');
 
 module.exports = {
 
-debug: true,
+debug: false,
 
 localRoot: null,
+
+overrides: {},
 
 setLocalRoot: function(rootDir) {
     rootDir = path.normalize(rootDir);
@@ -59,6 +61,11 @@ get: function(namespacedKey, context, args) {
     if (keys.length < 1) {
         throw new Error('Invalid configuration key');
     }
+
+    if (namespacedKey in this.overrides) {
+        return this.resolve(this.overrides, keys, context, args);
+    }
+
     var file = keys.shift();
     var source = {};
 
@@ -77,6 +84,13 @@ get: function(namespacedKey, context, args) {
     }
 
     return value;
+},
+
+/**
+ *¬ Locally override a config setting
+**/
+set: function(namespacedKey, value) {
+    this.overrides[namespacedKey] = value;
 },
 
 /**

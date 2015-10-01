@@ -1,2 +1,2 @@
 var config = require(process.cwd() + '/app/config');
-config.set('site.logLevel', 'error');
+config.debug = false;
