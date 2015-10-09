@@ -7,7 +7,6 @@ var async       = require('async');
 var _           = require('underscore');
 
 var plugins     = require('../services/plugins');
-var hooks       = plugins.require('services/hooks');
 var file        = plugins.require('services/file');
 var object      = plugins.require('util/object');
 var log         = plugins.require('services/log')(module);
@@ -41,24 +40,6 @@ function Entries() {
 
     object.lazyGet(this, 'locker', function() {
         return new Locker(this.request.session);
-    });
-
-    var self = this;
-
-    hooks.on('app/services/locker/locked', function(lock) {
-        log.debug('Broadcasting entry LOCKED', lock.data);
-        self.app.io.broadcast('entry locked', lock.data);
-    });
-
-    hooks.on('app/services/locker/unlocked', function(lock) {
-        if (!lock.data) {
-            log.debug('Lock has no data', lock);
-            return;
-        }
-        log.debug('Broadcasting entry UNLOCKED', lock.data);
-        var factory = new Factory(lock.data.type, new Definition(lock.data.domain));
-        factory.unlock(lock.data.id);
-        self.app.io.broadcast('entry unlocked', lock.data);
     });
 }
 

@@ -38,6 +38,19 @@ module.exports = {
                     name         : 'description',
                     label        : 'Description'
                 },
+                {
+                    type : 'collection',
+                    name : 'tags',
+                    label : 'Tags',
+                    fields : [
+                        {
+                            type: 'text',
+                            name: 'tag',
+                            label: 'Tag',
+                            attributes: {required: true}
+                        }
+                    ]
+                }
             ]
         },
         {

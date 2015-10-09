@@ -6,7 +6,7 @@ module.exports = function() {
     global.jQuery = $;
     var validate = require('jquery-validation');
 
-    var frequency = 5000;
+    var frequency = 10000;
     var $form = $('form.entry-form');
 
     if ($form.length) {
