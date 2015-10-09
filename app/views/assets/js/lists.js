@@ -1,5 +1,5 @@
 module.exports = function() {
-    var $ = require('jQuery');
+    var $ = require('jquery');
     var _ = require('underscore');
 
     function like(query, text) {

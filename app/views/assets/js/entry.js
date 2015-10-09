@@ -1,5 +1,5 @@
 module.exports = function() {
-    var $ = require('jQuery');
+    var $ = require('jquery');
     var _ = require('underscore');
 
     // Provide the jquery-validation with access to jQuery

@@ -3,7 +3,7 @@ module.exports = function() {
         console.warn('socket.io is not loaded');
         return;
     }
-    var $ = require('jQuery');
+    var $ = require('jquery');
 
     io = io.connect();
 

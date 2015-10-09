@@ -7,7 +7,6 @@
     "prestart": "grunt",
     "start": "node app.js",
     "test": "mocha test/*",
-    "install": "napa"
   },
   "keywords": [
     "yaml",
@@ -44,7 +43,6 @@
     "jquery": "^2.1.4",
     "underscore": "^1.8.3"
   },
-  "napa": {},
   "devDependencies": {
     "grunt": "^0.4.5",
     "load-grunt-tasks": "^3.1.0",
@@ -54,7 +52,6 @@
     "grunt-browserify": "^3.8.0",
     "bourbon": "^4.2.3",
     "font-awesome": "^4.4.0",
-    "napa": "^1.2.0",
     "mocha": "^2.2.5",
     "jquery-validation": "^1.14.0",
     "jquery-ui": "^1.10.5"
