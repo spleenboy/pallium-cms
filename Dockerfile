@@ -1,4 +1,4 @@
-FROM node:onbuild
+FROM node:0.10-onbuild
 EXPOSE 4000
 
 RUN apt-get -y update
