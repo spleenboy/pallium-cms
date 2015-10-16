@@ -52,7 +52,10 @@ plugins.load = function load(app, args) {
 
     if (args.config) {
         config.setLocalRoot(args.config);
-        log.debug('Set config root', args.config);
+        log.debug('Set config root from argument', args.config);
+    } else if (process.env.PALLIUM_CONFIG) {
+        config.setLocalRoot(process.env.PALLIUM_CONFIG);
+        log.debug('Set config root from environment', process.env.PALLIUM_CONFIG);
     }
 
     var dir   = config.get('site.plugins.directory');
