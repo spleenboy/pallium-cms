@@ -75,14 +75,16 @@ get: function(namespacedKey, context, args) {
 
     // Now think globally
     if (value === undefined) {
-        source = plugins.require(path.join('config', file));
-        value = this.resolve(source, keys, context, args);
+        try {
+            source = plugins.require(path.join('config', file));
+            value = this.resolve(source, keys, context, args);
+        } catch (e) {
+            if (this.debug) {
+                console.log('No global config for', file);
+            }
+            return undefined;
+        }
     }
-
-    if (value === undefined) {
-        return undefined;
-    }
-
     return value;
 },
 
