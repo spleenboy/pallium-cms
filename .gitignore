@@ -7,6 +7,7 @@ node_modules
 sessions/*
 coverage
 config-*
+public/assets/js/bundle.js
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
