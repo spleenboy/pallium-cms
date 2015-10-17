@@ -14,4 +14,5 @@ module.exports = function(app, args) {
     plugins.require('bootstrap/auth')(app);
     plugins.require('bootstrap/routes')(app);
     plugins.require('bootstrap/messaging')(app);
+    plugins.require('bootstrap/scripts')(app);
 };

@@ -1,13 +1,5 @@
 var config = {};
 
-config.browserify = {
-    dist: {
-        files: {
-            'public/assets/js/bundle.js': ['app/views/assets/js/**/*.js']
-        }
-    }
-}
-
 config.copy = {
     images: {
         files: [{
@@ -73,5 +65,5 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
     grunt.initConfig(config);
 
-    grunt.registerTask('default', ['clean', 'copy', 'browserify', 'sass']);
+    grunt.registerTask('default', ['clean', 'copy', 'sass']);
 };
