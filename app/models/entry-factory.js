@@ -8,6 +8,7 @@ var random  = plugins.require('util/random');
 var log     = plugins.require('services/log')(module);
 var file    = plugins.require('services/file');
 var io      = plugins.require('services/io');
+var hooks   = plugins.require('services/hooks');
 
 var Entry      = plugins.require('models/entry');
 var Definition = plugins.require('models/entry-definition');
@@ -41,6 +42,18 @@ function Factory(type, definition) {
     this.loadIndex();
 
     events.EventEmitter.call(this);
+
+    hooks.bubble(module, this, [
+        'creating',
+        'get',
+        'got',
+        'populating',
+        'populated',
+        'saving',
+        'saved',
+        'deleting',
+        'deleted'
+    ]);
 }
 
 
