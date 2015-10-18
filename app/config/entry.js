@@ -4,25 +4,15 @@ var plugins = require('../services/plugins');
 module.exports = {
     lockTimeout: 30,
     domains: {
-        'website': {
-            name: 'Website',
+        'docs': {
+            name: 'Documentation',
             output: function() {
-                return path.join(process.cwd(), 'content')
+                return path.join(process.cwd(), 'docs')
             },
             types: {
-                'home': plugins.require('config/entries/home'),
-                'page': plugins.require('config/entries/page'),
-                'event': plugins.require('config/entries/event')
-            }
-        },
-        'notes': {
-            name: 'Planning',
-            output: function() {
-                return path.join(process.cwd(), 'content/planning')
-            },
-            types: {
-                'note': plugins.require('config/entries/note'),
-                'todo': plugins.require('config/entries/todo')
+                'page': require('./entries/page'),
+                'plugin': require('./entries/plugin'),
+                'todo': require('./entries/todo')
             }
         }
     }

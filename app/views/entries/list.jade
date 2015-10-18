@@ -37,7 +37,7 @@ block list
                     option(value=".updated asc") Updated (old-new)
         
         if !definition.maximum || definition.maximum > list.length
-            a.pure-button.button-add(href='create')
+            a.pure-button.button-add(href=baseUrl + 'create')
                 | Add a New #{definition.name}
 
         ul.list.entry-list

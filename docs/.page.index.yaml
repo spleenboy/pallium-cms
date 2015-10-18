@@ -1,0 +1,20 @@
+K6lOCOWHhMgw372p:
+  id: K6lOCOWHhMgw372p
+  title: Home
+  subtitle: /index
+  filepath: index.md
+  created: 2015-10-18T18:29:53.290Z
+  modified: 2015-10-18T18:29:53.290Z
+  domain: docs
+  type: page
+  locked: false
+ffi2HXftYQFn3lzI:
+  id: ffi2HXftYQFn3lzI
+  title: Getting Started
+  subtitle: /getting-started/index
+  filepath: getting-started/index.md
+  created: 2015-10-18T18:35:10.850Z
+  modified: 2015-10-18T18:37:35.186Z
+  locked: someone
+  domain: docs
+  type: page

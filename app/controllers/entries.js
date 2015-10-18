@@ -145,8 +145,7 @@ Entries.prototype.list = function() {
 
 Entries.prototype.create = function() {
     var entry = this.factory.create();
-    var data = this.viewData(entry, this.items());
-
+    var data  = this.viewData(entry, this.items());
     this.send('entries/create', data);
 };
 

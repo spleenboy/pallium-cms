@@ -4,43 +4,62 @@ module.exports = {
     plural: 'To Dos',
     directory: 'todos',
     subdirectory: function() {
-        return this.data('done') ? 'done' : '';
+        return [
+            this.data('major'),
+            this.data('minor'),
+            this.data('patch')
+        ].join('.');
     },
     title: function() {
         return this.data('title');
     },
     subtitle: function() {
-        return this.data('done') ? 'Done!' : 'In Progress';
+        return this.data('milestone');
     },
     fields: [
         {
-            type         : 'switch',
-            name         : 'status',
-            label        : 'Status',
-            onState : {
+            type: 'switch',
+            name: 'status',
+            label: 'Status',
+            onState: {
                 label: 'Done!'
             },
-            offState : {
+            offState: {
                 label: 'In progress'
             },
         },
         {
-            type         : 'text',
-            name         : 'title',
-            label        : 'Title',
-            placeholder  : 'What do you need to do?',
-            attributes   : {required: true, autofocus: true}
+            type: 'text',
+            name: 'title',
+            label: 'Title',
+            placeholder: 'What do you need to do?',
+            attributes: {required: true, autofocus: true}
         },
         {
-            type         : 'md',
-            name         : '__content',
-            label        : 'How will you do it?'
+            type: 'number',
+            name: 'major',
+            label: 'Major Version',
+            attributes: {required: true, min: 0, step: 1},
+            defaultValue: 0
         },
         {
-            type         : 'date',
-            name         : 'due',
-            label        : 'Due Date',
-            placeholder  : 'When is it due?'
+            type: 'number',
+            name: 'minor',
+            label: 'Minor Version',
+            attributes: {required: true, min: 0, step: 1},
+            defaultValue: 0
+        },
+        {
+            type: 'number',
+            name: 'patch',
+            label: 'Patch Number',
+            attributes: {required: true, min: 0, step: 1},
+            defaultValue : 0
+        },
+        {
+            type: 'md',
+            name: '__content',
+            label: 'Description'
         }
     ]
 };

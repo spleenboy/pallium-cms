@@ -7,8 +7,9 @@ block main
         if definition.description
             .description= definition.description
 
-    form.pull-right(method='post', action='../delete/#{entry.id}')
-        button.pure-button.button-delete(type='submit', onclick='return confirm("Are you sure?");') Delete #{definition.name}
+    if entry.id
+        form.pull-right(method='post', action='../delete/#{entry.id}')
+            button.pure-button.button-delete(type='submit', onclick='return confirm("Are you sure?");') Delete #{definition.name}
 
     include entry-form
     +entry-form('Save Changes to ' + definition.name)
