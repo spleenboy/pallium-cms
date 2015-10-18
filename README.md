@@ -21,6 +21,7 @@ Pallium CMS provides you with a front-end for the administration of a static web
 * [pallium-wintersmith](https://github.com/spleenboy/pallium-wintersmith) allows you to preview and build Wintersmith sites.
 * [pallium-grunt](https://github.com/spleenboy/pallium-grunt) executes grunt commands.
 * [pallium-export](https://github.com/spleenboy/pallium-export) generates tarballs of content directories.
+* [pallium-rsync](https://github.com/spleenboy/pallium-rsync) will run rsync when specified events fire.
 
 [Planned Features](https://github.com/spleenboy/pallium-cms/labels/enhancement)
 
