@@ -8,7 +8,8 @@ var glob = require('glob');
 
 var plugins = require('../services/plugins');
 var log = plugins.require('services/log');
-var hooks  = plugins.require('services/hooks');
+var file = plugins.require('services/file');
+var hooks = plugins.require('services/hooks');
 
 var viewScripts = path.join(process.cwd(), '/app/views/assets/js/**/*.js');
 var destination = path.join(process.cwd(), '/public/assets/js/bundle.js');
@@ -28,6 +29,7 @@ Bundler.prototype.bundle = function(app) {
 
     this.emit('bundling', event);
 
+    file.mkdirs(destination);
     glob(viewScripts, function(err, files) {
         if (err) {
             log.error("Error getting scripts", err);
