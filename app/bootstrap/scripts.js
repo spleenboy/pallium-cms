@@ -43,7 +43,6 @@ Bundler.prototype.bundle = function(app) {
             .add(files)
             .bundle()
             .pipe(output);
-        fs.close(output);
     });
 };
 

@@ -30,21 +30,41 @@ ffi2HXftYQFn3lzI:
   type: page
 MNrRptIWWsNxNxMi:
   id: MNrRptIWWsNxNxMi
-  title: config/site.js
+  title: 'Configuration: Site'
   subtitle: /configuration/site/index
   filepath: configuration/site/index.md
   created: 2015-10-18T20:33:31.949Z
-  modified: 2015-10-18T20:33:31.949Z
+  modified: 2015-10-19T14:47:41.319Z
+  locked: false
   domain: docs
   type: page
-  locked: false
 nn68KnX41sUYhjAF:
   id: nn68KnX41sUYhjAF
-  title: config/entry.js
+  title: 'Configuration: Entries'
   subtitle: /configuration/entry/index
   filepath: configuration/entry/index.md
   created: 2015-10-18T20:34:34.718Z
-  modified: 2015-10-18T20:34:34.718Z
+  modified: 2015-10-19T14:47:33.442Z
+  locked: false
+  domain: docs
+  type: page
+NUYe2Uf6A4Jh7R8l:
+  id: NUYe2Uf6A4Jh7R8l
+  title: 'Configuration: Fields'
+  subtitle: /configuration/fields/index
+  filepath: configuration/fields/index.md
+  created: 2015-10-19T14:48:44.925Z
+  modified: 2015-10-19T14:48:44.925Z
   domain: docs
   type: page
   locked: false
+kgQ0N4xiWIFi1ohl:
+  id: kgQ0N4xiWIFi1ohl
+  title: Plugins
+  subtitle: /plugins/index
+  filepath: plugins/index.md
+  created: 2015-10-19T14:50:35.365Z
+  modified: 2015-10-19T14:50:35.365Z
+  domain: docs
+  type: page
+  locked: someone

@@ -1,5 +1,5 @@
 ---
-title: config/site.js
+title: 'Configuration: Site'
 path: /configuration/site/
 filename: index
 ---

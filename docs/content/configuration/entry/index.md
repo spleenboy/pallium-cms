@@ -1,5 +1,5 @@
 ---
-title: config/entry.js
+title: 'Configuration: Entries'
 path: /configuration/entry/
 filename: index
 ---
