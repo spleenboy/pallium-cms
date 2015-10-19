@@ -15,6 +15,36 @@ ffi2HXftYQFn3lzI:
   filepath: getting-started/index.md
   created: 2015-10-18T18:35:10.850Z
   modified: 2015-10-18T18:37:35.186Z
-  locked: someone
+  locked: false
   domain: docs
   type: page
+21LBBQVt8jpYKxJ4:
+  id: 21LBBQVt8jpYKxJ4
+  title: Configuration
+  subtitle: /configuration/index
+  filepath: configuration/index.md
+  created: 2015-10-18T20:23:15.535Z
+  modified: 2015-10-18T20:35:16.747Z
+  locked: false
+  domain: docs
+  type: page
+MNrRptIWWsNxNxMi:
+  id: MNrRptIWWsNxNxMi
+  title: config/site.js
+  subtitle: /configuration/site/index
+  filepath: configuration/site/index.md
+  created: 2015-10-18T20:33:31.949Z
+  modified: 2015-10-18T20:33:31.949Z
+  domain: docs
+  type: page
+  locked: false
+nn68KnX41sUYhjAF:
+  id: nn68KnX41sUYhjAF
+  title: config/entry.js
+  subtitle: /configuration/entry/index
+  filepath: configuration/entry/index.md
+  created: 2015-10-18T20:34:34.718Z
+  modified: 2015-10-18T20:34:34.718Z
+  domain: docs
+  type: page
+  locked: false

@@ -6225,7 +6225,8 @@ label.md-label:before {
     left: 150px;
     overflow: auto;
     width: auto;
-    /* so that it's not 100% */ } }
+    /* so that it's not 100% */
+    max-width: 800px; } }
 /*
  * -- DESKTOP (AND UP) MEDIA QUERIES --
  * On desktops and other large-sized devices, we want to customize some
