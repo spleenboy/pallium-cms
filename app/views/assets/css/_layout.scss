@@ -33,6 +33,18 @@
     display: block;
 }
 
+#main .main-header {
+    border-bottom: 1px solid $background-light;
+
+    .title {
+        font-size: 2em;
+    }
+}
+
+#main .main-body {
+
+}
+
 /*
  * -- TABLET (AND UP) MEDIA QUERIES --
  * On tablets and other medium-sized devices, we want to customize some
@@ -54,8 +66,8 @@
         overflow: auto;
     }
     #nav {
-        margin-left:-500px; /* "left col (nav + list)" width */
-        width:150px;
+        margin-left: -500px; /* "left col (nav + list)" width */
+        width: 150px;
         height: 100%;
     }
 

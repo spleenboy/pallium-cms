@@ -1,1 +1,210 @@
-{}
+4s0Dy6PGnMghtEAP:
+  id: 4s0Dy6PGnMghtEAP
+  title: Checkbox
+  subtitle: ''
+  filepath: checkbox.md
+  created: 2015-10-19T14:52:57.435Z
+  modified: 2015-10-19T14:52:57.435Z
+  domain: docs
+  type: field
+  locked: false
+myHWb7MMk4hshetv:
+  id: myHWb7MMk4hshetv
+  title: Checkbox List
+  subtitle: ''
+  filepath: checkbox-list.md
+  created: 2015-10-19T14:53:11.885Z
+  modified: 2015-10-19T14:53:11.885Z
+  domain: docs
+  type: field
+  locked: false
+tkNdkJqoJakyFBxl:
+  id: tkNdkJqoJakyFBxl
+  title: Collection
+  subtitle: ''
+  filepath: collection.md
+  created: 2015-10-19T14:53:28.304Z
+  modified: 2015-10-19T14:53:28.304Z
+  domain: docs
+  type: field
+  locked: false
+dHqfj5IscZChvbza:
+  id: dHqfj5IscZChvbza
+  title: Color
+  subtitle: ''
+  filepath: color.md
+  created: 2015-10-19T14:53:38.892Z
+  modified: 2015-10-19T14:53:38.892Z
+  domain: docs
+  type: field
+  locked: false
+Qee67zCk26sGpHiR:
+  id: Qee67zCk26sGpHiR
+  title: Date
+  subtitle: ''
+  filepath: date.md
+  created: 2015-10-19T14:53:47.371Z
+  modified: 2015-10-19T14:53:47.371Z
+  domain: docs
+  type: field
+  locked: false
+4U7k4bx3n5PqL8Nh:
+  id: 4U7k4bx3n5PqL8Nh
+  title: DateTime
+  subtitle: ''
+  filepath: datetime.md
+  created: 2015-10-19T14:54:03.322Z
+  modified: 2015-10-19T14:54:03.322Z
+  domain: docs
+  type: field
+  locked: false
+wZ5gI8ePDkKj8Mjo:
+  id: wZ5gI8ePDkKj8Mjo
+  title: Email
+  subtitle: ''
+  filepath: email.md
+  created: 2015-10-19T14:54:13.937Z
+  modified: 2015-10-19T14:54:13.937Z
+  domain: docs
+  type: field
+  locked: false
+r63g7fnJQ5XCnW8U:
+  id: r63g7fnJQ5XCnW8U
+  title: File
+  subtitle: ''
+  filepath: file.md
+  created: 2015-10-19T14:54:24.637Z
+  modified: 2015-10-19T14:54:24.637Z
+  domain: docs
+  type: field
+  locked: false
+0Qrf4ljCimdBDwXc:
+  id: 0Qrf4ljCimdBDwXc
+  title: Hidden
+  subtitle: ''
+  filepath: hidden.md
+  created: 2015-10-19T14:54:35.810Z
+  modified: 2015-10-19T14:54:35.810Z
+  domain: docs
+  type: field
+  locked: false
+cdvcZINwaR6XnKk1:
+  id: cdvcZINwaR6XnKk1
+  title: Markdown
+  subtitle: ''
+  filepath: markdown.md
+  created: 2015-10-19T14:54:48.440Z
+  modified: 2015-10-19T14:54:48.440Z
+  domain: docs
+  type: field
+  locked: false
+cIFSXkWtn5vPfDrX:
+  id: cIFSXkWtn5vPfDrX
+  title: Month
+  subtitle: ''
+  filepath: month.md
+  created: 2015-10-19T14:54:58.629Z
+  modified: 2015-10-19T14:54:58.629Z
+  domain: docs
+  type: field
+  locked: false
+7EEzMpqyIU4dBmpJ:
+  id: 7EEzMpqyIU4dBmpJ
+  title: Number
+  subtitle: ''
+  filepath: number.md
+  created: 2015-10-19T14:55:39.149Z
+  modified: 2015-10-19T14:55:39.149Z
+  domain: docs
+  type: field
+  locked: false
+OWTVugKkxfbSKHM3:
+  id: OWTVugKkxfbSKHM3
+  title: Range
+  subtitle: ''
+  filepath: range.md
+  created: 2015-10-19T14:55:52.053Z
+  modified: 2015-10-19T14:55:52.053Z
+  domain: docs
+  type: field
+  locked: false
+YuWGnS3S0gNRFzSE:
+  id: YuWGnS3S0gNRFzSE
+  title: Select
+  subtitle: ''
+  filepath: select.md
+  created: 2015-10-19T14:56:05.053Z
+  modified: 2015-10-19T14:56:05.053Z
+  domain: docs
+  type: field
+  locked: false
+VrHctgZokwgV6MSK:
+  id: VrHctgZokwgV6MSK
+  title: Switch
+  subtitle: ''
+  filepath: switch.md
+  created: 2015-10-19T14:56:15.637Z
+  modified: 2015-10-19T14:56:15.637Z
+  domain: docs
+  type: field
+  locked: false
+BQNW1Snv3BoAddJF:
+  id: BQNW1Snv3BoAddJF
+  title: Telephone
+  subtitle: ''
+  filepath: telephone.md
+  created: 2015-10-19T14:56:25.495Z
+  modified: 2015-10-19T14:56:25.495Z
+  domain: docs
+  type: field
+  locked: false
+hVEKfZRA437SMtJm:
+  id: hVEKfZRA437SMtJm
+  title: Text
+  subtitle: ''
+  filepath: text.md
+  created: 2015-10-19T14:56:33.861Z
+  modified: 2015-10-19T14:56:33.861Z
+  domain: docs
+  type: field
+  locked: false
+MyvS1n7jcJKMMzQt:
+  id: MyvS1n7jcJKMMzQt
+  title: Textarea
+  subtitle: ''
+  filepath: textarea.md
+  created: 2015-10-19T14:56:47.453Z
+  modified: 2015-10-19T14:56:47.453Z
+  domain: docs
+  type: field
+  locked: false
+oKrMjmdptn3pU3jW:
+  id: oKrMjmdptn3pU3jW
+  title: Time
+  subtitle: ''
+  filepath: time.md
+  created: 2015-10-19T14:56:56.606Z
+  modified: 2015-10-19T14:56:56.606Z
+  domain: docs
+  type: field
+  locked: false
+M7GK4rLmmTC7P0AN:
+  id: M7GK4rLmmTC7P0AN
+  title: URL
+  subtitle: ''
+  filepath: url.md
+  created: 2015-10-19T14:57:06.944Z
+  modified: 2015-10-19T14:57:06.944Z
+  domain: docs
+  type: field
+  locked: false
+YQADEthlbW3VI43X:
+  id: YQADEthlbW3VI43X
+  title: Week
+  subtitle: ''
+  filepath: week.md
+  created: 2015-10-19T14:57:17.450Z
+  modified: 2015-10-19T14:57:17.450Z
+  domain: docs
+  type: field
+  locked: false

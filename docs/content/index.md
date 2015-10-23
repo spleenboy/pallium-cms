@@ -1,5 +1,5 @@
 ---
-title: Home
+title: What is Pallium CMS
 path: /
 filename: index
 ---

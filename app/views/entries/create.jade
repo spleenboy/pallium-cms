@@ -2,13 +2,14 @@ extends list
 
 block main
     - var definition = entries.types[params.type]
-    .entry-type
+    .main-header
         .title Create a New #{definition.name}
         if definition.description
             .description= definition.description
 
-    if definition.maximum !== 1
-        a.pure-button.button-list(href='list') All #{definition.plural}
+        if definition.maximum !== 1
+            a.pure-button.button-list(href='list') All #{definition.plural}
 
-    include entry-form
-    +entry-form('Create ' + definition.name)
+    .main-body
+        include entry-form
+        +entry-form('Create ' + definition.name)

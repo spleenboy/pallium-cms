@@ -6,9 +6,7 @@ module.exports = {
     logLevel: 'debug',
     plugins: {
         // Return the directory where plugins can be found
-        directory: function() {
-            return path.join(process.cwd(), 'plugins');
-        },
+        directory: path.join(process.cwd(), 'plugins'),
         // Include a list of the plugins that should be enabled in this instance
         enabled: []
     }

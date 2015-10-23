@@ -1,13 +1,13 @@
 K6lOCOWHhMgw372p:
   id: K6lOCOWHhMgw372p
-  title: Home
+  title: What is Pallium CMS
   subtitle: /index
   filepath: index.md
   created: 2015-10-18T18:29:53.290Z
-  modified: 2015-10-18T18:29:53.290Z
+  modified: 2015-10-19T14:58:57.632Z
+  locked: false
   domain: docs
   type: page
-  locked: false
 ffi2HXftYQFn3lzI:
   id: ffi2HXftYQFn3lzI
   title: Getting Started
@@ -64,7 +64,7 @@ kgQ0N4xiWIFi1ohl:
   subtitle: /plugins/index
   filepath: plugins/index.md
   created: 2015-10-19T14:50:35.365Z
-  modified: 2015-10-19T14:50:35.365Z
+  modified: 2015-10-19T16:21:54.968Z
+  locked: false
   domain: docs
   type: page
-  locked: someone

@@ -1,16 +1,17 @@
 - var previewId = 'md-preview-' + field.id
 label.md-label(for=field.id) #{field.label}
 
-.pure-g.md-wrapper
+.md-wrapper
     if field.full
-        .pure-u-1-1
+        .full
             a.pure-button.button-view.button-toggle Preview
             textarea.md-editor(id=field.id, name=field.fieldName, data-md-preview=previewId)= field.value
-        .pure-u-1-1.hidden
+        .full.hidden
             a.pure-button.button-edit.button-toggle Edit 
             section.md-preview(id=previewId)= field.value
     else
-        .pure-u-1-2
-            textarea.md-editor(id=field.id, name=field.fieldName, data-md-preview=previewId)= field.value
-        .pure-u-1-2
-            section.md-preview(id=previewId)= field.value
+        .pure-g
+            .pure-u-1-2
+                textarea.md-editor(id=field.id, name=field.fieldName, data-md-preview=previewId)= field.value
+            .pure-u-1-2
+                section.md-preview(id=previewId)= field.value

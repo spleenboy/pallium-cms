@@ -2,14 +2,14 @@ extends list
 
 block main
     - var definition = entries.types[params.type]
-    .entry-type
+    .main-header
         .title Edit #{definition.name}
         if definition.description
             .description= definition.description
+        if entry.id
+            form.pull-right(method='post', action='../delete/#{entry.id}')
+                button.pure-button.button-delete(type='submit', onclick='return confirm("Are you sure?");') Delete #{definition.name}
 
-    if entry.id
-        form.pull-right(method='post', action='../delete/#{entry.id}')
-            button.pure-button.button-delete(type='submit', onclick='return confirm("Are you sure?");') Delete #{definition.name}
-
-    include entry-form
-    +entry-form('Save Changes to ' + definition.name)
+    .main-body
+        include entry-form
+        +entry-form('Save Changes to ' + definition.name)

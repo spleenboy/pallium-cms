@@ -6177,6 +6177,11 @@ label.md-label:before {
 #nav.active .nav-inner {
   display: block; }
 
+#main .main-header {
+  border-bottom: 1px solid rgba(220, 220, 220, 0.5); }
+  #main .main-header .title {
+    font-size: 2em; }
+
 /*
  * -- TABLET (AND UP) MEDIA QUERIES --
  * On tablets and other medium-sized devices, we want to customize some
@@ -6225,8 +6230,7 @@ label.md-label:before {
     left: 150px;
     overflow: auto;
     width: auto;
-    /* so that it's not 100% */
-    max-width: 800px; } }
+    /* so that it's not 100% */ } }
 /*
  * -- DESKTOP (AND UP) MEDIA QUERIES --
  * On desktops and other large-sized devices, we want to customize some
