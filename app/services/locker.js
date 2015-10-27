@@ -33,7 +33,7 @@ Locker.prototype.lock = function(filepath, data) {
 
     if (filepath in this.session.locked) {
         log.debug('Already locked by user. Renewing expiration', filepath);
-        lock.create(true);
+        lock.create();
         emit('locked', lock);
         return true;
     }
@@ -136,13 +136,13 @@ Lock.prototype.expired = function() {
 };
 
 
-Lock.prototype.create = function(force) {
+Lock.prototype.create = function() {
     if (!this.lockpath) {
         log.debug('No lockpath found. Could not create lock');
         return false;
     }
 
-    var touched = fs.open(this.lockpath, force);
+    var touched = fs.write(this.lockpath, JSON.stringify(this.data));
 
     if (touched) {
         this.expire();
