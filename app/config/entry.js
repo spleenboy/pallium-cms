@@ -2,7 +2,10 @@ var path = require('path');
 var plugins = require('../services/plugins');
 
 module.exports = {
-    lockTimeout: 30,
+    locker: {
+        enabled: true,
+        timeout: 30
+    },
     domains: {
         'docs': {
             name: 'Documentation',

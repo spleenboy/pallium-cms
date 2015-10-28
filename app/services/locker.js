@@ -12,6 +12,7 @@ var fs      = plugins.require('services/file');
 
 
 function Locker(session) {
+    this.enabled = config.get('entry.locker.enabled');
     this.session = session;
     if (typeof this.session.locked !== 'object') {
         this.session.locked = {};
@@ -23,6 +24,10 @@ function Locker(session) {
 util.inherits(Locker, events.EventEmitter);
 
 Locker.prototype.lock = function(filepath, data) {
+    if (!this.enabled) {
+        return true;
+    }
+
     var lock = new Lock(filepath, data);
     var emit = this.emit.bind(this);
 
@@ -54,6 +59,9 @@ Locker.prototype.lock = function(filepath, data) {
 };
 
 Locker.prototype.unlock = function(filepath, force) {
+    if (!this.enabled) {
+        return true;
+    }
     if (force || filepath in this.session.locked) {
         var data = this.session.locked[filepath];
         var lock = new Lock(filepath, data);
@@ -69,6 +77,9 @@ Locker.prototype.unlock = function(filepath, force) {
 };
 
 Locker.prototype.clear = function() {
+    if (!this.enabled) {
+        return true;
+    }
     for (var filepath in this.session.locked) {
         this.unlock(filepath);
     }
@@ -86,7 +97,7 @@ function Lock(filepath, data) {
     this.data = data;
 
     // The duration a lock should last
-    this.timeout = config.get('entry.lockTimeout');
+    this.timeout = config.get('entry.locker.timeout');
 
     // Holds a reference to the expiration timer
     this.expiration = null;
