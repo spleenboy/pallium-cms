@@ -11,10 +11,23 @@ function Collection() {
     // When setting the value, trim off any objects that have
     // all empty values
     this.on('setting.value', function(data) {
-        data.value = _.filter(data.value, function(item) {
+
+        // Filter out the empty items
+        var filtered = _.filter(data.value, function(item) {
             return _.some(_.values(item), function(value) {
                 return value && value.length > 0;
             });
+        });
+
+        // Reorder the fields to match with the expected ones
+        var fields = this.fields;
+        data.value = _.map(filtered, function(item) {
+            var fixed = {};
+            for (var i=0; i<fields.length; i++) {
+                var name = fields[i].name;
+                fixed[name] = item[name] || null;
+            }
+            return fixed;
         });
     });
 
