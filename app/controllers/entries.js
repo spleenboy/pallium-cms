@@ -7,6 +7,7 @@ var async       = require('async');
 var _           = require('underscore');
 
 var plugins     = require('../services/plugins');
+var config      = plugins.require('config');
 var file        = plugins.require('services/file');
 var object      = plugins.require('util/object');
 var log         = plugins.require('services/log')(module);
@@ -105,6 +106,7 @@ Entries.prototype.viewData = function(entry, items) {
 
     var data = {};
 
+    data.locker  = config.get('entry.locker');
     data.scripts = [];
     data.baseUrl = '/entry/' + this.entryDomain + '/' + this.type + '/';
 

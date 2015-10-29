@@ -20,15 +20,14 @@ $('body').on('click', '[data-clone]', function(e) {
     // Prepare the clone for placement
     $clone.removeClass('hidden').hide();
     $clone.attr('id', $clone.attr('id') + '-' + $items.length);
-    $clone.find(':input:eq(1)').each(function(i, input) {
+    $clone.find(':input').each(function(i, input) {
         // Hacky! Find the last zero-index in the input name and
         // replace it with the next highest available index based
         // on the number of existing items.
 
         var $input = $(input);
         var iname  = $input.attr('name');
-        var pos    = iname.lastIndexOf('clone');
-        var nname  = pos > 0 ? iname.substr(0, pos) + $items.length + iname.substr(pos+5) : iname;
+        var nname  = iname.replace('_CLONE_', $items.length);
         $input.attr('name', nname);
     });
     $target.append($clone.slideDown('fast'));

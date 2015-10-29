@@ -36,25 +36,25 @@ module.exports = {
             attributes: {required: true, autofocus: true}
         },
         {
-            type: 'number',
-            name: 'major',
-            label: 'Major Version',
-            attributes: {required: true, min: 0, step: 1},
-            defaultValue: 0
-        },
-        {
-            type: 'number',
-            name: 'minor',
-            label: 'Minor Version',
-            attributes: {required: true, min: 0, step: 1},
-            defaultValue: 0
-        },
-        {
-            type: 'number',
-            name: 'patch',
-            label: 'Patch Number',
-            attributes: {required: true, min: 0, step: 1},
-            defaultValue : 0
+            type: 'collection',
+            name: 'versions',
+            label: 'Versions',
+            fields: [
+                {
+                    type: 'number',
+                    name: 'major',
+                    label: 'Major Version',
+                    attributes: {required: true, min: 0, step: 1},
+                    defaultValue: 0
+                },
+                {
+                    type: 'number',
+                    name: 'minor',
+                    label: 'Minor Version',
+                    attributes: {required: true, min: 0, step: 1},
+                    defaultValue: 0
+                }
+            ]
         },
         {
             type: 'md',

@@ -9,7 +9,7 @@ module.exports = function() {
     var frequency = 10000;
     var $form = $('form.entry-form');
 
-    if ($form.length) {
+    if ($form.length && $form.data['locker'] === 'enabled') {
         function renewLock() {
             var url = $('#renew-lock').attr('href');
             if (url) {

@@ -51,7 +51,7 @@ function Collection() {
             var subfield = factory.create(dfn, entry);
 
             // Overwrite the default field name to include the collection hierarchy
-            subfield.fieldName = entry.type + '[' + field.name + '][clone][' + name + ']';
+            subfield.fieldName = entry.type + '[' + field.name + '][_CLONE_][' + name + ']';
 
             subfield.output = subfield.render();
             fields[name] = subfield;
