@@ -6,6 +6,8 @@ RUN apt-get -y install ruby-full
 RUN gem install sass
 RUN npm install -g grunt-cli
 
+VOLUME /usr/src/app/
+
 # To set up your own Docker image for a project with the structure of 
 # ./root
 #   - content
