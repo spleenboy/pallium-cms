@@ -1,28 +1,15 @@
-doctype html
-html(lang="en")
-    head
-        title= site.title
-        meta(name="viewport", content="width=device-width, initial-scale=1")
-        block styles
-            link(rel='stylesheet', href='/assets/css/pure-min.css')
-            link(rel='stylesheet', href='/assets/css/grids-responsive-min.css')
-            link(rel='stylesheet', href='/assets/css/catdown.css')
-            link(rel='stylesheet', href='/assets/css/main.css')
-    body
-        #layout.content.pure-g
-            #nav.pure-u
-                .nav-inner
-                    block menu
-                        include menu
-                    block sidebar
-                        include sidebar
-            #list.pure-u-1
-                block list
-            #main.pure-u-1
-                include flash
-                block main
-        block scripts
-            script(type='text/javascript', src='/socket.io/socket.io.js')
-            script(type='text/javascript', src='/assets/js/bundle.js')
-            each src in scripts || []
-                script(type='text/javascript', src=src)
+extends ./base.jade
+
+block layout
+    #layout.content.pure-g
+        #nav.pure-u
+            .nav-inner
+                block menu
+                    include menu
+                block sidebar
+                    include sidebar
+        #list.pure-u-1
+            block list
+        #main.pure-u-1
+            include flash
+            block main

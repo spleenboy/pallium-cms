@@ -15,5 +15,4 @@ Home.prototype.list = function() {
 	this.send('home');
 };
 
-
 module.exports = Home;

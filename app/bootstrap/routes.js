@@ -4,6 +4,8 @@ var plugins = require('../services/plugins');
 var hooks  = plugins.require('services/hooks');
 var file   = plugins.require('services/file');
 var log    = plugins.require('services/log')(module);
+var config = plugins.require('config');
+var View   = plugins.require('views/view');
 
 function Router(app) {
     events.EventEmitter.call(this);
@@ -33,6 +35,16 @@ Router.prototype.register = function(app) {
         app.use(base, event.routers[key]);
         log.debug('Using router at', base);
     }
+
+    app.use(function(req, res, next) {
+        res.status(404);
+        var data = {
+            site: config.get('site'),
+            request: req
+        };
+        var view = new View('404', data);
+        res.send(view.render());
+    });
 };
 
 module.exports = function(app) {
