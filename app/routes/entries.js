@@ -20,7 +20,7 @@ module.exports = function(app) {
     router.get( header + 'edit/:id',   factory.handle('edit'));
     router.post(header + 'edit/:id',   factory.handle('save'));
 
-    if (config.get('site.locker.enabled')) {
+    if (config.get('entry.locker.enabled')) {
         router.get( header + 'unlock/:id', factory.handle('unlock'));
         router.post(header + 'lock/:id',   factory.handle('lock'));
     }
