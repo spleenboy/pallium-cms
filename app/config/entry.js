@@ -15,8 +15,7 @@ module.exports = {
             types: {
                 'page': require('./entries/page'),
                 'field': require('./entries/field'),
-                'plugin': require('./entries/plugin'),
-                'todo': require('./entries/todo')
+                'plugin': require('./entries/plugin')
             }
         }
     }
