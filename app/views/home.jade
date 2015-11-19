@@ -8,7 +8,8 @@ block list
                 .description= domain.description
 
 block main 
-    if user
-        h1 Welcome #{user.displayName}!
-    else
-        h1 Welcome to #{site.title}
+    #starfield
+        if user
+            h1 Welcome #{user.displayName}!
+        else
+            h1 Welcome to #{site.title}
