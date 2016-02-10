@@ -1,14 +1,4 @@
 extends ./layout/site.jade
 
-block list
-    if entries.domains
-        each domain in entries.domains
-            .entry-type
-                .title= domain.name
-                .description= domain.description
-
 block main 
-    if user
-        h1 Welcome #{user.displayName}!
-    else
-        h1 Welcome to #{site.title}
+    #starfield

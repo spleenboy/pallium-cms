@@ -55,6 +55,7 @@
     "mocha": "^2.2.5",
     "jquery-validation": "^1.14.0",
     "jquery-ui": "^1.10.5",
-    "sass": "^0.5.0"
+    "sass": "^0.5.0",
+    "three": "^0.73.0"
   }
 }
