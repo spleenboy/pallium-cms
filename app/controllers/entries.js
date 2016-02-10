@@ -226,10 +226,8 @@ Entries.prototype.save = function() {
 
     var id = this.factory.save(entry);
 
-    async.parallel([
-        this.locker.unlock.bind(this.locker, entry.filepath),
-        this.app.io.emit.bind(this.app.io.broadcast, 'entry ' + action, this.broadcastData(entry))
-    ]);
+    this.locker.unlock(entry.filepath);
+    this.app.io.emit('entry ' + action, this.broadcastData(entry));
 
     this.request.flash('info', '"' + entry.getTitle() + '" ' + action + '!');
     this.redirect('edit', id);
