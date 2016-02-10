@@ -11,7 +11,7 @@ var Factory     = plugins.require('models/entry-factory');
 module.exports = function(app) {
     hooks.on('app/services/locker/locked', function(lock) {
         log.debug('Broadcasting entry LOCKED', lock.data);
-        app.io.broadcast('entry locked', lock.data);
+        app.io.emit('entry locked', lock.data);
     });
 
     hooks.on('app/services/locker/unlocked', function(lock) {
@@ -22,6 +22,6 @@ module.exports = function(app) {
         log.debug('Broadcasting entry UNLOCKED', lock.data);
         var factory = new Factory(lock.data.type, new Definition(lock.data.domain));
         factory.unlock(lock.data.id);
-        app.io.broadcast('entry unlocked', lock.data);
+        app.io.emit('entry unlocked', lock.data);
     });
 };

@@ -228,7 +228,7 @@ Entries.prototype.save = function() {
 
     async.parallel([
         this.locker.unlock.bind(this.locker, entry.filepath),
-        this.app.io.broadcast.bind(this.app.io.broadcast, 'entry ' + action, this.broadcastData(entry))
+        this.app.io.emit.bind(this.app.io.broadcast, 'entry ' + action, this.broadcastData(entry))
     ]);
 
     this.request.flash('info', '"' + entry.getTitle() + '" ' + action + '!');
@@ -251,7 +251,7 @@ Entries.prototype.delete = function() {
     if (deleted) {
         async.parallel([
             this.locker.unlock.bind(this.locker, entry.filepath),
-            this.app.io.broadcast.bind(this.app.io.broadcast, 'entry deleted', data)
+            this.app.io.emit.bind(this.app.io.emit, 'entry deleted', data)
         ]);
         this.request.flash('info', '"' + data.title + '" was deleted!');
     } else {

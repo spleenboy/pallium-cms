@@ -1,6 +1,5 @@
 var path  = require('path');
 var front = require('yaml-front-matter');
-var yaml  = require('js-yaml');
 var plugins = require('./plugins');
 var file  = plugins.require('services/file');
 var log   = plugins.require('services/log')(module);
@@ -18,7 +17,7 @@ exporters['.md'] = function(data) {
 
     if (data !== undefined) {
         try {
-            var frontMatter = yaml.safeDump(data);
+            var frontMatter = front.safeDump(data);
 
             if (frontMatter) {
                 content = '---\n' + frontMatter + '---\n' + content;
@@ -34,7 +33,7 @@ exporters['.md'] = function(data) {
 
 
 exporters['.yaml'] = function(data) {
-    return yaml.safeDump(data);
+    return front.safeDump(data);
 };
 
 
@@ -56,7 +55,7 @@ importers['.yaml'] = function(filepath) {
     if (content === false) {
         return false;
     }
-    return yaml.safeLoad(content);
+    return front.safeLoad(content);
 };
 
 

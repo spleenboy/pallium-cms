@@ -1,12 +1,11 @@
 var express = require('express');
-var router  = express.Router();
 
 var plugins = require('../services/plugins');
 var config     = plugins.require('config');
 var Controller = plugins.require('controllers/controller');
 var Entries    = plugins.require('controllers/entries');
 
-module.exports = function(app) {
+module.exports = function(router, app) {
     var header = '/:domain/:type/';
     var factory = new Controller.Factory(Entries, app);
 
@@ -28,6 +27,4 @@ module.exports = function(app) {
     router.post(header + 'delete/:id', factory.handle('delete'));
 
     router.get( header + 'file/:id/:field/:number?', factory.handle('file'));
-
-    return router;
 };

@@ -1,10 +1,9 @@
-var express = require('express.io');
+var express = require('express');
 
 // Initializes the application with configuration and routes
 module.exports = function(app, args) {
     var plugins = require('./services/plugins');
 
-    app.http().io();
     app.use(express.static('public'));
 
     plugins.load(app, args);

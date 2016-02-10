@@ -1,3 +1,4 @@
+var express = require('express');
 var events = require('events');
 var util   = require('util');
 var plugins = require('../services/plugins');
@@ -19,22 +20,21 @@ Router.prototype.register = function(app) {
     var home    = plugins.require('routes/home');
     var entries = plugins.require('routes/entries');
 
-    app.use('/',      home(app));
-    app.use('/entry', entries(app));
+    var homeRouter = express.Router();
+    home(homeRouter, app);
+    app.use('/', homeRouter);
 
-    var event = {
-        'express' : require('express'),
-        'app'     : app,
-        'routers' : {}
-    };
+    var entryRouter = express.Router();
+    entries(entryRouter, app);
+    app.use('/entry', entryRouter);
 
-    this.emit('registering', event);
-
-    for (var key in event.routers) {
-        var base = '/use/' + file.slug(key);
-        app.use(base, event.routers[key]);
-        log.debug('Using router at', base);
-    }
+    this.emit('registering', function(id, register) {
+        var base = '/use/' + file.slug(id);
+        var pluginRouter = express.Router();
+        register(pluginRouter, app);
+        app.use(base, pluginRouter);
+        log.debug('Setting up routes for plugin at', base);
+    });
 
     app.use(function(req, res, next) {
         res.status(404);
