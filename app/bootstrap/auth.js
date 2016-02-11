@@ -50,7 +50,7 @@ function createStrategy() {
         );
     } 
     else if (name === 'google') {
-        var Strategy = require('passport-google-oauth').OAuth2Strategy;
+        var Strategy = require('passport-google-oauth20').Strategy;
         return new Strategy(settings,
             function verified(access, refresh, profile, done) {
                 return done(null, profile);

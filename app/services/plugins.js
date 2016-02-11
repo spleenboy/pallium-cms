@@ -88,11 +88,12 @@ plugins.load = function load(app, args) {
             continue;
         }
 
+        var pluginPath = path.join(dir, list[i]);
         try {
-            var main = require(path.join(dir, list[i]))(hooks, app);
+            var main = require(pluginPath)(hooks, app);
             log.info("Registered plugin", list[i]);
         } catch (e) {
-            log.error("Plugin missing index.js file", list[i], e);
+            log.error("Plugin missing index.js file", list[i],, pluginPath, e);
         }
     }
 };
